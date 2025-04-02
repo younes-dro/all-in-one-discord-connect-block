@@ -2,20 +2,20 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/all-in-one-discord-connect-block/block.json":
-/*!*********************************************************!*\
-  !*** ./src/all-in-one-discord-connect-block/block.json ***!
-  \*********************************************************/
+/***/ "./src/pmpro/block.json":
+/*!******************************!*\
+  !*** ./src/pmpro/block.json ***!
+  \******************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/all-in-one-discord-connect-block","version":"0.1.0","title":"All In One Discord Connect Block","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"all-in-one-discord-connect-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/pmpro","version":"0.1.0","title":"Connect Discord to PMPro","category":"widgets","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"connect-discord-to-pmpro","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ }),
 
-/***/ "./src/all-in-one-discord-connect-block/edit.js":
-/*!******************************************************!*\
-  !*** ./src/all-in-one-discord-connect-block/edit.js ***!
-  \******************************************************/
+/***/ "./src/pmpro/edit.js":
+/*!***************************!*\
+  !*** ./src/pmpro/edit.js ***!
+  \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -26,7 +26,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./editor.scss */ "./src/all-in-one-discord-connect-block/editor.scss");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./editor.scss */ "./src/pmpro/editor.scss");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
 /**
@@ -64,16 +64,16 @@ __webpack_require__.r(__webpack_exports__);
 function Edit() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(),
-    children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('All In One Discord Connect Block – hello from the editor!', 'all-in-one-discord-connect-block')
+    children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Pmpro Discord', 'connect-discord-to-pmpro')
   });
 }
 
 /***/ }),
 
-/***/ "./src/all-in-one-discord-connect-block/editor.scss":
-/*!**********************************************************!*\
-  !*** ./src/all-in-one-discord-connect-block/editor.scss ***!
-  \**********************************************************/
+/***/ "./src/pmpro/editor.scss":
+/*!*******************************!*\
+  !*** ./src/pmpro/editor.scss ***!
+  \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -82,47 +82,24 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/all-in-one-discord-connect-block/index.js":
-/*!*******************************************************!*\
-  !*** ./src/all-in-one-discord-connect-block/index.js ***!
-  \*******************************************************/
+/***/ "./src/pmpro/index.js":
+/*!****************************!*\
+  !*** ./src/pmpro/index.js ***!
+  \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/all-in-one-discord-connect-block/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/all-in-one-discord-connect-block/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/all-in-one-discord-connect-block/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/all-in-one-discord-connect-block/block.json");
-/**
- * Registers a new block provided a unique name and an object defining its behavior.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
- */
-
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * All files containing `style` keyword are bundled together. The code used
- * gets applied both to the front of your site and to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
-
-
-/**
- * Internal dependencies
- */
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/pmpro/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/pmpro/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/pmpro/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/pmpro/block.json");
 
 
 
 
-/**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
- */
+
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
   /**
    * @see ./edit.js
@@ -136,10 +113,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/all-in-one-discord-connect-block/save.js":
-/*!******************************************************!*\
-  !*** ./src/all-in-one-discord-connect-block/save.js ***!
-  \******************************************************/
+/***/ "./src/pmpro/save.js":
+/*!***************************!*\
+  !*** ./src/pmpro/save.js ***!
+  \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -177,10 +154,10 @@ function save() {
 
 /***/ }),
 
-/***/ "./src/all-in-one-discord-connect-block/style.scss":
-/*!*********************************************************!*\
-  !*** ./src/all-in-one-discord-connect-block/style.scss ***!
-  \*********************************************************/
+/***/ "./src/pmpro/style.scss":
+/*!******************************!*\
+  !*** ./src/pmpro/style.scss ***!
+  \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -339,8 +316,8 @@ module.exports = window["ReactJSXRuntime"];
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"all-in-one-discord-connect-block/index": 0,
-/******/ 			"all-in-one-discord-connect-block/style-index": 0
+/******/ 			"pmpro/index": 0,
+/******/ 			"pmpro/style-index": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -390,7 +367,7 @@ module.exports = window["ReactJSXRuntime"];
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["all-in-one-discord-connect-block/style-index"], () => (__webpack_require__("./src/all-in-one-discord-connect-block/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["pmpro/style-index"], () => (__webpack_require__("./src/pmpro/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

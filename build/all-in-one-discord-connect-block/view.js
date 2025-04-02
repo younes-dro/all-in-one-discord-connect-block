@@ -1,0 +1,1 @@
+console.log("Hello World! (from create-block-all-in-one-discord-connect-block block)");

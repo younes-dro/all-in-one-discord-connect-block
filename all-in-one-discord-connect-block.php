@@ -3,7 +3,7 @@
  * Plugin Name:       All In One Discord Connect Block
  * Plugin URI:        https://github.com/younes-dro/all-in-one-discord-connect-block
  * Description:       A Gutenberg block that allows users to connect their Discord accounts with customizable styling.
- * Version:           0.1.0
+ * Version:           1.0.0
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            Younes DRO

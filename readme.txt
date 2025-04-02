@@ -1,55 +1,56 @@
 === All In One Discord Connect Block ===
-Contributors:      The WordPress Contributors
-Tags:              block
+Contributors:      vanbom
+Tags:              block, discord, gutenberg, membership, connect
 Tested up to:      6.7
-Stable tag:        0.1.0
+Stable tag:        1.0.0
+Requires at least: 6.7
+Requires PHP:      7.4
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Example block scaffolded with Create Block tool.
+A Gutenberg block that allows users to connect their Discord accounts with customizable styling for add-ons that link users to Discord servers and assign roles.
 
 == Description ==
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
+**All In One Discord Connect Block** is a powerful Gutenberg block that enables users to connect their Discord accounts directly from any page or post.
+This block provides full customization options, including button text, colors, and styles, while dynamically displaying the user's connection status.
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+### Supported Add-ons:
+This block is compatible with the following plugins:
+- [ExpressTech MemberPress Discord Add-on](https://wordpress.org/plugins/expresstechsoftwares-memberpress-discord-add-on/)
+- [PMPro Discord Add-on](https://wordpress.org/plugins/pmpro-discord-add-on/)
+
+### Features:
+- Connect Discord accounts using a fully customizable button.
+- Display the user’s Discord role if connected.
+- Show a "Disconnect" button for users who are already linked.
+- Compatible with multiple membership plugins (PMPro, MemberPress, LearnPress, etc.).
+- No coding required – customize everything visually in the block editor.
 
 == Installation ==
 
 This section describes how to install the plugin and get it working.
 
-e.g.
-
-1. Upload the plugin files to the `/wp-content/plugins/all-in-one-discord-connect-block` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
-
+1. Upload the plugin files to the `/wp-content/plugins/all-in-one-discord-connect-block/` directory, or install the plugin through the WordPress plugins screen directly.
+2. Activate the plugin through the 'Plugins' screen in WordPress.
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+= What does this block do? =
+This block allows users to connect their Discord accounts directly from any page or post using a visually customizable button.
 
-An answer to that question.
+= Does this block work with any Discord integration plugin? =
+Currently, it supports the PMPro and MemberPress Discord add-ons, but it may work with other similar plugins as well.
 
-= What about foo bar? =
-
-Answer to foo bar dilemma.
+= Can I customize the button style? =
+Yes! You can customize the button’s text, colors, and size directly within the Gutenberg editor.
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+(Screenshots will go here)
 
 == Changelog ==
 
-= 0.1.0 =
-* Release
+= 1.0.0 =
+* Initial release.
 
-== Arbitrary section ==
-
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.

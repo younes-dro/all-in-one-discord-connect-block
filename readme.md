@@ -1,8 +1,3 @@
-Sure! Here's a complete and detailed `README.md` file for your plugin **All-in-One Discord Connect Block**, written in Markdown format. You can copy and paste it directly into your plugin folder.
-
----
-
-````md
 # All-in-One Discord Connect Block
 
 **Contributors:** younes-dro
@@ -110,10 +105,3 @@ Icon and branding inspired by Discord®
 
 Found a bug? Want to request a feature?
 Open an issue or contribute via the [GitHub repository](https://github.com/younes-dro/all-in-one-discord-connect-block).
-
-```
-
----
-
-Let me know if you'd like this tailored to a multisite setup, translated, or prepared for submission to the WordPress Plugin Directory.
-```

@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       All In One Discord Connect Block
  * Plugin URI:        https://github.com/younes-dro/all-in-one-discord-connect-block
- * Description:       A Gutenberg block that allows users to connect their Discord accounts with customizable styling.
+ * Description:       A Gutenberg block that displays a custom Connect to Discord" button with flexible style options. Seamlessly integrates with membership plugins like PMPro, MemberPress, and Ultimate Member, as well as LMS plugins such as Tutor LMS, LearnDash, and LifterLMS.
  * Version:           1.0.0
  * Requires at least: 6.7
  * Requires PHP:      7.4
@@ -10,10 +10,15 @@
  * Author URI:        https://github.com/younes-dro
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       all-in-one-discord-connect-block
+ * Text Domain:       dro-aio-dcc-block
  *
  * @package AllInOneDiscordConnectBlock
  */
+
+$dro_aio_dcc_block_version = get_file_data(
+	__FILE__,
+	[ 'Version' ]
+);
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -26,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @see https://make.wordpress.org/core/2025/03/13/more-efficient-block-type-registration-in-6-8/
  * @see https://make.wordpress.org/core/2024/10/17/new-block-type-registration-apis-to-improve-performance-in-wordpress-6-7/
  */
-function create_block_all_in_one_discord_connect_block_block_init() {
+function dro_aio_dcc_block_block_init() {
 	/**
 	 * Registers the block(s) metadata from the `blocks-manifest.php` and registers the block type(s)
 	 * based on the registered block metadata.
@@ -58,4 +63,4 @@ function create_block_all_in_one_discord_connect_block_block_init() {
 		register_block_type( __DIR__ . "/build/{$block_type}" );
 	}
 }
-add_action( 'init', 'create_block_all_in_one_discord_connect_block_block_init' );
+add_action( 'init', 'dro_aio_dcc_block_block_init' );

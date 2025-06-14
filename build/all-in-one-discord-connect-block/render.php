@@ -1,6 +1,6 @@
 <?php
 
-
+echo 'User ID:  ' . get_current_user_id() . '<br>';
 echo '<!-- All In One Discord Connect Block -->
 <div class="aio-dcc-block">
 	<div class="aio-dcc-block__content">

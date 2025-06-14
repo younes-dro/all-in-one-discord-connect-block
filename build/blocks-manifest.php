@@ -9,7 +9,7 @@ return array(
 		'title' => 'All In One Discord Connect Block',
 		'category' => 'widgets',
 		'icon' => 'button',
-		'description' => 'A block to connect your WordPress site with Discord, allowing users to join your Discord server directly from the block.',
+		'description' => 'Displays a customizable "Connect to Discord" button that integrates with supported membership plugins like Paid Memberships Pro, MemberPress, and Ultimate Member, as well as LMS plugins such as Tutor LMS, LearnDash',
 		'example' => array(
 			
 		),

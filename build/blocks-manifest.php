@@ -13,6 +13,42 @@ return array(
 		'example' => array(
 			
 		),
+		'attributes' => array(
+			'btnColor' => array(
+				'type' => 'string',
+				'default' => '#77a02e'
+			),
+			'disconnectBtnColor' => array(
+				'type' => 'string',
+				'default' => '#ff0000'
+			),
+			'loggedInText' => array(
+				'type' => 'string',
+				'default' => 'You are logged in as {username}. Click to connect to Discord.'
+			),
+			'loggedOutText' => array(
+				'type' => 'string',
+				'default' => 'You must be logged in to connect to Discord'
+			),
+			'disconnectText' => array(
+				'type' => 'string',
+				'default' => 'Disconnect From Discord'
+			),
+			'roleWillAssignText' => array(
+				'type' => 'string',
+				'default' => 'You will be assigned the following Discord roles:'
+			),
+			'roleAssignedText' => array(
+				'type' => 'string',
+				'default' => 'You have been assigned the following Discord roles:'
+			),
+			'connectedUsername' => array(
+				'type' => 'string'
+			),
+			'rolesHtml' => array(
+				'type' => 'string'
+			)
+		),
 		'supports' => array(
 			'html' => false
 		),

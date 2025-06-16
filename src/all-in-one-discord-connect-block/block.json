@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "dro-blocks/all-in-one-discord-connect-block",
+	"name": "dro-block/all-in-one-discord-connect-block",
 	"version": "1.0.0",
 	"title": "AIO Discord Connect Block",
 	"category": "widgets",

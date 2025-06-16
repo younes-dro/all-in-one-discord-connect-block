@@ -7,6 +7,19 @@ import {
 } from '@wordpress/components';
 import './editor.scss';
 
+const textDomain = 'dro-aio-discord-block';
+/**
+ * Edit function for the All In One Discord Connect Block.
+ *
+ * @param {Object} props - The block properties.
+ * @param {Object} props.attributes - The block attributes.
+ * @param {Function} props.setAttributes - Function to update block attributes.
+ * @returns {JSX.Element} The block edit interface.
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 export default function Edit({ attributes, setAttributes }) {
 	const {
 		btnColor,
@@ -18,25 +31,25 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={__('Discord Button Settings', 'dro-aio-dcc-block')} initialOpen={true}>
+				<PanelBody title={__('Discord Button Settings', textDomain)} initialOpen={true}>
 					<ColorPicker
-						label={__('Button Color', 'dro-aio-dcc-block')}
+						label={__('Button Color', textDomain)}
 						color={btnColor}
 						onChangeComplete={(value) => setAttributes({ btnColor: value.hex })}
 						disableAlpha
 					/>
 					<TextControl
-						label={__('Logged-in Button Text', 'dro-aio-dcc-block')}
+						label={__('Logged-in Button Text', textDomain)}
 						value={loggedInText}
 						onChange={(value) => setAttributes({ loggedInText: value })}
 					/>
 					<TextControl
-						label={__('Logged-out Button Text', 'dro-aio-dcc-block')}
+						label={__('Logged-out Button Text', textDomain)}
 						value={loggedOutText}
 						onChange={(value) => setAttributes({ loggedOutText: value })}
 					/>
 					<TextControl
-						label={__('Disconnect Button Text', 'dro-aio-dcc-block')}
+						label={__('Disconnect Button Text', textDomain)}
 						value={disconnectText}
 						onChange={(value) => setAttributes({ disconnectText: value })}
 					/>
@@ -44,7 +57,7 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 
 			<div {...useBlockProps()}>
-				<p>{__('Preview:', 'dro-aio-dcc-block')}</p>
+				<p>{__('Preview:', textDomain)}</p>
 				<button style={{ backgroundColor: btnColor }}>
 					{loggedInText}
 				</button>

@@ -5,28 +5,32 @@
 	"version": "1.0.0",
 	"title": "AIO Discord Connect Block",
 	"category": "widgets",
-	"description": "Displays a customizable \"Connect to Discord\" button that integrates with supported membership plugins like Paid Memberships Pro, MemberPress, and Ultimate Member, as well as LMS plugins such as Tutor LMS, LearnDash",
+	"description": "Displays a customizable \"Connect to Discord\" button",
 	"example": {},
 	"attributes": {
-		"btnColor": {
+		"connectButtonTextColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"connectButtonBgColor": {
 			"type": "string",
 			"default": "#77a02e"
 		},
-		"disconnectBtnColor": {
+		"disconnectButtonTextColor": {
 			"type": "string",
-			"default": "#ff0000"
+			"default": "#ffffff"
+		},
+		"disconnectButtonBgColor": {
+			"type": "string",
+			"default": "#ffffff"
 		},
 		"loggedInText": {
 			"type": "string",
-			"default": "You are logged in as {username}. Click to connect to Discord."
+			"default": "Connect to Discord"
 		},
 		"loggedOutText": {
 			"type": "string",
-			"default": "You must be logged in to connect to Discord"
-		},
-		"disconnectText": {
-			"type": "string",
-			"default": "Disconnect From Discord"
+			"default": "Disconnect from Discord"
 		},
 		"roleWillAssignText": {
 			"type": "string",
@@ -35,12 +39,6 @@
 		"roleAssignedText": {
 			"type": "string",
 			"default": "You have been assigned the following Discord roles:"
-		},
-		"connectedUsername": {
-			"type": "string"
-		},
-		"rolesHtml": {
-			"type": "string"
 		}
 	},
 	"supports": {

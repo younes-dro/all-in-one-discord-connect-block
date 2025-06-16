@@ -1,19 +1,53 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "create-block/all-in-one-discord-connect-block",
-  "version": "0.1.0",
-  "title": "All In One Discord Connect Block",
+  "name": "dro-block/all-in-one-discord-connect-block",
+  "version": "1.0.0",
+  "title": "AIO Discord Connect Block",
   "category": "widgets",
-  "icon": "smiley",
-  "description": "Example block scaffolded with Create Block tool.",
+  "description": "Displays a customizable \"Connect to Discord\" button",
   "example": {},
+  "attributes": {
+    "connectButtonTextColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "connectButtonBgColor": {
+      "type": "string",
+      "default": "#77a02e"
+    },
+    "disconnectButtonTextColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "disconnectButtonBgColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "loggedInText": {
+      "type": "string",
+      "default": "Connect to Discord"
+    },
+    "loggedOutText": {
+      "type": "string",
+      "default": "Disconnect from Discord"
+    },
+    "roleWillAssignText": {
+      "type": "string",
+      "default": "You will be assigned the following Discord roles:"
+    },
+    "roleAssignedText": {
+      "type": "string",
+      "default": "You have been assigned the following Discord roles:"
+    }
+  },
   "supports": {
     "html": false
   },
-  "textdomain": "all-in-one-discord-connect-block",
+  "textdomain": "dro-aio-dcc-block",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
-  "viewScript": "file:./view.js"
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php"
 }

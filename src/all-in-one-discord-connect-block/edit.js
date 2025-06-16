@@ -1,41 +1,169 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
+import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor';
+import {
+	TabPanel,
+	Panel,
+	PanelBody,
+	PanelRow,
+	TextControl,
+	ColorPicker,
+} from '@wordpress/components';
+import { brush, overlayText, } from '@wordpress/icons';
 import './editor.scss';
 
+const textDomain = 'dro-aio-discord-block';
 /**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
+ * Edit function for the All In One Discord Connect Block.
  *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
+ * @param {Object} props - The block properties.
+ * @param {Object} props.attributes - The block attributes.
+ * @param {Function} props.setAttributes - Function to update block attributes.
+ * @returns {JSX.Element} The block edit interface.
  *
- * @return {Element} Element to render.
+ * @since 1.0.0
+ * @version 1.0.0
  */
-export default function Edit() {
+
+export default function Edit({ attributes, setAttributes }) {
+	const {
+		connectButtonTextColor,
+		connectButtonBgColor,
+		disconnectButtonTextColor,
+		disconnectButtonBgColor,
+		loggedInText,
+		loggedOutText,
+		roleWillAssignText,
+		roleAssignedText,
+		connectedUsername,
+
+	} = attributes;
+
 	return (
-		<p { ...useBlockProps() }>
-			{ __(
-				'All In One Discord Connect Block – hello from the editor!',
-				'all-in-one-discord-connect-block'
-			) }
-		</p>
+		<>
+			<InspectorControls>
+				<div className="dro-native-tab-wrapper">
+					<TabPanel
+						className="dro-native-tabs"
+						activeClass="is-active"
+						tabs={[
+							{
+								name: 'settings',
+								title: __('Settings', textDomain),
+								icon: overlayText,
+							},
+							{
+								name: 'style',
+								title: __('Style', textDomain),
+								icon: brush,
+							}
+						]}
+					>
+						{(tab) => (
+							<>
+								{tab.name === 'settings' && (
+									<>
+										<PanelBody
+											title={__('Button Text Settings', textDomain)}
+											initialOpen={true}
+										>
+											<TextControl
+												label={__('Connect Button Text', textDomain)}
+												value={loggedInText}
+												onChange={(value) => setAttributes({ loggedInText: value })}
+												placeholder={__('Connect to Discord', textDomain)}
+											/>
+											<TextControl
+												label={__('Disconnect Button Text', textDomain)}
+												value={loggedOutText}
+												onChange={(value) => setAttributes({ loggedOutText: value })}
+												placeholder={__('Disconnect from Discord', textDomain)}
+											/>
+										</PanelBody>
+
+										<PanelBody
+											title={__('Role Assignment Text', textDomain)}
+											initialOpen={false}
+										>
+											<TextControl
+												label={__('Role Will Assign Text', textDomain)}
+												value={roleWillAssignText}
+												onChange={(value) => setAttributes({ roleWillAssignText: value })}
+												placeholder={__('You will be assigned the following Discord roles:', textDomain)}
+											/>
+											<TextControl
+												label={__('Role Assigned Text', textDomain)}
+												value={roleAssignedText}
+												onChange={(value) => setAttributes({ roleAssignedText: value })}
+												placeholder={__('You have been assigned the following Discord roles:', textDomain)}
+											/>
+										</PanelBody>
+									</>
+								)}
+
+								{tab.name === 'style' && (
+									<>
+										<PanelBody
+											title={__('Connect Button Colors', textDomain)}
+											initialOpen={true}
+										>
+											<ColorPicker
+												color={connectButtonBgColor}
+												onChangeComplete={(color) => setAttributes({ connectButtonBgColor: color.hex })}
+												label={__('Background Color', textDomain)}
+											/>
+											<ColorPicker
+												color={connectButtonTextColor}
+												onChangeComplete={(color) => setAttributes({ connectButtonTextColor: color.hex })}
+												label={__('Text Color', textDomain)}
+											/>
+										</PanelBody>
+
+										<PanelBody
+											title={__('Disconnect Button Colors', textDomain)}
+											initialOpen={false}
+										>
+											<ColorPicker
+												color={disconnectButtonBgColor}
+												onChangeComplete={(color) => setAttributes({ disconnectButtonBgColor: color.hex })}
+												label={__('Background Color', textDomain)}
+											/>
+											<ColorPicker
+												color={disconnectButtonTextColor}
+												onChangeComplete={(color) => setAttributes({ disconnectButtonTextColor: color.hex })}
+												label={__('Text Color', textDomain)}
+											/>
+										</PanelBody>
+									</>
+								)}
+							</>
+						)}
+					</TabPanel>
+				</div>
+
+			</InspectorControls>
+			<div {...useBlockProps()}>
+				<button style={{ backgroundColor: connectButtonBgColor, color: connectButtonTextColor }} className="aio-discord-connect-button">
+					<RichText
+						tagName="span"
+						value={loggedOutText}
+						onChange={(value) => setAttributes({ loggedOutText: value })}
+						placeholder={__('Connect to Discord', textDomain)}
+					/>
+				</button>
+				<button style={{ backgroundColor: disconnectButtonBgColor, color: disconnectButtonTextColor }} className="aio-discord-disconnect-button">
+					<RichText
+						tagName="span"
+						value={loggedInText}
+						onChange={(value) => setAttributes({ loggedInText: value })}
+						placeholder={__('Disconnect from Discord', textDomain)}
+					/>
+
+					{__('Connected as:', textDomain)} {connectedUsername} <br />
+					{__('Roles:', textDomain)} <br />
+					<div>{roleWillAssignText}</div>
+					<div>{roleAssignedText}</div>
+				</button>
+			</div>
+		</>
 	);
 }

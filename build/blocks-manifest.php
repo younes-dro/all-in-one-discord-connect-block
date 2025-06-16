@@ -6,9 +6,8 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'dro-blocks/all-in-one-discord-connect-block',
 		'version' => '1.0.0',
-		'title' => 'All In One Discord Connect Block',
+		'title' => 'AIO Discord Connect Block',
 		'category' => 'widgets',
-		'icon' => 'button',
 		'description' => 'Displays a customizable "Connect to Discord" button that integrates with supported membership plugins like Paid Memberships Pro, MemberPress, and Ultimate Member, as well as LMS plugins such as Tutor LMS, LearnDash',
 		'example' => array(
 			

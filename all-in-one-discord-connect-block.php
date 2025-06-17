@@ -17,7 +17,7 @@
 
 $dro_aio_discord_block_version = get_file_data(
 	__FILE__,
-	[ 'Version' ]
+	array( 'Version' )
 );
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -64,3 +64,23 @@ function dro_aio_discord_block_block_init() {
 	}
 }
 add_action( 'init', 'dro_aio_discord_block_block_init' );
+
+/**
+ * Replaces placeholders in the block content with actual user data.
+ *
+ * @param string $block_content The block content.
+ * @param array  $block         The full block, including name and attributes.
+ * @param array  $instance      The block instance.
+ * @return string Modified block content with placeholders replaced.
+ */
+function dro_aio_discord_block_replace_placeholders( $block_content, $block, $instance ) {
+	if ( is_user_logged_in() ) {
+		$current_user = wp_get_current_user();
+		$username     = esc_html( $current_user->user_login );
+
+		$block_content = str_replace( '{discord_username}', $username, $block_content );
+	}
+
+	return $block_content;
+}
+add_filter( 'render_block_dro-block/all-in-one-discord-connect-block', 'dro_aio_discord_block_replace_placeholders', 10, 3 );

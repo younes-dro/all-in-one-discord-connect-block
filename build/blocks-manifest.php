@@ -44,6 +44,10 @@ return array(
 			'roleAssignedText' => array(
 				'type' => 'string',
 				'default' => 'You have been assigned the following Discord roles:'
+			),
+			'discordConnectedAccount' => array(
+				'type' => 'string',
+				'default' => 'Connected account: {discord_username}'
 			)
 		),
 		'supports' => array(

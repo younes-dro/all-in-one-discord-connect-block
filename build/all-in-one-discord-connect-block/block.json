@@ -39,6 +39,10 @@
     "roleAssignedText": {
       "type": "string",
       "default": "You have been assigned the following Discord roles:"
+    },
+    "discordConnectedAccount": {
+      "type": "string",
+      "default": "Connected account: {discord_username}"
     }
   },
   "supports": {

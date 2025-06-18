@@ -34,7 +34,7 @@ export default function Edit({ attributes, setAttributes }) {
 		loggedOutText,
 		roleWillAssignText,
 		roleAssignedText,
-		connectedUsername,
+		discordConnectedAccount,
 
 	} = attributes;
 
@@ -144,25 +144,33 @@ export default function Edit({ attributes, setAttributes }) {
 			<div {...useBlockProps()}>
 				<button style={{ backgroundColor: connectButtonBgColor, color: connectButtonTextColor }} className="aio-discord-connect-button">
 					<RichText
-						tagName="span"
+						tagName="p"
 						value={loggedOutText}
 						onChange={(value) => setAttributes({ loggedOutText: value })}
 						placeholder={__('Connect to Discord', textDomain)}
 					/>
 				</button>
 				<button style={{ backgroundColor: disconnectButtonBgColor, color: disconnectButtonTextColor }} className="aio-discord-disconnect-button">
+
 					<RichText
-						tagName="span"
+						tagName="p"
 						value={loggedInText}
 						onChange={(value) => setAttributes({ loggedInText: value })}
 						placeholder={__('Disconnect from Discord', textDomain)}
 					/>
-
-					{__('Connected as:', textDomain)} {connectedUsername} <br />
-					{__('Roles:', textDomain)} <br />
-					<div>{roleWillAssignText}</div>
-					<div>{roleAssignedText}</div>
 				</button>
+				<RichText
+					tagName="p"
+					value={discordConnectedAccount}
+					onChange={(value) => setAttributes({ discordConnectedAccount: value })}
+				/>
+				<RichText
+					tagName="p"
+					value={roleWillAssignText} />
+				<RichText
+					tagName="p"
+					value={roleAssignedText} />
+
 			</div>
 		</>
 	);

@@ -3,7 +3,7 @@
  * PMPro Discord Service Implementation
  *
  * This class handles the Paid Memberships Pro service for Discord integration.
- * It implements the Dro_AIO_Discord_Interface and extends the abstract service.
+ * It implements the Dro_AIO_Discord_Service_Interface and extends the abstract service.
  *
  * PHP version 7.4+
  *
@@ -19,7 +19,7 @@
 namespace Dro\AIODiscordBlock\Services;
 
 use Dro\AIODiscordBlock\Abstracts\Dro_AIO_Discord_Service;
-use Dro\AIODiscordBlock\Interfaces\Dro_AIO_Discord_Interface;
+use Dro\AIODiscordBlock\Interfaces\Dro_AIO_Discord_Service_Interface;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
  * @since    1.0.0
  */
-class Dro_AIO_Discord_Pmpro extends Dro_AIO_Discord_Service implements Dro_AIO_Discord_Interface {
+class Dro_AIO_Discord_Pmpro extends Dro_AIO_Discord_Service implements Dro_AIO_Discord_Service_Interface {
 
 	/**
 	 * The plugin name for the PMPro Discord add-on.

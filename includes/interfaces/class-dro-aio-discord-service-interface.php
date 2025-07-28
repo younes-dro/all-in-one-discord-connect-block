@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Interface Dro_AIO_Discord_Interface
+ * Interface Dro_AIO_Discord_Service_Interface
  *
  * This interface outlines the methods that must be implemented by any service
  * class that integrates with the All-in-One Discord Connect Block plugin.
@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
  * @since    1.0.0
  */
-interface Dro_AIO_Discord_Interface {
+interface Dro_AIO_Discord_Service_Interface {
 
 	/**
 	 * Detection of whether the plugin is active.

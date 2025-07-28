@@ -16,6 +16,7 @@
  */
 
 namespace Dro\AIODiscordBlock;
+use Dro\AIODiscordBlock\includes\Dro_AIO_Discord;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -25,6 +26,17 @@ $dro_aio_discord_block_version = get_file_data(
 	__FILE__,
 	array( 'Version' )
 );
+
+spl_autoload_register(
+	// function( $class_name){
+	// 	if( strcmp())
+	// 	error_log( $class_name );
+	// 	error_log( __NAMESPACE__);
+	// }
+);
+
+// new Dro_AIO_Discord();
+
 
 /**
  * Registers the block using a `blocks-manifest.php` file, which improves the performance of block type registration.
@@ -71,4 +83,12 @@ function dro_aio_discord_block_replace_placeholders( $block_content, $block, $in
 
 	return $block_content;
 }
-add_filter( 'render_block_dro-block/all-in-one-discord-connect-block', __NAMESPACE__ . '\\dro_aio_discord_block_replace_placeholders', 10, 3 );
+// add_filter( 'render_block_dro-block/all-in-one-discord-connect-block', __NAMESPACE__ . '\\dro_aio_discord_block_replace_placeholders', 10, 3 );
+
+
+add_action('init', function () {
+	register_block_type(__DIR__, [
+		'render_callback' => 'render_discord_connect_block',
+	]);
+});
+

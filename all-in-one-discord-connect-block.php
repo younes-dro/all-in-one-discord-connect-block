@@ -17,6 +17,7 @@
 declare( strict_types=1 );
 
 namespace Dro\AIODiscordBlock;
+
 use Dro\AIODiscordBlock\includes\Dro_AIO_Discord;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,6 +25,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'DRO_AIO_DISCORD_BLOCK_VERSION', get_file_data( __FILE__, array( 'Version' ), 'plugin' )[0] ?? '1.0.0' );
+define( 'DRO_AIO_DISCORD_BLOCK_FILE', __FILE__ );
+define( 'DRO_AIO_DISCORD_BLOCK_DIR', plugin_dir_path( __FILE__ ) );
+define( 'DRO_AIO_DISCORD_BLOCK_URL', plugin_dir_url( __FILE__ ) );
+
+/**
+ * Activation hook for the All In One Discord Connect Block plugin.
+ * TO DO: Add maybe some activation logic here in the future.
+ *
+ * @since 1.0.0
+ *
+ * @return void
+ */
+function dro_aio_discord_block_activation() {
+	// empty function for now, but can be used in the future for activation logic.
+}
+
+register_activation_hook( DRO_AIO_DISCORD_BLOCK_FILE, __NAMESPACE__ . '\\dro_aio_discord_block_activation' );
 
 /**
  * Registers a custom autoloader for the All-in-One Discord Connect Block plugin.

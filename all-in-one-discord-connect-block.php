@@ -25,22 +25,46 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'DRO_AIO_DISCORD_BLOCK_VERSION', get_file_data( __FILE__, array( 'Version' ), 'plugin' )[0] ?? '1.0.0' );
 
-function dro_aio_discord_autoload(){
+/**
+ * Registers a custom autoloader for the All-in-One Discord Connect Block plugin.
+ *
+ * This autoloader dynamically includes PHP class files based on their namespace
+ * and naming convention. It supports automatic loading of class and abstract class
+ * files located in the plugin's `includes` directory structure.
+ *
+ * Naming convention:
+ * - Classes should be stored as `class-<name>.php`
+ * - Abstract classes should be stored as `abstract-<name>.php`
+ *
+ * The autoloader detects abstract classes by inspecting the namespace path
+ * and checking whether it contains the "abstracts" segment.
+ *
+ * Example class:
+ *   Namespace: Dro\AIODiscordBlock\includes\Abstracts\Dro_AIO_Discord_Service
+ *   Path:      includes/abstracts/abstract-dro-aio-discord-service.php
+ *
+ * @return void
+ */
+function dro_aio_discord_autoload() {
 	spl_autoload_register(
-	function ( $class ) {
-		if ( strpos( $class, 'Dro\\AIODiscordBlock\\' ) !== 0 ) {
-			return;
+		function ( $class ) {
+			if ( strncmp( __NAMESPACE__ . '\\', $class, strlen( __NAMESPACE__ ) + 1 ) !== 0 ) {
+				return;
+			}
+
+			$class_portions    = explode( '\\', $class );
+			$class_portions    = array_map( 'strtolower', $class_portions );
+			$class_file_name   = str_replace( '_', '-', strtolower( array_pop( $class_portions ) ) );
+			$class_path        = __DIR__ . '/' . implode( DIRECTORY_SEPARATOR, array_slice( $class_portions, 2 ) );
+			$class_file_prefix = ( stripos( $class, 'abstracts' ) !== false ? 'abstract-' : 'class-' );
+			$class_full_path   = $class_path . DIRECTORY_SEPARATOR . $class_file_prefix . $class_file_name . '.php';
+
+			if ( file_exists( $class_full_path ) ) {
+				require_once $class_full_path;
+			}
 		}
-		$portions_path = explode('\\', $class);
-		$class_name = str_replace('_','-',strtolower(array_pop( $portions_path)));
-		error_log( print_r( $portions_path, true));
-		error_log( print_r( $class_name, true));
-
-		exit;
-	});
+	);
 }
-
-
 
 /**
  * Registers the block using a `blocks-manifest.php` file, which improves the performance of block type registration.
@@ -75,9 +99,8 @@ add_action( 'init', __NAMESPACE__ . '\\dro_aio_discord_block_block_init' );
  *
  * @return void
  */
-function dro_aio_discord(){
+function dro_aio_discord() {
 	dro_aio_discord_autoload();
 	Dro_AIO_Discord::get_instance();
 }
 dro_aio_discord();
-

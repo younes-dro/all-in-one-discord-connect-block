@@ -34,7 +34,7 @@ export default function Edit({ attributes, setAttributes }) {
 		loggedOutText,
 		roleWillAssignText,
 		roleAssignedText,
-		discordConnectedAccount,
+		discordConnectedAccountText,
 
 	} = attributes;
 
@@ -161,8 +161,8 @@ export default function Edit({ attributes, setAttributes }) {
 				</button>
 				<RichText
 					tagName="p"
-					value={discordConnectedAccount}
-					onChange={(value) => setAttributes({ discordConnectedAccount: value })}
+					value={discordConnectedAccountText}
+					onChange={(value) => setAttributes({ discordConnectedAccountText: value })}
 				/>
 				<RichText
 					tagName="p"

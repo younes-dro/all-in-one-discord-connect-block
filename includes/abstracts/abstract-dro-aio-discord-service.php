@@ -16,7 +16,7 @@
  * @since    1.0.0
  */
 
-namespace Dro\AIODiscordBlock\Abstracts;
+namespace Dro\AIODiscordBlock\includes\Abstracts;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {

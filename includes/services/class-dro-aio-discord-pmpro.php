@@ -16,10 +16,10 @@
  * @since    1.0.0
  */
 
-namespace Dro\AIODiscordBlock\Services;
+namespace Dro\AIODiscordBlock\includes\Services;
 
-use Dro\AIODiscordBlock\Abstracts\Dro_AIO_Discord_Service;
-use Dro\AIODiscordBlock\Interfaces\Dro_AIO_Discord_Service_Interface;
+use Dro\AIODiscordBlock\includes\Abstracts\Dro_AIO_Discord_Service;
+use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -71,6 +71,15 @@ class Dro_AIO_Discord_Pmpro extends Dro_AIO_Discord_Service implements Dro_AIO_D
 		return $this->check_active_plugin();
 	}
 
+	/**
+	 * Gets the discord connected account for a user.
+	 *
+	 * @param integer $user_id
+	 * @return string|null
+	 */
+	public function get_user_connected_account( int $user_id ): string|null {
+		return get_user_meta( $user_id, '_ets_pmpro_discord_username', true ) ?: null;
+	}
 	/**
 	 * Get user access context for Paid Memberships Pro active membership levels.
 	 *

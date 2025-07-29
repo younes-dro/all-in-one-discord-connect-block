@@ -30,6 +30,7 @@ class Dro_AIO_Discord {
 
 	/**
 	 * Get the instance of the class.
+	 * The constructor is private to enforce the singleton pattern.
 	 */
 	private function __construct() {
 		// Initialize the plugin.

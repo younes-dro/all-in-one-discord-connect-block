@@ -16,7 +16,7 @@
  * @since    1.0.0
  */
 
-namespace Dro\AIODiscordBlock\Interfaces;
+namespace Dro\AIODiscordBlock\includes\Interfaces;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -47,6 +47,14 @@ interface Dro_AIO_Discord_Service_Interface {
 	 * @return bool True if the plugin is active, false otherwise.
 	 */
 	public function is_plugin_active(): bool;
+
+	/**
+	 * Gets the discord connected account for a user.
+	 *
+	 * @param integer $user_id
+	 * @return string|null
+	 */
+	public function get_user_connected_account( int $user_id ): string|null;
 
 	/**
 	 * Fetches user-related context data for a specific user.

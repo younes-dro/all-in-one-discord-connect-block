@@ -2,7 +2,17 @@
 /**
  * * Class Dro_AIO_Discord_Resolver
  * * This class will detect which services sould be used.
+ * * and save it in global variable $dro_aio_discord_active_service.
+ * * In case more than one service is available, it will use the first one.
  */
+
+declare(strict_types=1);
+namespace Dro\AIODiscordBlock\includes;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 class Dro_AIO_Discord_Resolver {
 
 	/**

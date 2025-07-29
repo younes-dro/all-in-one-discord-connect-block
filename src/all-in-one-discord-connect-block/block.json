@@ -14,7 +14,7 @@
 		},
 		"connectButtonBgColor": {
 			"type": "string",
-			"default": "#77a02e"
+			"default": "#ccc"
 		},
 		"disconnectButtonTextColor": {
 			"type": "string",
@@ -40,7 +40,7 @@
 			"type": "string",
 			"default": "You have been assigned the following Discord roles:"
 		},
-		"discordConnectedAccount": {
+		"discordConnectedAccountText": {
 			"type": "string",
 			"default": "Connected account: {discord_username}"
 		}

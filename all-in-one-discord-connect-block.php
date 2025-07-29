@@ -14,6 +14,7 @@
  *
  * @package AllInOneDiscordConnectBlock
  */
+declare( strict_types=1 );
 
 namespace Dro\AIODiscordBlock;
 use Dro\AIODiscordBlock\includes\Dro_AIO_Discord;
@@ -22,20 +23,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-$dro_aio_discord_block_version = get_file_data(
-	__FILE__,
-	array( 'Version' )
-);
+define( 'DRO_AIO_DISCORD_BLOCK_VERSION', get_file_data( __FILE__, array( 'Version' ), 'plugin' )[0] ?? '1.0.0' );
 
-spl_autoload_register(
-	// function( $class_name){
-	// 	if( strcmp())
-	// 	error_log( $class_name );
-	// 	error_log( __NAMESPACE__);
-	// }
-);
+function dro_aio_discord_autoload(){
+	spl_autoload_register(
+	function ( $class ) {
+		if ( strpos( $class, 'Dro\\AIODiscordBlock\\' ) !== 0 ) {
+			return;
+		}
+		$portions_path = explode('\\', $class);
+		$class_name = str_replace('_','-',strtolower(array_pop( $portions_path)));
+		error_log( print_r( $portions_path, true));
+		error_log( print_r( $class_name, true));
 
-// new Dro_AIO_Discord();
+		exit;
+	});
+}
+
 
 
 /**
@@ -64,31 +68,16 @@ function dro_aio_discord_block_block_init() {
 add_action( 'init', __NAMESPACE__ . '\\dro_aio_discord_block_block_init' );
 
 /**
- * Replaces placeholders in the block content with actual user data.
+ * Initialize the All In One Discord Connect Block plugin.
+ * This function is called to set up the plugin's functionality.
  *
- * TODO: will repalce discord_username with the actual Discord username
+ * @since 1.0.0
  *
- * @param string $block_content The block content.
- * @param array  $block         The full block, including name and attributes.
- * @param array  $instance      The block instance.
- * @return string Modified block content with placeholders replaced.
+ * @return void
  */
-function dro_aio_discord_block_replace_placeholders( $block_content, $block, $instance ) {
-	if ( is_user_logged_in() ) {
-		$current_user = wp_get_current_user();
-		$username     = esc_html( $current_user->user_login );
-
-		$block_content = str_replace( '{discord_username}', $username, $block_content );
-	}
-
-	return $block_content;
+function dro_aio_discord(){
+	dro_aio_discord_autoload();
+	Dro_AIO_Discord::get_instance();
 }
-// add_filter( 'render_block_dro-block/all-in-one-discord-connect-block', __NAMESPACE__ . '\\dro_aio_discord_block_replace_placeholders', 10, 3 );
-
-
-add_action('init', function () {
-	register_block_type(__DIR__, [
-		'render_callback' => 'render_discord_connect_block',
-	]);
-});
+dro_aio_discord();
 

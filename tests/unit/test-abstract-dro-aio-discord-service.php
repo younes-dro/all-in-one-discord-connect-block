@@ -7,8 +7,8 @@
 
 namespace Dro\AIODiscordBlock\Tests\Unit;
 
-use Dro\AIODiscordBlock\Abstracts\Dro_AIO_Discord_Service;
-use WP_UnitTestCase;
+use Dro\AIODiscordBlock\includes\Abstracts\Dro_AIO_Discord_Service;
+
 
 /**
  * Concrete implementation of the abstract class for testing purposes.
@@ -53,7 +53,7 @@ class Test_Discord_Service extends Dro_AIO_Discord_Service {
 /**
  * Test case for Dro_AIO_Discord_Service abstract class.
  */
-class Test_Dro_AIO_Discord_Service extends WP_UnitTestCase {
+class Test_Dro_AIO_Discord_Service extends \WP_UnitTestCase {
 
 	/**
 	 * Test service instance.

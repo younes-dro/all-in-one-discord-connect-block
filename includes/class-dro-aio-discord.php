@@ -11,6 +11,7 @@
 declare(strict_types=1);
 
 namespace Dro\AIODiscordBlock\includes;
+use Dro\AIODiscordBlock\includes\Dro_AIO_Discord_Resolver as Discord_Resolver;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -33,8 +34,12 @@ class Dro_AIO_Discord {
 	 * The constructor is private to enforce the singleton pattern.
 	 */
 	private function __construct() {
-		// Initialize the plugin.
+
+		add_action( 'plugins_loaded', array( $this, 'plugin_loaded' ) );
 		add_action( 'init', array( $this, 'init' ) );
+	}
+	public function plugin_loaded() {
+		Discord_Resolver::resolve();
 	}
 	/**
 	 * Get the instance of the class.

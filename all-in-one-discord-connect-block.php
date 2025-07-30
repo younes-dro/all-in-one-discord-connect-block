@@ -4,7 +4,7 @@
  * Plugin URI:        https://github.com/younes-dro/all-in-one-discord-connect-block
  * Description:       A Gutenberg block that displays a custom Connect to Discord" button with flexible style options. Seamlessly integrates with membership plugins like PMPro, MemberPress, and Ultimate Member, as well as LMS plugins such as Tutor LMS, LearnDash, and LifterLMS.
  * Version:           1.0.0
- * Requires at least: 6.7
+ * Requires at least: 6.8
  * Requires PHP:      7.4
  * Author:            Younes DRO
  * Author URI:        https://github.com/younes-dro

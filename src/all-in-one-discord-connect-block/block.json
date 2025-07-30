@@ -42,13 +42,13 @@
 		},
 		"discordConnectedAccountText": {
 			"type": "string",
-			"default": "Connected account: {discord_username}"
+			"default": "Connected account:"
 		}
 	},
 	"supports": {
 		"html": false
 	},
-	"textdomain": "dro-aio-dcc-block",
+	"textdomain": "dro-aio-discord-block",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

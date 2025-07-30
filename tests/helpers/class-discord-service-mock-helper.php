@@ -69,7 +69,7 @@ class Discord_Service_Mock_Helper {
 	 */
 	public static function deactivate_plugin( string $plugin_path ) {
 		$active_plugins = (array) get_option( 'active_plugins', array() );
-		$key = array_search( $plugin_path, $active_plugins, true );
+		$key            = array_search( $plugin_path, $active_plugins, true );
 
 		if ( $key !== false ) {
 			unset( $active_plugins[ $key ] );

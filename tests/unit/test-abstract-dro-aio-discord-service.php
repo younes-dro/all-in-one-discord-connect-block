@@ -93,7 +93,7 @@ class Test_Dro_AIO_Discord_Service extends \WP_UnitTestCase {
 	 */
 	public function test_get_plugin_name_returns_correct_value() {
 		$expected_plugin_name = 'custom-plugin/custom-plugin.php';
-		$service = new Test_Discord_Service( $expected_plugin_name );
+		$service              = new Test_Discord_Service( $expected_plugin_name );
 
 		// We can't directly test the protected method, but we can test it indirectly
 		// through the check_active_plugin method behavior
@@ -105,7 +105,7 @@ class Test_Dro_AIO_Discord_Service extends \WP_UnitTestCase {
 	 */
 	public function test_check_active_plugin_returns_true_when_plugin_is_active() {
 		$plugin_name = 'test-plugin/test-plugin.php';
-		$service = new Test_Discord_Service( $plugin_name );
+		$service     = new Test_Discord_Service( $plugin_name );
 
 		// Mock active plugins option
 		$active_plugins = array(
@@ -122,7 +122,7 @@ class Test_Dro_AIO_Discord_Service extends \WP_UnitTestCase {
 	 */
 	public function test_check_active_plugin_returns_false_when_plugin_is_not_active() {
 		$plugin_name = 'inactive-plugin/inactive-plugin.php';
-		$service = new Test_Discord_Service( $plugin_name );
+		$service     = new Test_Discord_Service( $plugin_name );
 
 		// Mock active plugins option without our plugin
 		$active_plugins = array(
@@ -139,7 +139,7 @@ class Test_Dro_AIO_Discord_Service extends \WP_UnitTestCase {
 	 */
 	public function test_check_active_plugin_returns_false_when_no_plugins_active() {
 		$plugin_name = 'test-plugin/test-plugin.php';
-		$service = new Test_Discord_Service( $plugin_name );
+		$service     = new Test_Discord_Service( $plugin_name );
 
 		// Mock empty active plugins option
 		update_option( 'active_plugins', array() );
@@ -152,7 +152,7 @@ class Test_Dro_AIO_Discord_Service extends \WP_UnitTestCase {
 	 */
 	public function test_check_active_plugin_returns_false_when_option_not_exists() {
 		$plugin_name = 'test-plugin/test-plugin.php';
-		$service = new Test_Discord_Service( $plugin_name );
+		$service     = new Test_Discord_Service( $plugin_name );
 
 		// Delete the option to simulate it not existing
 		delete_option( 'active_plugins' );
@@ -190,7 +190,7 @@ class Test_Dro_AIO_Discord_Service extends \WP_UnitTestCase {
 	 */
 	public function test_check_active_plugin_exact_string_matching() {
 		$plugin_name = 'test-plugin/test-plugin.php';
-		$service = new Test_Discord_Service( $plugin_name );
+		$service     = new Test_Discord_Service( $plugin_name );
 
 		// Mock active plugins with similar but not exact matches
 		$active_plugins = array(
@@ -217,7 +217,7 @@ class Test_Dro_AIO_Discord_Service extends \WP_UnitTestCase {
 	 */
 	public function test_check_active_plugin_handles_non_array_option() {
 		$plugin_name = 'test-plugin/test-plugin.php';
-		$service = new Test_Discord_Service( $plugin_name );
+		$service     = new Test_Discord_Service( $plugin_name );
 
 		// Test with string instead of array
 		update_option( 'active_plugins', 'not-an-array' );
@@ -242,7 +242,7 @@ class Test_Dro_AIO_Discord_Service extends \WP_UnitTestCase {
 
 		// Verify the method is protected (we can't call it directly)
 		$reflection = new \ReflectionClass( $this->service );
-		$method = $reflection->getMethod( 'get_plugin_name' );
+		$method     = $reflection->getMethod( 'get_plugin_name' );
 		$this->assertTrue( $method->isProtected() );
 	}
 
@@ -251,7 +251,7 @@ class Test_Dro_AIO_Discord_Service extends \WP_UnitTestCase {
 	 */
 	public function test_check_active_plugin_performance_with_many_plugins() {
 		$plugin_name = 'target-plugin/target-plugin.php';
-		$service = new Test_Discord_Service( $plugin_name );
+		$service     = new Test_Discord_Service( $plugin_name );
 
 		// Create a large array of active plugins
 		$active_plugins = array();
@@ -266,8 +266,8 @@ class Test_Dro_AIO_Discord_Service extends \WP_UnitTestCase {
 
 		// This should still work efficiently
 		$start_time = microtime( true );
-		$result = $service->is_plugin_active();
-		$end_time = microtime( true );
+		$result     = $service->is_plugin_active();
+		$end_time   = microtime( true );
 
 		$this->assertTrue( $result );
 		// Performance check - should complete in reasonable time (less than 1 second)
@@ -285,7 +285,7 @@ class Test_Dro_AIO_Discord_Service extends \WP_UnitTestCase {
 		if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 			// In multisite, active_plugins might behave differently
 			$plugin_name = 'multisite-plugin/multisite-plugin.php';
-			$service = new Test_Discord_Service( $plugin_name );
+			$service     = new Test_Discord_Service( $plugin_name );
 
 			update_option( 'active_plugins', array( $plugin_name ) );
 			$this->assertTrue( $service->is_plugin_active() );

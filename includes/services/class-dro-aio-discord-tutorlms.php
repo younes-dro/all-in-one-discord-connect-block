@@ -68,7 +68,7 @@ class Dro_AIO_Discord_TutorLMS extends Dro_AIO_Discord_Service implements Dro_AI
 		// $course_ids = tutor_utils()->get_enrolled_courses_by_user( $user_id );
 
 		// if ( ! is_array( $course_ids ) || empty( $course_ids ) ) {
-		// 	return null;
+		// return null;
 		// }
 
 		// return array_map( 'intval', $course_ids );

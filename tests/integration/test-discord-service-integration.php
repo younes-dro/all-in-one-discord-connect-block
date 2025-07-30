@@ -75,7 +75,7 @@ class Test_Discord_Service_Integration extends WP_UnitTestCase {
 	 * Test multiple service instances with different plugins.
 	 */
 	public function test_multiple_service_instances() {
-		$wc_service = new WooCommerce_Discord_Service();
+		$wc_service        = new WooCommerce_Discord_Service();
 		$elementor_service = new Elementor_Discord_Service();
 
 		// Initially no plugins are active
@@ -122,7 +122,7 @@ class Test_Discord_Service_Integration extends WP_UnitTestCase {
 	 */
 	public function test_wordpress_plugin_lifecycle() {
 		$test_plugin = 'test-lifecycle/test-lifecycle.php';
-		$service = new Custom_Discord_Service( $test_plugin );
+		$service     = new Custom_Discord_Service( $test_plugin );
 
 		// Initially inactive
 		Discord_Service_Mock_Helper::clear_active_plugins();
@@ -146,7 +146,7 @@ class Test_Discord_Service_Integration extends WP_UnitTestCase {
 	 */
 	public function test_performance_with_large_plugin_set() {
 		$large_plugin_set = Discord_Service_Mock_Helper::generate_test_plugins( 100 );
-		$target_plugin = 'target-plugin/target-plugin.php';
+		$target_plugin    = 'target-plugin/target-plugin.php';
 
 		// Add target plugin to the middle of the set
 		array_splice( $large_plugin_set, 50, 0, $target_plugin );
@@ -157,8 +157,8 @@ class Test_Discord_Service_Integration extends WP_UnitTestCase {
 
 		// Measure performance
 		$start_time = microtime( true );
-		$result = $service->is_active();
-		$end_time = microtime( true );
+		$result     = $service->is_active();
+		$end_time   = microtime( true );
 
 		$this->assertTrue( $result );
 		$this->assertLessThan( 0.1, $end_time - $start_time, 'Plugin check should be fast even with many plugins' );

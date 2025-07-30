@@ -11,6 +11,7 @@
 declare(strict_types=1);
 
 namespace Dro\AIODiscordBlock\includes;
+
 use Dro\AIODiscordBlock\includes\Dro_AIO_Discord_Resolver as Discord_Resolver;
 
 if ( ! defined( 'ABSPATH' ) ) {

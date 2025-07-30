@@ -18,8 +18,8 @@
 
 namespace Dro\AIODiscordBlock\includes\Services;
 
-use Dro\AIODiscordBlock\includes\Abstracts\Dro_AIO_Discord_Service;
-use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface;
+use Dro\AIODiscordBlock\includes\Abstracts\Dro_AIO_Discord_Service as Discord_Service;
+use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
  * @since    1.0.0
  */
-class Dro_AIO_Discord_Pmpro extends Dro_AIO_Discord_Service implements Dro_AIO_Discord_Service_Interface {
+class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_Interface {
 
 	/**
 	 * The plugin name for the PMPro Discord add-on.

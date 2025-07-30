@@ -15,8 +15,8 @@ declare(strict_types=1);
 
 namespace Dro\AIODiscordBlock\includes;
 
-use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as InterfacesDro_AIO_Discord_Service_Interface;
-use Dro\AIODiscordBlock\Interfaces\Dro_AIO_Discord_Service_Interface;
+use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
+
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -46,38 +46,38 @@ class Dro_AIO_Discord_Render {
 	/**
 	 * The active service.
 	 *
-	 * @var Dro_AIO_Discord_Service_Interface|null
+	 * @var Discord_Service_Interface|null
 	 */
-	protected ?Dro_AIO_Discord_Service_Interface $active_service = null;
+	protected ?Discord_Service_Interface $active_service = null;
 
 	/**
 	 * Dro_AIO_Discord_Render constructor.
 	 * Private constructor to enforce singleton pattern.
 	 *
-	 * @param Dro_AIO_Discord_Service_Interface|null $active_service The active service.
+	 * @param Discord_Service_Interface|null $active_service The active service.
 	 */
-	private function __construct( ?Dro_AIO_Discord_Service_Interface $active_service = null ) {
-		$this->active_service = $active_service ?? $GLOBALS['dro_aio_discord_active_service'];
+	private function __construct( ?Discord_Service_Interface $active_service = null ) {
+		$this->active_service = $active_service ?? null;
 	}
 
 	/**
 	 * Set the active service.
 	 *
-	 * @param Dro_AIO_Discord_Service_Interface $active_service
+	 * @param Discord_Service_Interface $active_service
 	 * @return void
 	 */
-	public function set_active_service( Dro_AIO_Discord_Service_Interface $active_service ): void {
+	public function set_active_service( Discord_Service_Interface $active_service ): void {
 		$this->active_service = $active_service;
 	}
 
 	/**
 	 * Get the instance of the class.
 	 *
-	 * @param Dro_AIO_Discord_Service_Interface|null $active_service The active service.
+	 * @param Discord_Service_Interface|null $active_service The active service.
 	 *
 	 * @return self|null
 	 */
-	public static function get_instance( ?Dro_AIO_Discord_Service_Interface $active_service = null ): ?self {
+	public static function get_instance( ?Discord_Service_Interface $active_service = null ): ?self {
 		return self::$instance ??= new self( $active_service );
 	}
 	/**
@@ -119,7 +119,7 @@ class Dro_AIO_Discord_Render {
 	 * @return string The rendered block content.
 	 */
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
-		// if ( ! $this->active_service instanceof Dro_AIO_Discord_Service_Interface ) {
+		// if ( ! $this->active_service instanceof Discord_Service_Interface ) {
 		// return '<p>' . esc_html__( 'No active Discord service found.', 'dro-aio-discord-block' ) . '</p>';
 		// }
 
@@ -191,6 +191,7 @@ class Dro_AIO_Discord_Render {
 	 * @return string
 	 */
 	private function get_user_roles(): ?string {
-		return '<p>Roles</p>';
+		$test_active_service = $this->active_service->get_service_name();
+		return '<p>Roles in :'. $test_active_service.'</p>';
 	}
 }

@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Dro_AIO_Discord_Memberpress
+ * Class Dro_AIO_Discord_MemberPress
  *
  * Handles MemberPress service for Discord integration.
  *
@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
  * @since    1.0.0
  */
-class Dro_AIO_Discord_Memberpress extends Dro_AIO_Discord_Service implements Dro_AIO_Discord_Service_Interface {
+class Dro_AIO_Discord_MemberPress extends Dro_AIO_Discord_Service implements Dro_AIO_Discord_Service_Interface {
 
 	/**
 	 * The plugin slug for the MemberPress Discord add-on.

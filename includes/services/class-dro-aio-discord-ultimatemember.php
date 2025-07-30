@@ -47,7 +47,7 @@ class Dro_AIO_Discord_UltimateMember extends Dro_AIO_Discord_Service implements 
 	 * @access private
 	 * @var    string
 	 */
-	private const PLUGIN_NAME = 'ultimate-member-discord-add-on/ultimate-member-discord-add-on';
+	private const PLUGIN_NAME = 'ultimate-member-discord-add-on/ultimate-member-discord-add-on.php';
 
 	/**
 	 * Get the plugin slug.

@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Test configuration for Discord Service tests.
@@ -49,7 +48,7 @@ class Discord_Service_Test_Config {
 
 		if ( ! function_exists( 'update_option' ) ) {
 			function update_option( $option, $value ) {
-				static $options = array();
+				static $options     = array();
 				$options[ $option ] = $value;
 				return true;
 			}
@@ -68,7 +67,7 @@ class Discord_Service_Test_Config {
 				// Mock HTTP response for testing
 				return array(
 					'response' => array( 'code' => 200 ),
-					'body' => json_encode( array( 'success' => true ) )
+					'body'     => json_encode( array( 'success' => true ) ),
 				);
 			}
 		}
@@ -164,18 +163,18 @@ class Discord_Service_Test_Config {
 	 */
 	public static function get_sample_message_data() {
 		return array(
-			'content' => 'Test message from WordPress',
-			'username' => 'WordPress Bot',
+			'content'    => 'Test message from WordPress',
+			'username'   => 'WordPress Bot',
 			'avatar_url' => 'https://example.com/avatar.png',
-			'embeds' => array(
+			'embeds'     => array(
 				array(
-					'title' => 'Test Embed',
+					'title'       => 'Test Embed',
 					'description' => 'This is a test embed',
-					'color' => 5814783,
-					'fields' => array(
+					'color'       => 5814783,
+					'fields'      => array(
 						array(
-							'name' => 'Field 1',
-							'value' => 'Value 1',
+							'name'   => 'Field 1',
+							'value'  => 'Value 1',
 							'inline' => true,
 						),
 					),
@@ -220,8 +219,8 @@ class Discord_Service_Test_Config {
 
 		// Reset global variables
 		global $wp_filter, $wp_actions, $wp_current_filter;
-		$wp_filter = array();
-		$wp_actions = array();
+		$wp_filter         = array();
+		$wp_actions        = array();
 		$wp_current_filter = array();
 	}
 
@@ -292,7 +291,7 @@ class Discord_Service_Test_Config {
  */
 if ( ! class_exists( 'WP_Error' ) ) {
 	class WP_Error {
-		public $errors = array();
+		public $errors     = array();
 		public $error_data = array();
 
 		public function __construct( $code = '', $message = '', $data = '' ) {

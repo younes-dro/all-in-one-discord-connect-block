@@ -81,10 +81,16 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * Gets the discord connected account for a user.
 	 *
 	 * @param integer $user_id
-	 * @return string|null
+	 * @return string
 	 */
-	public function get_user_connected_account( int $user_id ): string|null {
-		return get_user_meta( $user_id, '_ets_pmpro_discord_username', true ) ?: null;
+	public function get_user_connected_account( int $user_id ): string {
+		$discord_connected_account = get_user_meta( $user_id, '_ets_pmpro_discord_username', true );
+		if ( strpos( $discord_connected_account, '#' ) !== false ) {
+			return esc_html( strstr( $discord_connected_account, '#', true ) );
+		} else {
+			return esc_html( $discord_connected_account );
+		}
+		return '';
 	}
 	/**
 	 * Get user access context for Paid Memberships Pro active membership levels.
@@ -138,7 +144,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * @return string
 	 */
 	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {
-		$user_id                        = sanitize_text_field( (int) get_current_user_id() );
+		$user_id                        = (int) sanitize_text_field( (int) get_current_user_id() );
 		$access_token                   = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_pmpro_discord_access_token', true ) ) );
 		$allow_none_member              = sanitize_text_field( trim( get_option( 'ets_pmpro_allow_none_member' ) ) );
 		$logged_in_text                 = isset( $attributes['loggedInText'] ) ? esc_html( $attributes['loggedInText'] ) : esc_html__( 'Connect to Discord', 'dro-aio-discord-block' );
@@ -159,12 +165,17 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 				$disconnect_button_text_color,
 				$logged_out_text
 			);
+			$html .= $this->get_user_roles( $role_assigned_text );
+			$html .= $this->get_user_infos( $discord_connected_account_text, $user_id );
+
 		} elseif ( pmpro_hasMembershipLevel() || $allow_none_member == 'yes' ) {
 			$html .= $this->get_connect_button(
 				$connect_button_bg_color,
 				$connect_button_text_color,
 				$logged_in_text
 			);
+			// $html .= $this->get_user_roles( $role_will_assign_text, $user_id);
+
 		} else {
 			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'dro-aio-discord-block' ) . '</p>';
 		}
@@ -195,10 +206,13 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * Get user information.
 	 * Discord username, avatar.
 	 *
+	 * @param string $discord_connected_account_text
+	 * @param int    $user_id
 	 * @return string
 	 */
-	private function get_user_infos(): ?string {
-		return '<p>Discord Username + Avatar</p>';
+	private function get_user_infos( $discord_connected_account_text, $user_id ): ?string {
+
+		return '<p>' . esc_html( $discord_connected_account_text ) . $this->get_user_connected_account( $user_id ) . ' + Avatar</p>';
 	}
 
 	/**
@@ -206,10 +220,11 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * This will return the user roles as a label.
 	 * If the user has no roles, it will return an empty string.
 	 *
+	 * @param string $roles_text
 	 * @return string
 	 */
-	private function get_user_roles(): ?string {
+	private function get_user_roles( $roles_text ): ?string {
 
-		return '';
+		return '<p>' . $roles_text . '</p>';
 	}
 }

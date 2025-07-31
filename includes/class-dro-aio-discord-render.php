@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Dro\AIODiscordBlock\includes;
 
 use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
+use WP_Block;
 
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -119,28 +120,19 @@ class Dro_AIO_Discord_Render {
 	 * @return string The rendered block content.
 	 */
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
-		// if ( ! $this->active_service instanceof Discord_Service_Interface ) {
-		// return '<p>' . esc_html__( 'No active Discord service found.', 'dro-aio-discord-block' ) . '</p>';
-		// }
 
-		$logged_in_text                 = esc_html( $attributes['loggedInText'] ) ?? esc_html__( 'Connect to Discord', 'dro-aio-discord-block' );
-		$logged_out_text                = esc_html( $attributes['loggedOutText'] ) ?? esc_html__( 'Disconnect from Discord', 'dro-aio-discord-block' );
-		$button_bg_color                = esc_attr( $attributes['connectButtonBgColor'] ?? '#77a02e' );
-		$button_text_color              = esc_attr( $attributes['connectButtonTextColor'] ?? '#ffffff' );
-		$discord_connected_account_text = esc_html( $attributes['discordConnectedAccountText'] ) ?? esc_html__( 'Connected account', 'dro-aio-discord-block' );
-
-		// $discord_username = $this->active_service->get_user_connected_account( get_current_user_id() );
+		if ( ! $this->active_service instanceof Discord_Service_Interface ) {
+			return '<p>' . esc_html__( 'No active Discord service found.', 'dro-aio-discord-block' ) . '</p>';
+		}
 
 		$html  = '';
-		$html .= $this->get_wrapper( get_block_wrapper_attributes( array( 'class' => 'discord-connect-block' ) ) );
-		$html .= $this->get_button(
-			$button_bg_color,
-			$button_text_color,
-			'Text'
-		);
+		$html .= $this->get_wrapper( get_block_wrapper_attributes( array( 'class' => 'dro-aio-discord-connect-block' ) ) );
 
-		$html .= $this->get_user_infos();
-		$html .= $this->get_user_roles();
+		$html .= $this->active_service->build_html_block(
+			$attributes,
+			$content,
+			$block
+		);
 
 		$html .= '</div>';
 
@@ -157,41 +149,5 @@ class Dro_AIO_Discord_Render {
 	 */
 	private function get_wrapper( $wrapper_attr ): string {
 		return '<div ' . $wrapper_attr . '>';
-	}
-
-	/**
-	 * Get the button HTML.
-	 * This will return the button HTML with the given background color and text color.
-	 * Shold return a button with the text "Connect to Discord" or "Disconnect from Discord" based on the user's connection status.
-	 *
-	 * @param string $button_bg_color
-	 * @param string $button_text_color
-	 * @param string $button_text
-	 * @return string
-	 */
-	private function get_button( $button_bg_color, $button_text_color, $button_text ): string {
-		return '<button class="discord-connect-button" style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">' . esc_html( $button_text ) . '</button>';
-	}
-
-	/**
-	 * Get user information.
-	 * Disccord username, avatar.
-	 *
-	 * @return string
-	 */
-	private function get_user_infos(): ?string {
-		return '<p>Discord Username + Avatar</p>';
-	}
-
-	/**
-	 * Get user roles.
-	 * This will return the user roles as a label.
-	 * If the user has no roles, it will return an empty string.
-	 *
-	 * @return string
-	 */
-	private function get_user_roles(): ?string {
-		$test_active_service = $this->active_service->get_service_name();
-		return '<p>Roles in :'. $test_active_service.'</p>';
 	}
 }

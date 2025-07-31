@@ -57,6 +57,18 @@ interface Dro_AIO_Discord_Service_Interface {
 	public function get_user_connected_account( int $user_id ): string|null;
 
 	/**
+	 * Renders the HTML for the Discord connect block.
+	 * Each service must implement this method to provide the specific HTML
+	 *
+	 * @param array     $attributes
+	 * @param string    $content
+	 * @param \WP_Block $block
+	 * @return string
+	 */
+	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string;
+
+
+	/**
 	 * Fetches user-related context data for a specific user.
 	 *
 	 * This may include IDs of active membership levels, enrolled courses,
@@ -92,7 +104,7 @@ interface Dro_AIO_Discord_Service_Interface {
 	public function get_service_name(): string;
 
 	/**
-	 * Get the service icon URL.
+	 * Get the Add-On icon URL.
 	 *
 	 * @return string The URL of the service icon.
 	 */

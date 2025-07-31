@@ -117,4 +117,8 @@ class Dro_AIO_Discord_UltimateMember extends Dro_AIO_Discord_Service implements 
 		// TODO: Provide base64 image of Ultimate Member icon.
 		return '';
 	}
+	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {
+		// TODO: Implement the HTML block rendering logic.
+		return '';
+	}
 }

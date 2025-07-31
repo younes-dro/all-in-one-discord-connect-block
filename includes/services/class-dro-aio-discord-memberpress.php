@@ -118,4 +118,9 @@ class Dro_AIO_Discord_MemberPress extends Dro_AIO_Discord_Service implements Dro
 		// TODO: Provide base64 image for MemberPress branding.
 		return '';
 	}
+
+	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {
+		// TODO: Implement the HTML block rendering logic.
+		return '';
+	}
 }

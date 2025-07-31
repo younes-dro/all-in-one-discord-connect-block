@@ -103,4 +103,8 @@ class Dro_AIO_Discord_TutorLMS extends Dro_AIO_Discord_Service implements Dro_AI
 		// TODO: Add Tutor LMS base64 icon string.
 		return '';
 	}
+	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {
+		// TODO: Implement the HTML block rendering logic.
+		return '';
+	}
 }

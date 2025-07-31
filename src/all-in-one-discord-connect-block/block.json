@@ -14,7 +14,7 @@
 		},
 		"connectButtonBgColor": {
 			"type": "string",
-			"default": "#ccc"
+			"default": "#77a02e"
 		},
 		"disconnectButtonTextColor": {
 			"type": "string",
@@ -22,7 +22,7 @@
 		},
 		"disconnectButtonBgColor": {
 			"type": "string",
-			"default": "#ffffff"
+			"default": "#ff0000"
 		},
 		"loggedInText": {
 			"type": "string",

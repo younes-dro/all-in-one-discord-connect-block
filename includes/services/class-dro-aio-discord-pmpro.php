@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PMPro Discord Service Implementation
  *
@@ -15,6 +16,8 @@
  * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
  * @since    1.0.0
  */
+
+declare(strict_types=1);
 
 namespace Dro\AIODiscordBlock\includes\Services;
 
@@ -41,6 +44,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since    1.0.0
  */
 class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_Interface {
+
+
+
 
 	/**
 	 * The plugin name for the PMPro Discord add-on.
@@ -120,6 +126,90 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 */
 	public function get_service_base64_encode_icon(): string {
 		// TODO: Implement logic to return the base64 encoded icon.
+		return '';
+	}
+
+	/**
+	 * Render the Discord connect block.
+	 *
+	 * @param array     $attributes
+	 * @param string    $content
+	 * @param \WP_Block $block
+	 * @return string
+	 */
+	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {
+		$user_id                        = sanitize_text_field( (int) get_current_user_id() );
+		$access_token                   = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_pmpro_discord_access_token', true ) ) );
+		$allow_none_member              = sanitize_text_field( trim( get_option( 'ets_pmpro_allow_none_member' ) ) );
+		$logged_in_text                 = isset( $attributes['loggedInText'] ) ? esc_html( $attributes['loggedInText'] ) : esc_html__( 'Connect to Discord', 'dro-aio-discord-block' );
+		$logged_out_text                = isset( $attributes['loggedOutText'] ) ? esc_html( $attributes['loggedOutText'] ) : esc_html__( 'Disconnect from Discord', 'dro-aio-discord-block' );
+		$connect_button_bg_color        = isset( $attributes['connectButtonBgColor'] ) ? esc_attr( $attributes['connectButtonBgColor'] ) : '#77a02e';
+		$connect_button_text_color      = isset( $attributes['connectButtonTextColor'] ) ? esc_attr( $attributes['connectButtonTextColor'] ) : '#ffffff';
+		$disconnect_button_bg_color     = isset( $attributes['disconnectButtonBgColor'] ) ? esc_attr( $attributes['disconnectButtonBgColor'] ) : '#ff0000';
+		$disconnect_button_text_color   = isset( $attributes['disconnectButtonTextColor'] ) ? esc_attr( $attributes['disconnectButtonTextColor'] ) : '#ffffff';
+		$discord_connected_account_text = isset( $attributes['discordConnectedAccountText'] ) ? esc_html( $attributes['discordConnectedAccountText'] ) : esc_html__( 'Connected account:', 'dro-aio-discord-block' );
+		$role_will_assign_text          = isset( $attributes['roleWillAssignText'] ) ? esc_html( $attributes['roleWillAssignText'] ) : esc_html__( 'You will be assigned the following Discord roles:', 'dro-aio-discord-block' );
+		$role_assigned_text             = isset( $attributes['roleAssignedText'] ) ? esc_html( $attributes['roleAssignedText'] ) : esc_html__( 'You have been assigned the following Discord roles:', 'dro-aio-discord-block' );
+
+		$html = '';
+
+		if ( Check_saved_settings_status() && $access_token ) {
+			$html .= $this->get_disconnect_button(
+				$disconnect_button_bg_color,
+				$disconnect_button_text_color,
+				$logged_out_text
+			);
+		} elseif ( pmpro_hasMembershipLevel() || $allow_none_member == 'yes' ) {
+			$html .= $this->get_connect_button(
+				$connect_button_bg_color,
+				$connect_button_text_color,
+				$logged_in_text
+			);
+		} else {
+			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'dro-aio-discord-block' ) . '</p>';
+		}
+
+		return $html;
+	}
+
+	private function get_connect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
+
+		$button_html = '';
+
+		$current_url  = ets_pmpro_discord_get_current_screen_url();
+		$button_html .= '<a href="?action=discord-login&url=' . $current_url . '" style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">' . esc_html( $button_text ) . '<i class="fab fa-discord"></i></a>';
+
+		return $button_html;
+	}
+	private function get_disconnect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
+
+		$button_html = '';
+
+		$button_html .= '<a href="?action=discord-logout" class="discord-disconnect-button" style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">' . esc_html__( $button_text ) . '</a>';
+
+		return $button_html;
+	}
+
+
+	/**
+	 * Get user information.
+	 * Discord username, avatar.
+	 *
+	 * @return string
+	 */
+	private function get_user_infos(): ?string {
+		return '<p>Discord Username + Avatar</p>';
+	}
+
+	/**
+	 * Get user roles.
+	 * This will return the user roles as a label.
+	 * If the user has no roles, it will return an empty string.
+	 *
+	 * @return string
+	 */
+	private function get_user_roles(): ?string {
+
 		return '';
 	}
 }

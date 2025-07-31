@@ -41,6 +41,11 @@ class Dro_AIO_Discord_Resolver {
 	/**
 	 * Array mapping plugin slugs to service keys.
 	 * This array defines the priority order for services based on active plugins.
+	 * Supported add-ons are:
+	 * - PMPro Discord Add-On
+	 * - MemberPress Discord Add-On
+	 * - Ultimate Member Discord Add-On
+	 * - Tutor LMS Discord Add-On
 	 *
 	 * @var array
 	 */
@@ -73,7 +78,7 @@ class Dro_AIO_Discord_Resolver {
 	public static function resolve(): ?Dro_AIO_Discord_Service_Interface {
 
 		if ( self::$active_service !== null ) {
-			error_log("Not null");
+			// error_log("Not null");
 			return self::$active_service;
 		}
 
@@ -83,11 +88,11 @@ class Dro_AIO_Discord_Resolver {
 
 		foreach ( self::$priority_map as $plugin_slug => $service_key ) {
 			if ( is_plugin_active( $plugin_slug ) ) {
-				error_log( print_r( $plugin_slug, true));
+				// error_log( print_r( $plugin_slug, true));
 				self::$active_service = self::set_active_service( $service_key );
 				break;
-			} else{
-				error_log( print_r( 'Not Active : '. $plugin_slug, true));
+			} else {
+				// error_log( print_r( 'Not Active : '. $plugin_slug, true));
 			}
 		}
 
@@ -99,7 +104,7 @@ class Dro_AIO_Discord_Resolver {
 
 	public static function set_active_service( string $service_name ): ?Dro_AIO_Discord_Service_Interface {
 		$service_class = $service_class = '\\Dro\\AIODiscordBlock\\includes\\Services\\Dro_AIO_Discord_' . ucfirst( $service_name );
-		error_log( print_r( $service_class, true));
+		// error_log( print_r( $service_class, true));
 		if ( class_exists( $service_class ) ) {
 
 			return new $service_class();
@@ -113,5 +118,4 @@ class Dro_AIO_Discord_Resolver {
 		}
 		return self::$active_service;
 	}
-
 }

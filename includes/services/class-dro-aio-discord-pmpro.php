@@ -48,6 +48,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 
 
+
 	/**
 	 * The plugin name for the PMPro Discord add-on.
 	 *
@@ -112,8 +113,11 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * @return array<int>|null Array of Discord role IDs or null.
 	 */
 	public function get_user_active_discord_roles_ids( int $user_id ): array|null {
-		// TODO: Implement logic to get user's active Discord role IDs.
-		return null;
+		if ( function_exists( 'ets_pmpro_discord_get_current_level_ids' ) ) {
+					$curr_level_ids = ets_pmpro_discord_get_current_level_ids( $user_id );
+
+		}
+		return is_array( $curr_level_ids ) ? $curr_level_ids : null;
 	}
 
 	/**
@@ -165,17 +169,15 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 				$disconnect_button_text_color,
 				$logged_out_text
 			);
-			$html .= $this->get_user_roles( $role_assigned_text );
+			$html .= $this->get_user_roles( $role_assigned_text, $user_id );
 			$html .= $this->get_user_infos( $discord_connected_account_text, $user_id );
-
 		} elseif ( pmpro_hasMembershipLevel() || $allow_none_member == 'yes' ) {
 			$html .= $this->get_connect_button(
 				$connect_button_bg_color,
 				$connect_button_text_color,
 				$logged_in_text
 			);
-			// $html .= $this->get_user_roles( $role_will_assign_text, $user_id);
-
+			$html .= $this->get_user_roles( $role_will_assign_text, $user_id );
 		} else {
 			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'dro-aio-discord-block' ) . '</p>';
 		}
@@ -185,8 +187,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 	private function get_connect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
 
-		$button_html = '';
-
+		$button_html  = '';
 		$current_url  = ets_pmpro_discord_get_current_screen_url();
 		$button_html .= '<a href="?action=discord-login&url=' . $current_url . '" style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">' . esc_html( $button_text ) . '<i class="fab fa-discord"></i></a>';
 
@@ -194,8 +195,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	}
 	private function get_disconnect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
 
-		$button_html = '';
-
+		$button_html  = '';
 		$button_html .= '<a href="?action=discord-logout" class="discord-disconnect-button" style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">' . esc_html__( $button_text ) . '</a>';
 
 		return $button_html;
@@ -218,13 +218,52 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	/**
 	 * Get user roles.
 	 * This will return the user roles as a label.
-	 * If the user has no roles, it will return an empty string.
 	 *
 	 * @param string $roles_text
+	 * @param  int    $user_id
+	 *
 	 * @return string
 	 */
-	private function get_user_roles( $roles_text ): ?string {
+	private function get_user_roles( $roles_text, $user_id ): ?string {
+		$all_roles                      = unserialize( get_option( 'ets_pmpro_discord_all_roles' ) );
+		$ets_pmpor_discord_role_mapping = json_decode( get_option( 'ets_pmpor_discord_role_mapping' ), true );
 
-		return '<p>' . $roles_text . '</p>';
+		$default_role                   = sanitize_text_field( trim( get_option( '_ets_pmpro_discord_default_role_id' ) ) );
+		$roles_color                    = unserialize( get_option( 'ets_pmpro_discord_roles_color' ) );
+
+		$user_roles_html  = '';
+		$mapped_role_name = '';
+		if ( isset( $_GET['level'] ) && $_GET['level'] > 0 ) {
+			$curr_level_id = $_GET['level'];
+		} else {
+				$curr_level_id = ets_pmpro_discord_get_current_level_id( $user_id );
+		}
+
+		$mapped_role_name = '';
+		if ( $curr_level_id && is_array( $all_roles ) ) {
+			if ( is_array( $ets_pmpor_discord_role_mapping ) && array_key_exists( 'pmpro_level_id_' . $curr_level_id, $ets_pmpor_discord_role_mapping ) ) {
+				$mapped_role_id = $ets_pmpor_discord_role_mapping[ 'pmpro_level_id_' . $curr_level_id ];
+				if ( array_key_exists( $mapped_role_id, $all_roles ) ) {
+					$mapped_role_name = '<span> <i style="background-color:#' . dechex( $roles_color[ $mapped_role_id ] ) . '">' . $all_roles[ $mapped_role_id ] . '</i></span>';
+				}
+			}
+		}
+
+		$default_role_name = '';
+		if ( $default_role != 'none' && is_array( $all_roles ) && array_key_exists( $default_role, $all_roles ) ) {
+			$default_role_name = '<span class="discord-role"> <i style="background-color:#' . dechex( $roles_color[ $default_role ] ) . '"></i>' . $all_roles[ $default_role ] . '</span>';
+		}
+		if ( $mapped_role_name || $default_role_name ) {
+			$user_roles_html .= $roles_text . ' ';
+		}
+		if ( $mapped_role_name ) {
+			$user_roles_html .= ets_pmpro_discord_allowed_html( $mapped_role_name );
+		}
+
+		if ( $default_role_name ) {
+			$user_roles_html .= ets_pmpro_discord_allowed_html( $default_role_name );
+		}
+
+		return '<div>' . $user_roles_html . '</div>';
 	}
 }

@@ -142,6 +142,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 			</InspectorControls>
 			<div {...useBlockProps()}>
+				<div>Here will be Add-on icon</div>
 				<button style={{ backgroundColor: connectButtonBgColor, color: connectButtonTextColor }} className="aio-discord-connect-button">
 					<RichText
 						tagName="p"

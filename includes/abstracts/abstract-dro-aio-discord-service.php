@@ -15,7 +15,7 @@
  * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
  * @since    1.0.0
  */
-
+declare(strict_types=1);
 namespace Dro\AIODiscordBlock\includes\Abstracts;
 
 // Exit if accessed directly.
@@ -28,12 +28,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Provides shared functionality for Discord service implementations.
  *
- * @category Plugin
- * @package  Dro\AIODiscordBlock\Abstracts
- * @author   Younes DRO <younesdro@gmail.com>
- * @license  GPL-2.0-or-later https://www.gnu.org/licenses/gpl-2.0.html
- * @version  Release: 1.0.0
- * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
  * @since    1.0.0
  */
 abstract class Dro_AIO_Discord_Service {

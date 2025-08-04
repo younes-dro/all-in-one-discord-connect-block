@@ -1,18 +1,5 @@
 # All-in-One Discord Connect Block
 
-**Contributors:** younes-dro
-**Tags:** discord, gutenberg, connect, membership, lms, block, custom button
-**Requires at least:** 5.8
-**Tested up to:** 6.5
-**Requires PHP:** 7.4
-**Stable tag:** 1.0.0
-**License:** GPLv3
-**License URI:** https://www.gnu.org/licenses/gpl-3.0.html
-
-A powerful Gutenberg block that displays a fully customizable “Connect to Discord” button. Seamlessly integrates with leading membership and LMS plugins to automatically sync users and assign Discord roles. Perfect for communities, e-learning platforms, and membership-based websites.
-
----
-
 ## 🧩 Features
 
 - Gutenberg block for the WordPress block editor

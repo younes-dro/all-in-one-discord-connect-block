@@ -7,8 +7,10 @@ import {
 	PanelRow,
 	TextControl,
 	ColorPicker,
+	Icon,
 } from '@wordpress/components';
 import { brush, overlayText, } from '@wordpress/icons';
+import discordIcon from './assets/discord-icon';
 import './editor.scss';
 
 const textDomain = 'dro-aio-discord-block';
@@ -38,6 +40,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 	} = attributes;
 
+	const blockProps = { ...useBlockProps(), className: 'aio-discord-connect-block' };
 	return (
 		<>
 			<InspectorControls>
@@ -141,25 +144,27 @@ export default function Edit({ attributes, setAttributes }) {
 				</div>
 
 			</InspectorControls>
-			<div {...useBlockProps()}>
-				<div>Here will be Add-on icon</div>
+			<div {...blockProps}>
+				<div className='aio-discord-connect-buttons'>
 				<button style={{ backgroundColor: connectButtonBgColor, color: connectButtonTextColor }} className="aio-discord-connect-button">
-					<RichText
-						tagName="p"
-						value={loggedOutText}
-						onChange={(value) => setAttributes({ loggedOutText: value })}
-						placeholder={__('Connect to Discord', textDomain)}
-					/>
-				</button>
-				<button style={{ backgroundColor: disconnectButtonBgColor, color: disconnectButtonTextColor }} className="aio-discord-disconnect-button">
-
 					<RichText
 						tagName="p"
 						value={loggedInText}
 						onChange={(value) => setAttributes({ loggedInText: value })}
-						placeholder={__('Disconnect from Discord', textDomain)}
+						placeholder={__('Connect to Discord...', textDomain)}
 					/>
+					<Icon icon={discordIcon} />
 				</button>
+				<button style={{ backgroundColor: disconnectButtonBgColor, color: disconnectButtonTextColor }} className="aio-discord-connect-button">
+					<RichText
+						tagName="p"
+						value={loggedOutText}
+						onChange={(value) => setAttributes({ loggedOutText: value })}
+						placeholder={__('Disconnect from Discord?', textDomain)}
+					/>
+					<Icon icon={discordIcon} />
+				</button>
+				</div>
 				<RichText
 					tagName="p"
 					value={discordConnectedAccountText}

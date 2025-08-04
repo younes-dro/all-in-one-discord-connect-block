@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls, RichText, BlockControls } from '@wordpress/block-editor';
 import {
 	TabPanel,
 	Panel,
@@ -8,9 +8,13 @@ import {
 	TextControl,
 	ColorPicker,
 	Icon,
+	ToolbarGroup,
+	ToolbarButton,
+
 } from '@wordpress/components';
-import { brush, overlayText, } from '@wordpress/icons';
+import { brush, overlayText } from '@wordpress/icons';
 import discordIcon from './assets/discord-icon';
+import { PlayIcon, StopIcon } from './assets/play-stop-icons';
 import './editor.scss';
 
 const textDomain = 'dro-aio-discord-block';
@@ -42,7 +46,21 @@ export default function Edit({ attributes, setAttributes }) {
 
 	const blockProps = { ...useBlockProps(), className: 'aio-discord-connect-block' };
 	return (
-		<>
+		<div {...blockProps}>
+			<BlockControls>
+				<ToolbarGroup>
+					<ToolbarButton
+						icon={PlayIcon}
+						label={__('Live Preview', 'dro-aio-discord-block')}
+						onClick={() => alert('Live preview mode toggled')}
+					/>
+					<ToolbarButton
+						icon={StopIcon}
+						label={__('Stop Preview', 'dro-aio-discord-block')}
+						onClick={() => alert('Preview mode toggled')}
+					/>
+				</ToolbarGroup>
+			</BlockControls>
 			<InspectorControls>
 				<div className="dro-native-tab-wrapper">
 					<TabPanel
@@ -146,24 +164,24 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 			<div {...blockProps}>
 				<div className='aio-discord-connect-buttons'>
-				<button style={{ backgroundColor: connectButtonBgColor, color: connectButtonTextColor }} className="aio-discord-connect-button">
-					<RichText
-						tagName="p"
-						value={loggedInText}
-						onChange={(value) => setAttributes({ loggedInText: value })}
-						placeholder={__('Connect to Discord...', textDomain)}
-					/>
-					<Icon icon={discordIcon} />
-				</button>
-				<button style={{ backgroundColor: disconnectButtonBgColor, color: disconnectButtonTextColor }} className="aio-discord-connect-button">
-					<RichText
-						tagName="p"
-						value={loggedOutText}
-						onChange={(value) => setAttributes({ loggedOutText: value })}
-						placeholder={__('Disconnect from Discord?', textDomain)}
-					/>
-					<Icon icon={discordIcon} />
-				</button>
+					<button style={{ backgroundColor: connectButtonBgColor, color: connectButtonTextColor }} className="aio-discord-connect-button">
+						<RichText
+							tagName="p"
+							value={loggedInText}
+							onChange={(value) => setAttributes({ loggedInText: value })}
+							placeholder={__('Connect to Discord...', textDomain)}
+						/>
+						<Icon icon={discordIcon} />
+					</button>
+					<button style={{ backgroundColor: disconnectButtonBgColor, color: disconnectButtonTextColor }} className="aio-discord-connect-button">
+						<RichText
+							tagName="p"
+							value={loggedOutText}
+							onChange={(value) => setAttributes({ loggedOutText: value })}
+							placeholder={__('Disconnect from Discord?', textDomain)}
+						/>
+						<Icon icon={discordIcon} />
+					</button>
 				</div>
 				<RichText
 					tagName="p"
@@ -178,6 +196,6 @@ export default function Edit({ attributes, setAttributes }) {
 					value={roleAssignedText} />
 
 			</div>
-		</>
+		</div>
 	);
 }

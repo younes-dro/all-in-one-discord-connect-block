@@ -15,6 +15,8 @@ A Gutenberg block that allows users to connect their Discord accounts with custo
 **All In One Discord Connect Block** is a powerful Gutenberg block that enables users to connect their Discord accounts directly from any page or post.
 This block provides full customization options, including button text, colors, and styles, while dynamically displaying the user's connection status.
 
+Unlike traditional shortcodes, this block supports custom design variations based on the specific post or page it’s used on — giving you full control over layout and context-aware styling.
+
 ### Supported Add-ons:
 This block is compatible with the following plugins:
 - [ExpressTech MemberPress Discord Add-on](https://wordpress.org/plugins/expresstechsoftwares-memberpress-discord-add-on/)

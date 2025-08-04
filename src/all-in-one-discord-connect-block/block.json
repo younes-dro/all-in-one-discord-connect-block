@@ -43,6 +43,10 @@
 		"discordConnectedAccountText": {
 			"type": "string",
 			"default": "Connected account:"
+		},
+		"isLivePreview": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {

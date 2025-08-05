@@ -46,7 +46,10 @@ export default function Edit({ attributes, setAttributes }) {
 		isLivePreview = false,
 	} = attributes;
 
-	const blockProps = { ...useBlockProps(), className: 'aio-discord-connect-block' };
+	// const blockProps = { ...useBlockProps(), className: 'aio-discord-connect-block' };
+	const blockProps = useBlockProps({
+		className: 'aio-discord-connect-block',
+	});
 
 
 	const renderLivePreview = () => (

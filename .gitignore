@@ -9,10 +9,12 @@ yarn-error.log*
 coverage
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
+build/
 build/Release
 
 # Dependency directories
 node_modules/
+vendor/
 
 # Optional npm cache directory
 .npm

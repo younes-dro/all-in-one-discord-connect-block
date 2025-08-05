@@ -1,7 +1,7 @@
 
 import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
-import discordIcon from './assets/discord-icon'; './assets/discord-icon.js';
+import { DiscordIcon } from './assets/components';
 import Edit from './edit';
 import metadata from './block.json';
 
@@ -11,7 +11,7 @@ import metadata from './block.json';
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
 registerBlockType(metadata.name, {
-	icon: discordIcon,
+	icon: DiscordIcon,
 	edit: Edit,
 	save: () => null,
 });

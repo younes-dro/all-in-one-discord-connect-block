@@ -109,4 +109,12 @@ interface Dro_AIO_Discord_Service_Interface {
 	 * @return string The URL of the service icon.
 	 */
 	public function get_service_base64_encode_icon(): string;
+
+	/**
+	 * Initializes the Discord user data for the given user ID.
+	 *
+	 * @param integer $user_id
+	 * @return void
+	 */
+	public function load_discord_user_data( int $user_id ): void;
 }

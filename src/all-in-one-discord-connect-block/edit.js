@@ -1,5 +1,7 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls, RichText, BlockControls } from '@wordpress/block-editor';
+import ServerSideRender from '@wordpress/server-side-render';
+
 import {
 	TabPanel,
 	Panel,
@@ -7,11 +9,17 @@ import {
 	PanelRow,
 	TextControl,
 	ColorPicker,
+	Icon,
+	ToolbarGroup,
+	ToolbarButton,
+	Spinner,
 } from '@wordpress/components';
-import { brush, overlayText, } from '@wordpress/icons';
+import { brush, overlayText } from '@wordpress/icons';
+import { DiscordIcon, PlayIcon, StopIcon, LivePreviewBadge } from './assets/components';
 import './editor.scss';
 
 const textDomain = 'dro-aio-discord-block';
+
 /**
  * Edit function for the All In One Discord Connect Block.
  *
@@ -23,7 +31,6 @@ const textDomain = 'dro-aio-discord-block';
  * @since 1.0.0
  * @version 1.0.0
  */
-
 export default function Edit({ attributes, setAttributes }) {
 	const {
 		connectButtonTextColor,
@@ -34,12 +41,116 @@ export default function Edit({ attributes, setAttributes }) {
 		loggedOutText,
 		roleWillAssignText,
 		roleAssignedText,
-		connectedUsername,
-
+		discordConnectedAccountText,
+		isLivePreview = false,
 	} = attributes;
+
+	// const blockProps = { ...useBlockProps(), className: 'aio-discord-connect-block' };
+	const blockProps = useBlockProps({
+		className: 'aio-discord-connect-block',
+	});
+
+
+	const renderLivePreview = () => (
+
+		<div className="live-preview-wrapper" style={{ position: 'relative' }}>
+			<LivePreviewBadge />
+			<ServerSideRender
+				block="dro-block/all-in-one-discord-connect-block"
+				attributes={attributes}
+				LoadingResponseComponent={() => (
+					<div style={{ textAlign: 'center', padding: '20px' }}>
+						<Spinner />
+						<p>{__('Loading preview...', textDomain)}</p>
+					</div>
+				)}
+				ErrorResponseComponent={({ response }) => (
+					<div style={{
+						padding: '20px',
+						backgroundColor: '#f8d7da',
+						color: '#721c24',
+						borderRadius: '4px'
+					}}>
+						<p><strong>{__('Preview Error:', textDomain)}</strong></p>
+						<p>{response?.message || __('Could not load preview', textDomain)}</p>
+					</div>
+				)}
+			/>
+		</div>
+
+	);
+
+
+	const renderEditUI = () => (
+		<>
+			<div className='aio-discord-connect-buttons'>
+				<button
+					style={{
+						backgroundColor: connectButtonBgColor,
+						color: connectButtonTextColor
+					}}
+					className="aio-discord-connect-button"
+				>
+					<RichText
+						tagName="span"
+						value={loggedInText}
+						onChange={(value) => setAttributes({ loggedInText: value })}
+						placeholder={__('Connect to Discord...', textDomain)}
+					/>
+					<Icon icon={DiscordIcon} />
+				</button>
+				<button
+					style={{
+						backgroundColor: disconnectButtonBgColor,
+						color: disconnectButtonTextColor
+					}}
+					className="aio-discord-connect-button"
+				>
+					<RichText
+						tagName="span"
+						value={loggedOutText}
+						onChange={(value) => setAttributes({ loggedOutText: value })}
+						placeholder={__('Disconnect from Discord?', textDomain)}
+					/>
+					<Icon icon={DiscordIcon} />
+				</button>
+			</div>
+			<RichText
+				tagName="p"
+				value={discordConnectedAccountText}
+				onChange={(value) => setAttributes({ discordConnectedAccountText: value })}
+				placeholder={__('Connected account text...', textDomain)}
+			/>
+			<RichText
+				tagName="p"
+				value={roleWillAssignText}
+				onChange={(value) => setAttributes({ roleWillAssignText: value })}
+				placeholder={__('Role will assign text...', textDomain)}
+			/>
+			<RichText
+				tagName="p"
+				value={roleAssignedText}
+				onChange={(value) => setAttributes({ roleAssignedText: value })}
+				placeholder={__('Role assigned text...', textDomain)}
+			/>
+		</>
+	);
 
 	return (
 		<>
+
+			<BlockControls>
+				<ToolbarGroup>
+					<ToolbarButton
+						icon={isLivePreview ? StopIcon : PlayIcon}
+						label={isLivePreview ? __('Back to Edit', textDomain) : __('Live Preview', textDomain)}
+						isPressed={isLivePreview}
+						onClick={() => setAttributes({ isLivePreview: !isLivePreview })}
+					/>
+
+				</ToolbarGroup>
+			</BlockControls>
+
 			<InspectorControls>
 				<div className="dro-native-tab-wrapper">
 					<TabPanel
@@ -81,6 +192,19 @@ export default function Edit({ attributes, setAttributes }) {
 										</PanelBody>
 
 										<PanelBody
+											title={__('Discord Account Text', textDomain)}
+											initialOpen={false}
+										>
+											<TextControl
+												label={__('Connected Account Text', textDomain)}
+												value={discordConnectedAccountText}
+												onChange={(value) => setAttributes({ discordConnectedAccountText: value })}
+												placeholder={__('Connected account: {discord_username}', textDomain)}
+												help={__('Use {discord_username} as placeholder for the actual username', textDomain)}
+											/>
+										</PanelBody>
+
+										<PanelBody
 											title={__('Role Assignment Text', textDomain)}
 											initialOpen={false}
 										>
@@ -106,15 +230,19 @@ export default function Edit({ attributes, setAttributes }) {
 											title={__('Connect Button Colors', textDomain)}
 											initialOpen={true}
 										>
+											<PanelRow>
+												<label>{__('Background Color', textDomain)}</label>
+											</PanelRow>
 											<ColorPicker
 												color={connectButtonBgColor}
 												onChangeComplete={(color) => setAttributes({ connectButtonBgColor: color.hex })}
-												label={__('Background Color', textDomain)}
 											/>
+											<PanelRow>
+												<label>{__('Text Color', textDomain)}</label>
+											</PanelRow>
 											<ColorPicker
 												color={connectButtonTextColor}
 												onChangeComplete={(color) => setAttributes({ connectButtonTextColor: color.hex })}
-												label={__('Text Color', textDomain)}
 											/>
 										</PanelBody>
 
@@ -122,15 +250,19 @@ export default function Edit({ attributes, setAttributes }) {
 											title={__('Disconnect Button Colors', textDomain)}
 											initialOpen={false}
 										>
+											<PanelRow>
+												<label>{__('Background Color', textDomain)}</label>
+											</PanelRow>
 											<ColorPicker
 												color={disconnectButtonBgColor}
 												onChangeComplete={(color) => setAttributes({ disconnectButtonBgColor: color.hex })}
-												label={__('Background Color', textDomain)}
 											/>
+											<PanelRow>
+												<label>{__('Text Color', textDomain)}</label>
+											</PanelRow>
 											<ColorPicker
 												color={disconnectButtonTextColor}
 												onChangeComplete={(color) => setAttributes({ disconnectButtonTextColor: color.hex })}
-												label={__('Text Color', textDomain)}
 											/>
 										</PanelBody>
 									</>
@@ -139,31 +271,18 @@ export default function Edit({ attributes, setAttributes }) {
 						)}
 					</TabPanel>
 				</div>
-
 			</InspectorControls>
-			<div {...useBlockProps()}>
-				<button style={{ backgroundColor: connectButtonBgColor, color: connectButtonTextColor }} className="aio-discord-connect-button">
-					<RichText
-						tagName="span"
-						value={loggedOutText}
-						onChange={(value) => setAttributes({ loggedOutText: value })}
-						placeholder={__('Connect to Discord', textDomain)}
-					/>
-				</button>
-				<button style={{ backgroundColor: disconnectButtonBgColor, color: disconnectButtonTextColor }} className="aio-discord-disconnect-button">
-					<RichText
-						tagName="span"
-						value={loggedInText}
-						onChange={(value) => setAttributes({ loggedInText: value })}
-						placeholder={__('Disconnect from Discord', textDomain)}
-					/>
 
-					{__('Connected as:', textDomain)} {connectedUsername} <br />
-					{__('Roles:', textDomain)} <br />
-					<div>{roleWillAssignText}</div>
-					<div>{roleAssignedText}</div>
-				</button>
+
+			<div {...blockProps}>
+				<div style={{ display: isLivePreview ? 'block' : 'none' }}>
+					{renderLivePreview()}
+				</div>
+				<div style={{ display: isLivePreview ? 'none' : 'block' }}>
+					{renderEditUI()}
+				</div>
 			</div>
+
 		</>
 	);
 }

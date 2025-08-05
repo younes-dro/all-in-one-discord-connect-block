@@ -22,7 +22,7 @@
 		},
 		"disconnectButtonBgColor": {
 			"type": "string",
-			"default": "#ffffff"
+			"default": "#ff0000"
 		},
 		"loggedInText": {
 			"type": "string",
@@ -39,12 +39,20 @@
 		"roleAssignedText": {
 			"type": "string",
 			"default": "You have been assigned the following Discord roles:"
+		},
+		"discordConnectedAccountText": {
+			"type": "string",
+			"default": "Connected account:"
+		},
+		"isLivePreview": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {
 		"html": false
 	},
-	"textdomain": "dro-aio-dcc-block",
+	"textdomain": "dro-aio-discord-block",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

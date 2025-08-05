@@ -4,8 +4,140 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
+.dro-aio-discord-connect-block {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	max-width: 400px;
+	margin: 20px 0;
 
-div.dro-aio-discord-connect-block{
-	border: 1px solid #ccc;
-	padding: 10px 5px;
+	a {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 12px 20px;
+		text-decoration: none;
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 16px;
+		transition: all 0.2s ease;
+		border: none;
+		cursor: pointer;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+		&:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+			opacity: 0.9;
+		}
+
+		&:active {
+			transform: translateY(0);
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		}
+		.fab.fa-discord {
+			font-size: 18px;
+			margin-left: 4px;
+		}
+	}
+	> div {
+		margin-top: 12px;
+		font-size: 14px;
+		color: #666;
+		line-height: 1.5;
+	}
+
+	span {
+		display: inline-block;
+		margin: 2px 4px 2px 0;
+
+		i {
+			display: inline-block;
+			padding: 4px 8px;
+			border-radius: 12px;
+			font-size: 12px;
+			font-weight: 500;
+			font-style: normal;
+			color: white;
+			text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+			min-width: 16px;
+			text-align: center;
+
+			&:hover {
+				transform: scale(1.05);
+				transition: transform 0.1s ease;
+			}
+
+			&[style*="#2ecc71"] {
+				background-color: #2ecc71 !important;
+			}
+
+			&[style*="#11806a"] {
+				background-color: #11806a !important;
+			}
+		}
+	}
+	div.user-infos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+	}
+	span.roles-text {
+		font-size: 1rem;
+		color: #555;
+		margin-left: 8px;
+		font-weight: 500;
+	}
+	span.connected-account {
+		font-weight: 500;
+		color: #1f2937;
+		background: rgba(88, 101, 242, 0.1);
+		padding: 4px 8px;
+		border-radius: 6px;
+		font-family: "Courier New", monospace;
+		font-size: 13px;
+		border: 1px solid rgba(88, 101, 242, 0.2);
+		transition: all 0.2s ease;
+
+		&:hover {
+			background: rgba(88, 101, 242, 0.15);
+			color: #5865f2;
+			border-color: rgba(88, 101, 242, 0.3);
+		}
+	}
+	img {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		border: 2px solid #5865f2;
+		box-shadow: 0 2px 8px rgba(88, 101, 242, 0.2);
+		transition: all 0.2s ease;
+		margin-left: 8px;
+
+		&:hover {
+			transform: scale(1.1) rotate(5deg);
+			box-shadow: 0 4px 16px rgba(88, 101, 242, 0.3);
+			border-color: #4752c4;
+		}
+	}
+}
+
+.discord-role {
+	i {
+		background-color: #7289da;
+	}
+}
+
+@media (max-width: 480px) {
+	.dro-aio-discord-connect-block {
+		a {
+			padding: 10px 16px;
+			font-size: 14px;
+		}
+
+		span i {
+			padding: 3px 6px;
+			font-size: 11px;
+		}
+	}
 }

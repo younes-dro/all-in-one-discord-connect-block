@@ -187,8 +187,9 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 				$disconnect_button_text_color,
 				$logged_out_text
 			);
-			$html .= $this->get_user_roles( $role_assigned_text, $user_id );
 			$html .= $this->get_user_infos( $discord_connected_account_text, $user_id );
+			$html .= $this->get_user_roles( $role_assigned_text, $user_id );
+
 
 		} elseif ( pmpro_hasMembershipLevel() || $allow_none_member == 'yes' ) {
 

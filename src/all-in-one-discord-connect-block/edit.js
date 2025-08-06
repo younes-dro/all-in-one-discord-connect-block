@@ -1,4 +1,6 @@
 import { __ } from '@wordpress/i18n';
+import { useEffect, useState } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch'
 import { useBlockProps, InspectorControls, RichText, BlockControls } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
 
@@ -14,8 +16,9 @@ import {
 	ToolbarButton,
 	Spinner,
 } from '@wordpress/components';
-import { brush, overlayText } from '@wordpress/icons';
+import { brush, overlayText, caution } from '@wordpress/icons';
 import { DiscordIcon, PlayIcon, StopIcon, LivePreviewBadge } from './assets/components';
+import { ServiceIconSVG } from './assets/CustomServiceIcon';
 import './editor.scss';
 
 const textDomain = 'dro-aio-discord-block';
@@ -50,6 +53,39 @@ export default function Edit({ attributes, setAttributes }) {
 		className: 'aio-discord-connect-block',
 	});
 
+	const [serviceIconURL, setServiceIconURL] = useState(null);
+	const [serviceName, setServiceIconName] = useState(null);
+	const [isServiceIconLoading, setServiceIconLoading] = useState(true);
+	const [isServiceIconError, setServiceIconError] = useState(null);
+
+	useEffect(() => {
+		const fetchServiceIcon = async () => {
+			try {
+				setServiceIconLoading(true);
+				setServiceIconError(null);
+				const response = await apiFetch({
+					path: '/aio-discord/v1/icons',
+				});
+
+				if (response.success && response.data.icon_url) {
+					setServiceIconURL(response.data.icon_url);
+					setServiceIconName(response.data.service_name);
+
+				} else {
+					throw new Error(__('No icon URL found in response', 'dro-aio-discord-block'));
+				}
+
+			} catch (err) {
+				console.error('Error fetching Discord service icon:', err);
+				setServiceIconError(err.message || __('Failed to fetch service icon', 'dro-aio-discord-block'));
+			} finally {
+				setServiceIconLoading(false);
+			}
+		};
+
+		fetchServiceIcon();
+
+	}, []); // Empty dependency array means this runs once on mount
 
 	const renderLivePreview = () => (
 
@@ -83,7 +119,9 @@ export default function Edit({ attributes, setAttributes }) {
 
 	const renderEditUI = () => (
 		<>
+			{/* <img src={serviceIconURL} /> */}
 			<div className='aio-discord-connect-buttons'>
+
 				<button
 					style={{
 						backgroundColor: connectButtonBgColor,
@@ -138,7 +176,6 @@ export default function Edit({ attributes, setAttributes }) {
 
 	return (
 		<>
-
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
@@ -146,6 +183,19 @@ export default function Edit({ attributes, setAttributes }) {
 						label={isLivePreview ? __('Back to Edit', textDomain) : __('Live Preview', textDomain)}
 						isPressed={isLivePreview}
 						onClick={() => setAttributes({ isLivePreview: !isLivePreview })}
+					/>
+					<ToolbarButton
+						icon={isServiceIconLoading
+							? (<Spinner />) : isServiceIconError ? (
+								caution
+							) :
+								(
+									<Icon icon={() => <ServiceIconSVG iconURL={serviceIconURL} size={20} />} />
+								)
+
+						}
+
+						onClick={() => alert(__('Discord active service: ' + serviceName, textDomain))}
 					/>
 
 				</ToolbarGroup>

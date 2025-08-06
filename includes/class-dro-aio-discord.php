@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Dro\AIODiscordBlock\includes;
 
 use Dro\AIODiscordBlock\includes\Dro_AIO_Discord_Resolver as Discord_Resolver;
+use Dro\AIODiscordBlock\includes\Dro_AIO_Discord_Rest_Api as Discord_Rest_Api;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -41,6 +42,7 @@ class Dro_AIO_Discord {
 	}
 	public function plugin_loaded() {
 		Discord_Resolver::resolve();
+		Discord_Rest_Api::get_instance();
 	}
 	/**
 	 * Get the instance of the class.

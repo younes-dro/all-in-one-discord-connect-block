@@ -22,7 +22,8 @@ if ( $service && $user_id ) {
 
 $render_block = '';
 try {
-	$render_block = Discord_Render::get_instance( $service )->render( $attributes, $content, $block );
+	$render_block = Discord_Render::get_instance( $service )
+					->render( $attributes, $content, $block );
 } catch ( Throwable $e ) {
 	error_log( $e->getMessage() );
 }

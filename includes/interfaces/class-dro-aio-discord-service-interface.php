@@ -106,9 +106,9 @@ interface Dro_AIO_Discord_Service_Interface {
 	/**
 	 * Get the Add-On icon URL.
 	 *
-	 * @return string The URL of the service icon.
+	 * @return string TheURL of the service icon.
 	 */
-	public function get_service_base64_encode_icon(): string;
+	public function get_service_icon_url(): string;
 
 	/**
 	 * Initializes the Discord user data for the given user ID.

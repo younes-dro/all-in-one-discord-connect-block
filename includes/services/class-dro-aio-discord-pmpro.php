@@ -147,13 +147,13 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	}
 
 	/**
-	 * Get the base64 encoded icon for the PMPro Discord service.
+	 * Get the icon for the PMPro Discord service.
 	 *
-	 * @return string Base64 encoded icon string.
+	 * @return string icon url.
 	 */
-	public function get_service_base64_encode_icon(): string {
-		// TODO: Implement logic to return the base64 encoded icon.
-		return '';
+	public function get_service_icon_url(): string {
+
+		return 'https://ps.w.org/pmpro-discord-add-on/assets/icon-256x256.png';
 	}
 
 	/**
@@ -189,7 +189,6 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 			);
 			$html .= $this->get_user_infos( $discord_connected_account_text, $user_id );
 			$html .= $this->get_user_roles( $role_assigned_text, $user_id );
-
 
 		} elseif ( pmpro_hasMembershipLevel() || $allow_none_member == 'yes' ) {
 

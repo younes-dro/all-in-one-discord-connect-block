@@ -100,10 +100,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 		$this->set_discord_user_name( $username ?: null );
 		$this->set_discord_user_avatar( $avatar ?: null );
-
 		$this->set_discord_user_id( (int) $discord_id ?: null );
-
-		$this->discord_user_id = $discord_id ? (int) $discord_id : null;
 	}
 
 	/**
@@ -134,21 +131,6 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	public function get_user_access_context( int $user_id ): ?array {
 		// TODO: Implement logic to get user access context.
 		return null;
-	}
-
-	/**
-	 * Get the IDs of active Discord roles for a user.
-	 *
-	 * @param int $user_id The user ID.
-	 *
-	 * @return array<int>|null Array of Discord role IDs or null.
-	 */
-	public function get_user_active_discord_roles_ids( int $user_id ): array|null {
-		if ( function_exists( 'ets_pmpro_discord_get_current_level_ids' ) ) {
-			$curr_level_ids = \ets_pmpro_discord_get_current_level_ids( $user_id );
-
-		}
-		return is_array( $curr_level_ids ) ? $curr_level_ids : null;
 	}
 
 	/**

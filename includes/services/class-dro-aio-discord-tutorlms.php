@@ -99,7 +99,7 @@ class Dro_AIO_Discord_TutorLMS extends Dro_AIO_Discord_Service implements Dro_AI
 	 *
 	 * @return string
 	 */
-	public function get_service_base64_encode_icon(): string {
+	public function get_service_icon_url(): string {
 		// TODO: Add Tutor LMS base64 icon string.
 		return '';
 	}

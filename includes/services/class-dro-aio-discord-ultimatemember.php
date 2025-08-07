@@ -113,7 +113,7 @@ class Dro_AIO_Discord_UltimateMember extends Dro_AIO_Discord_Service implements 
 	 *
 	 * @return string
 	 */
-	public function get_service_base64_encode_icon(): string {
+	public function get_service_icon_url(): string {
 		// TODO: Provide base64 image of Ultimate Member icon.
 		return '';
 	}

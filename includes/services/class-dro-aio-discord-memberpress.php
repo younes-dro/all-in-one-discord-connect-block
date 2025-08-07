@@ -110,13 +110,16 @@ class Dro_AIO_Discord_MemberPress extends Dro_AIO_Discord_Service implements Dro
 	}
 
 	/**
-	 * Get base64-encoded icon string.
+	 * Geticon string.
 	 *
 	 * @return string
 	 */
-	public function get_service_base64_encode_icon(): string {
-		// TODO: Provide base64 image for MemberPress branding.
-		return '';
+	public function get_service_icon_url(): string {
+
+		return 'https://ps.w.org/expresstechsoftwares-memberpress-discord-add-on/assets/icon-256x256.gif';
+	}
+
+	public function load_discord_user_data( int $user_id ): void {
 	}
 
 	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {

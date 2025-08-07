@@ -55,7 +55,14 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 */
 	private const PLUGIN_NAME = 'pmpro-discord-add-on/pmpro-discord.php';
 
-
+	/**
+	 * The official icon URL for the service add-on.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var string
+	 */
+	private const PLUGIN_ICON = 'https://ps.w.org/pmpro-discord-add-on/assets/icon-256x256.png';
 
 	/**
 	 * Get the plugin name for the PMPro Discord add-on.
@@ -78,20 +85,27 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	}
 
 	/**
-	 * Load Discord user data for the PMPro service.
+	 * Loads Discord user data for the PMPro service.
 	 *
-	 * @param integer $user_id
+	 * Note: The PMPro Discord Add-on does not set the meta key `_ets_pmpro_discord_avatar`,
+	 * so it will typically return null. This key is retained for compatibility purposes.
+	 *
+	 * @param int $user_id The ID of the user whose Discord data should be loaded.
 	 * @return void
 	 */
 	public function load_discord_user_data( int $user_id ): void {
-		$username   = get_user_meta( $user_id, '_ets_pmpro_discord_username', true );
-		$avatar     = get_user_meta( $user_id, '_ets_pmpro_discord_avatar', true );
-		$discord_id = get_user_meta( $user_id, '_ets_pmpro_discord_user_id', true );
+		$username   = sanitize_text_field( get_user_meta( $user_id, '_ets_pmpro_discord_username', true ) );
+		$avatar     = sanitize_text_field( get_user_meta( $user_id, '_ets_pmpro_discord_avatar', true ) );
+		$discord_id = sanitize_text_field( get_user_meta( $user_id, '_ets_pmpro_discord_user_id', true ) );
 
-		$this->discord_user_name   = $username ?: null;
-		$this->discord_user_avatar = $avatar ?: null;
-		$this->discord_user_id     = $discord_id ? (int) $discord_id : null;
+		$this->set_discord_user_name( $username ?: null );
+		$this->set_discord_user_avatar( $avatar ?: null );
+
+		$this->set_discord_user_id( (int) $discord_id ?: null );
+
+		$this->discord_user_id = $discord_id ? (int) $discord_id : null;
 	}
+
 	/**
 	 * Gets the discord connected account for a user.
 	 *
@@ -153,7 +167,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 */
 	public function get_service_icon_url(): string {
 
-		return 'https://ps.w.org/pmpro-discord-add-on/assets/icon-256x256.png';
+		return self::PLUGIN_ICON;
 	}
 
 	/**

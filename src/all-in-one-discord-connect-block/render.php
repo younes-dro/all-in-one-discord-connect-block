@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dro\AIODiscordBlock\includes\Dro_AIO_Discord_Render as Discord_Render;
 use Dro\AIODiscordBlock\includes\Dro_AIO_Discord_Resolver as Discord_Resolver;
-error_log( print_r( Discord_Resolver::get_active_service(), true ) );
+
 
 $user_id = get_current_user_id();
 $service = Discord_Resolver::get_active_service();

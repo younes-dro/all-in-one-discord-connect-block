@@ -40,6 +40,13 @@ class Dro_AIO_Discord {
 		add_action( 'plugins_loaded', array( $this, 'plugin_loaded' ) );
 		add_action( 'init', array( $this, 'init' ) );
 	}
+	/**
+	 * Trigger the plugin_loaded action.
+	 * Resolves the active Discord service.
+	 * Initializes the Discord REST API.
+	 *
+	 * @return void
+	 */
 	public function plugin_loaded() {
 		Discord_Resolver::resolve();
 		Discord_Rest_Api::get_instance();
@@ -58,8 +65,14 @@ class Dro_AIO_Discord {
 	 *
 	 * @return void
 	 */
-	private function __clone() {
-		// Prevent cloning of the instance.
+	public function __clone() {
+
+		$cloning_message = sprintf(
+			/* translators: %s is the class name that cannot be cloned */
+			esc_html__( 'You cannot clone instance of %s', 'dro-aio-discord-block' ),
+			get_class( $this )
+		);
+		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
 	}
 	/**
 	 * Prevent unserializing of the instance.

@@ -51,6 +51,15 @@ class Dro_AIO_Discord_MemberPress extends Dro_AIO_Discord_Service implements Dro
 	private const PLUGIN_NAME = 'connect-memberpress-discord-add-on/memberpress-discord.php';
 
 	/**
+	 * The official icon URL for the service add-on.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var string
+	 */
+	private const PLUGIN_ICON = 'https://ps.w.org/expresstechsoftwares-memberpress-discord-add-on/assets/icon-256x256.gif';
+
+	/**
 	 * Get the plugin name.
 	 *
 	 * @return string
@@ -69,13 +78,31 @@ class Dro_AIO_Discord_MemberPress extends Dro_AIO_Discord_Service implements Dro
 	}
 
 	/**
-	 * Get the Discord username linked to this MemberPress account.
+	 * Loads Discord user data for the MemberPress service.
 	 *
-	 * @param int $user_id
-	 * @return string|null
+	 * @param int $user_id The ID of the user whose Discord data should be loaded.
+	 * @return void
 	 */
-	public function get_user_connected_account( int $user_id ): string|null {
-		return get_user_meta( $user_id, '_ets_memberpress_discord_username', true ) ?: null;
+	public function load_discord_user_data( int $user_id ): void {
+				$username   = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_memberpress_discord_username', true ) ) );
+				$discord_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_memberpress_discord_user_id', true ) ) );
+				$avatar     = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_memberpress_discord_avatar', true ) ) );
+
+		$this->set_discord_user_name( $username ?: null );
+		$this->set_discord_user_avatar( $avatar ?: null );
+		$this->set_discord_user_id( (int) $discord_id ?: null );
+	}
+
+	/**
+	 * Gets the discord connected account for a user.
+	 *
+	 * @param integer $user_id
+	 * @return string
+	 */
+	public function get_user_connected_account( int $user_id ): string {
+		$discord_connected_account = $this->discord_user_name;
+
+			return esc_html( $discord_connected_account ) ?: '';
 	}
 
 	/**
@@ -86,17 +113,6 @@ class Dro_AIO_Discord_MemberPress extends Dro_AIO_Discord_Service implements Dro
 	 */
 	public function get_user_access_context( int $user_id ): ?array {
 		// TODO: Implement logic to return array of active MemberPress membership IDs.
-		return null;
-	}
-
-	/**
-	 * Get Discord role IDs for MemberPress access level.
-	 *
-	 * @param int $user_id
-	 * @return array<int>|null
-	 */
-	public function get_user_active_discord_roles_ids( int $user_id ): array|null {
-		// TODO: Implement logic to return Discord roles based on MemberPress access.
 		return null;
 	}
 
@@ -116,10 +132,7 @@ class Dro_AIO_Discord_MemberPress extends Dro_AIO_Discord_Service implements Dro
 	 */
 	public function get_service_icon_url(): string {
 
-		return 'https://ps.w.org/expresstechsoftwares-memberpress-discord-add-on/assets/icon-256x256.gif';
-	}
-
-	public function load_discord_user_data( int $user_id ): void {
+		return self::PLUGIN_ICON;
 	}
 
 	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {

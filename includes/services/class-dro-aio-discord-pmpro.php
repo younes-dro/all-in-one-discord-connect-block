@@ -55,7 +55,14 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 */
 	private const PLUGIN_NAME = 'pmpro-discord-add-on/pmpro-discord.php';
 
-
+	/**
+	 * The official icon URL for the service add-on.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var string
+	 */
+	private const PLUGIN_ICON = 'https://ps.w.org/pmpro-discord-add-on/assets/icon-256x256.png';
 
 	/**
 	 * Get the plugin name for the PMPro Discord add-on.
@@ -78,20 +85,27 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	}
 
 	/**
-	 * Load Discord user data for the PMPro service.
+	 * Loads Discord user data for the PMPro service.
 	 *
-	 * @param integer $user_id
+	 * Note: The PMPro Discord Add-on does not set the meta key `_ets_pmpro_discord_avatar`,
+	 * so it will typically return null. This key is retained for compatibility purposes.
+	 *
+	 * @param int $user_id The ID of the user whose Discord data should be loaded.
 	 * @return void
 	 */
 	public function load_discord_user_data( int $user_id ): void {
-		$username   = get_user_meta( $user_id, '_ets_pmpro_discord_username', true );
-		$avatar     = get_user_meta( $user_id, '_ets_pmpro_discord_avatar', true );
-		$discord_id = get_user_meta( $user_id, '_ets_pmpro_discord_user_id', true );
+		$username   = sanitize_text_field( get_user_meta( $user_id, '_ets_pmpro_discord_username', true ) );
+		$avatar     = sanitize_text_field( get_user_meta( $user_id, '_ets_pmpro_discord_avatar', true ) );
+		$discord_id = sanitize_text_field( get_user_meta( $user_id, '_ets_pmpro_discord_user_id', true ) );
 
-		$this->discord_user_name   = $username ?: null;
-		$this->discord_user_avatar = $avatar ?: null;
-		$this->discord_user_id     = $discord_id ? (int) $discord_id : null;
+		$this->set_discord_user_name( $username ?: null );
+		$this->set_discord_user_avatar( $avatar ?: null );
+
+		$this->set_discord_user_id( (int) $discord_id ?: null );
+
+		$this->discord_user_id = $discord_id ? (int) $discord_id : null;
 	}
+
 	/**
 	 * Gets the discord connected account for a user.
 	 *
@@ -147,13 +161,13 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	}
 
 	/**
-	 * Get the base64 encoded icon for the PMPro Discord service.
+	 * Get the icon for the PMPro Discord service.
 	 *
-	 * @return string Base64 encoded icon string.
+	 * @return string icon url.
 	 */
-	public function get_service_base64_encode_icon(): string {
-		// TODO: Implement logic to return the base64 encoded icon.
-		return '';
+	public function get_service_icon_url(): string {
+
+		return self::PLUGIN_ICON;
 	}
 
 	/**
@@ -183,13 +197,13 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 		if ( Check_saved_settings_status() && $access_token ) {
 
 			$html .= $this->get_disconnect_button(
+				$user_id,
 				$disconnect_button_bg_color,
 				$disconnect_button_text_color,
 				$logged_out_text
 			);
 			$html .= $this->get_user_infos( $discord_connected_account_text, $user_id );
 			$html .= $this->get_user_roles( $role_assigned_text, $user_id );
-
 
 		} elseif ( pmpro_hasMembershipLevel() || $allow_none_member == 'yes' ) {
 
@@ -205,30 +219,58 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 		return $html;
 	}
-
+	/**
+	 * Generates the HTML markup for the Discord connect button.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @param string $button_bg_color   Background color for the button.
+	 * @param string $button_text_color Text color for the button.
+	 * @param string $button_text       Text displayed on the button.
+	 *
+	 * @return string HTML markup for the connect button.
+	 */
 	private function get_connect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
-
 		$button_html  = '';
 		$current_url  = ets_pmpro_discord_get_current_screen_url();
 		$button_html .= '<a href="?action=discord-login&url=' . $current_url . '"
-		class="dro-aio-discord-connect-button"
-		style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
+        class="dro-aio-discord-connect-button"
+        style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
 		. esc_html( $button_text )
 		. '<i class="fab fa-discord"></i></a>';
 
 		return $button_html;
 	}
-	private function get_disconnect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
 
+	/**
+	 * Generates the HTML markup for the Discord disconnect button.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @param int    $user_id           ID of the user to disconnect.
+	 * @param string $button_bg_color   Background color for the button.
+	 * @param string $button_text_color Text color for the button.
+	 * @param string $button_text       Text displayed on the button.
+	 *
+	 * @return string HTML markup for the disconnect button.
+	 */
+	private function get_disconnect_button( int $user_id, string $button_bg_color, string $button_text_color, string $button_text ): string {
+		wp_enqueue_script( 'ets_pmpro_add_discord_script' );
+		wp_enqueue_style( 'ets_pmpro_add_discord_style' );
 		$button_html  = '';
 		$button_html .= '<a href="?action=discord-logout"
-		 class="dro-aio-discord-disconnect-button"
-		 style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
+         class="dro-aio-discord-disconnect-button"
+         id="pmpro-disconnect-discord"
+         data-user-id="' . $user_id . '"
+         style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
 			. esc_html__( $button_text )
 			. '<i class="fab fa-discord"></i></a>';
 
-		return $button_html;
+		return $button_html . '<span class="ets-spinner"></span>';
 	}
+
 
 
 	/**

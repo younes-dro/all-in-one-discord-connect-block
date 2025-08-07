@@ -197,6 +197,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 		if ( Check_saved_settings_status() && $access_token ) {
 
 			$html .= $this->get_disconnect_button(
+				$user_id,
 				$disconnect_button_bg_color,
 				$disconnect_button_text_color,
 				$logged_out_text
@@ -218,30 +219,58 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 		return $html;
 	}
-
+	/**
+	 * Generates the HTML markup for the Discord connect button.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @param string $button_bg_color   Background color for the button.
+	 * @param string $button_text_color Text color for the button.
+	 * @param string $button_text       Text displayed on the button.
+	 *
+	 * @return string HTML markup for the connect button.
+	 */
 	private function get_connect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
-
 		$button_html  = '';
 		$current_url  = ets_pmpro_discord_get_current_screen_url();
 		$button_html .= '<a href="?action=discord-login&url=' . $current_url . '"
-		class="dro-aio-discord-connect-button"
-		style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
+        class="dro-aio-discord-connect-button"
+        style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
 		. esc_html( $button_text )
 		. '<i class="fab fa-discord"></i></a>';
 
 		return $button_html;
 	}
-	private function get_disconnect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
 
+	/**
+	 * Generates the HTML markup for the Discord disconnect button.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @param int    $user_id           ID of the user to disconnect.
+	 * @param string $button_bg_color   Background color for the button.
+	 * @param string $button_text_color Text color for the button.
+	 * @param string $button_text       Text displayed on the button.
+	 *
+	 * @return string HTML markup for the disconnect button.
+	 */
+	private function get_disconnect_button( int $user_id, string $button_bg_color, string $button_text_color, string $button_text ): string {
+		wp_enqueue_script( 'ets_pmpro_add_discord_script' );
+		wp_enqueue_style( 'ets_pmpro_add_discord_style' );
 		$button_html  = '';
 		$button_html .= '<a href="?action=discord-logout"
-		 class="dro-aio-discord-disconnect-button"
-		 style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
+         class="dro-aio-discord-disconnect-button"
+         id="pmpro-disconnect-discord"
+         data-user-id="' . $user_id . '"
+         style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
 			. esc_html__( $button_text )
 			. '<i class="fab fa-discord"></i></a>';
 
-		return $button_html;
+		return $button_html . '<span class="ets-spinner"></span>';
 	}
+
 
 
 	/**

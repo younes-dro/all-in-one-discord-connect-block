@@ -12,10 +12,11 @@ A Gutenberg block that allows users to connect their Discord accounts with custo
 
 == Description ==
 
-**All In One Discord Connect Block** is a powerful Gutenberg block that enables users to connect their Discord accounts directly from any page or post.
-This block provides full customization options, including button text, colors, and styles, while dynamically displaying the user's connection status.
+**All In One Discord Connect Block** is a powerful Gutenberg block that enables users to connect their Discord accounts directly from any page or post. This block provides full customization options, including button text, colors, and styles, while dynamically displaying the user's connection status.
 
 Unlike traditional shortcodes, this block supports custom design variations based on the specific post or page it’s used on — giving you full control over layout and context-aware styling.
+
+✨ Behind the scenes, the block uses a server-side rendering mechanism that allows you to toggle between edit mode and live preview directly within the block editor. With Play/Stop controls, you can instantly view the real frontend output — exactly as it will appear to users — without needing to save the post or switch to the frontend.
 
 ### Supported Add-ons:
 This block is compatible with the following plugins:

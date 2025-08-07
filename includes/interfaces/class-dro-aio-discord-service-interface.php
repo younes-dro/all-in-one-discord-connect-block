@@ -81,15 +81,6 @@ interface Dro_AIO_Discord_Service_Interface {
 	 */
 	public function get_user_access_context( int $user_id ): array|null;
 
-	/**
-	 * Retrieves the IDs of active Discord roles assigned to the given user.
-	 *
-	 * @param int $user_id The ID of the user.
-	 *
-	 * @return array<int>|null An array of Discord role IDs, or null if none
-	 *                         are assigned.
-	 */
-	public function get_user_active_discord_roles_ids( int $user_id ): array|null;
 
 	/**
 	 * Get the service name.

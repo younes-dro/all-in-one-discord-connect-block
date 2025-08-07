@@ -35,7 +35,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 abstract class Dro_AIO_Discord_Service {
 
-
 	/**
 	 * Get the plugin name/slug for the service.
 	 *
@@ -44,24 +43,60 @@ abstract class Dro_AIO_Discord_Service {
 	abstract protected function get_plugin_name(): string;
 
 	/**
-	 * Get the Discord user ID.
+	 * The Discord user ID.
 	 *
 	 * @var integer|null
 	 */
 	protected ?int $discord_user_id = null;
 	/**
-	 * Get the Discord user avatar.
+	 * The Discord user avatar.
 	 *
 	 * @var string|null
 	 */
 	protected ?string $discord_user_avatar = null;
 
 	/**
-	 * Get the Discord user name.
+	 * The Discord user name.
 	 *
 	 * @var string|null
 	 */
 	protected ?string $discord_user_name = null;
+
+	/**
+	 * The Block attributes with default values.
+	 *
+	 * @var array
+	 */
+	protected array $attributes = array(
+		'loggedInText'                => 'Connect to Discord',
+		'loggedOutText'               => 'Disconnect from Discord',
+		'connectButtonBgColor'        => '#77a02e',
+		'connectButtonTextColor'      => '#ffffff',
+		'disconnectButtonBgColor'     => '#ff0000',
+		'disconnectButtonTextColor'   => '#ffffff',
+		'discordConnectedAccountText' => 'Connected account:',
+		'roleWillAssignText'          => 'You will be assigned the following Discord roles:',
+		'roleAssignedText'            => 'You have been assigned the following Discord roles:',
+	);
+
+	/**
+	 * Map of attribute keys to their sanitization callbacks.
+	 *
+	 * @var array
+	 */
+	protected array $attribute_sanitizers = array(
+		'loggedInText'                => 'esc_html',
+		'loggedOutText'               => 'esc_html',
+		'connectButtonBgColor'        => 'esc_attr',
+		'connectButtonTextColor'      => 'esc_attr',
+		'disconnectButtonBgColor'     => 'esc_attr',
+		'disconnectButtonTextColor'   => 'esc_attr',
+		'discordConnectedAccountText' => 'esc_html',
+		'roleWillAssignText'          => 'esc_html',
+		'roleAssignedText'            => 'esc_html',
+	);
+
+
 
 	/**
 	 * Get the Discord user ID.
@@ -119,6 +154,25 @@ abstract class Dro_AIO_Discord_Service {
 	public function set_discord_user_name( ?string $name ): void {
 		$this->discord_user_name = $name;
 	}
+
+	/**
+	 * Merge the block attributes with defaults and sanitize them.
+	 *
+	 * @param array $attributes
+	 * @return array
+	 */
+	protected function set_block_attributes( array $attributes ): array {
+		$merged = wp_parse_args( $attributes, $this->attributes );
+
+		foreach ( $merged as $key => $value ) {
+			if ( isset( $this->attribute_sanitizers[ $key ] ) && is_callable( $this->attribute_sanitizers[ $key ] ) ) {
+				$merged[ $key ] = call_user_func( $this->attribute_sanitizers[ $key ], $value );
+			}
+		}
+
+		return $merged;
+	}
+
 
 	/**
 	 * Check if the add-on plugin is active.

@@ -108,4 +108,11 @@ interface Dro_AIO_Discord_Service_Interface {
 	 * @return void
 	 */
 	public function load_discord_user_data( int $user_id ): void;
+
+	/**
+	 * Get single instance of the service.
+	 *
+	 * @return self
+	 */
+	public static function get_instance(): self;
 }

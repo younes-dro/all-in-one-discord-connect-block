@@ -19,7 +19,7 @@
 namespace Dro\AIODiscordBlock\includes\Services;
 
 use Dro\AIODiscordBlock\includes\Abstracts\Dro_AIO_Discord_Service;
-use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface;
+use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -39,8 +39,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
  * @since    1.0.0
  */
-class Dro_AIO_Discord_MemberPress extends Dro_AIO_Discord_Service implements Dro_AIO_Discord_Service_Interface {
+class Dro_AIO_Discord_MemberPress extends Dro_AIO_Discord_Service implements Discord_Service_Interface {
 
+	protected static ?Discord_Service_Interface $instance = null;
 	/**
 	 * The plugin slug for the MemberPress Discord add-on.
 	 *
@@ -59,6 +60,11 @@ class Dro_AIO_Discord_MemberPress extends Dro_AIO_Discord_Service implements Dro
 	 */
 	private const PLUGIN_ICON = 'https://ps.w.org/expresstechsoftwares-memberpress-discord-add-on/assets/icon-256x256.gif';
 
+	private function __construct() {
+	}
+	public static function get_instance(): Discord_Service_Interface {
+		return self::$instance ?? new self();
+	}
 	/**
 	 * Get the plugin name.
 	 *

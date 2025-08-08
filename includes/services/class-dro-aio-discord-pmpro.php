@@ -46,6 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_Interface {
 
 
+	protected static ?self $instance = null;
 	/**
 	 * The plugin name for the PMPro Discord add-on.
 	 *
@@ -63,6 +64,65 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * @var string
 	 */
 	private const PLUGIN_ICON = 'https://ps.w.org/pmpro-discord-add-on/assets/icon-256x256.png';
+
+	/**
+	 * Maps Discord user data properties to their corresponding WordPress user meta keys.
+	 *
+	 * This array is used by the base class to retrieve and assign Discord-related metadata
+	 * for a specific user. Each key represents a logical property, and each value is the
+	 * actual meta key stored in the WordPress database.
+	 *
+	 * Keys:
+	 * - 'discord_username'    → Meta key for the Discord username
+	 * - 'discord_user_avatar' → Meta key for the Discord avatar URL
+	 * - 'discord_user_id'     → Meta key for the Discord user ID
+	 *
+	 * @var array<string, string>
+	 */
+
+	protected array $discord_meta_keys = array(
+		'discord_username'    => '_ets_pmpro_discord_username',
+		'discord_user_avatar' => '_ets_pmpro_discord_avatar',
+		'discord_user_id'     => '_ets_pmpro_discord_user_id',
+	);
+	/**
+	 * Private constructor to prevent direct instantiation.
+	 *
+	 * This enforces the singleton pattern by restricting object creation
+	 * to the `get_instance()` method.
+	 */
+	private function __construct() {
+	}
+	/**
+	 * Private clone method to prevent cloning of the singleton instance.
+	 *
+	 * Cloning is disabled to ensure that only one instance of the service exists.
+	 *
+	 * @return void
+	 */
+	private function __clone() {}
+	/**
+	 * Private wakeup method to prevent unserializing of the singleton instance.
+	 *
+	 * Unserialization is disabled to maintain the integrity of the singleton pattern.
+	 *
+	 * @return void
+	 */
+	private function __wakeup() {}
+
+
+	/**
+	 * Returns a singleton instance of the Discord service.
+	 *
+	 * Ensures that only one instance of the service is created and reused.
+	 * This method is typically used to access the service without directly instantiating it.
+	 *
+	 * @return Discord_Service_Interface The singleton instance of the service.
+	 */
+	public static function get_instance(): Discord_Service_Interface {
+
+		return self::$instance ?? new self();
+	}
 
 	/**
 	 * Get the plugin name for the PMPro Discord add-on.
@@ -84,24 +144,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 		return $this->check_active_plugin();
 	}
 
-	/**
-	 * Loads Discord user data for the PMPro service.
-	 *
-	 * Note: The PMPro Discord Add-on does not set the meta key `_ets_pmpro_discord_avatar`,
-	 * so it will typically return null. This key is retained for compatibility purposes.
-	 *
-	 * @param int $user_id The ID of the user whose Discord data should be loaded.
-	 * @return void
-	 */
-	public function load_discord_user_data( int $user_id ): void {
-		$username   = sanitize_text_field( get_user_meta( $user_id, '_ets_pmpro_discord_username', true ) );
-		$avatar     = sanitize_text_field( get_user_meta( $user_id, '_ets_pmpro_discord_avatar', true ) );
-		$discord_id = sanitize_text_field( get_user_meta( $user_id, '_ets_pmpro_discord_user_id', true ) );
 
-		$this->set_discord_user_name( $username ?: null );
-		$this->set_discord_user_avatar( $avatar ?: null );
-		$this->set_discord_user_id( (int) $discord_id ?: null );
-	}
 
 	/**
 	 * Gets the discord connected account for a user.

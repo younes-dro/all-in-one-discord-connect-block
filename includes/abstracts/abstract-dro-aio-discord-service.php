@@ -96,6 +96,58 @@ abstract class Dro_AIO_Discord_Service {
 		'roleAssignedText'            => 'esc_html',
 	);
 
+	/**
+	 * Meta key map for Discord user data.
+	 * Subclasses should override this with service-specific meta keys.
+	 *
+	 * @var array
+	 */
+	protected array $discord_meta_keys = array(
+		'discord_username'    => '',
+		'discord_user_avatar' => '',
+		'discord_user_id'     => '',
+	);
+
+	/**
+	 * Loads Discord user data for the current service.
+	 *
+	 * This method retrieves Discord-related metadata for a given user ID,
+	 * using the service-specific meta key map defined in `$discord_meta_keys`.
+	 * It sanitizes each value and assigns it to the corresponding internal property
+	 * via setter methods.
+	 *
+	 * Expected keys in `$discord_meta_keys`:
+	 * - 'discord_username'    → Discord username meta key
+	 * - 'discord_user_avatar' → Discord avatar URL meta key
+	 * - 'discord_user_id'     → Discord user ID meta key
+	 *
+	 * Subclasses should override `$discord_meta_keys` to provide service-specific keys.
+	 *
+	 * @param int $user_id The ID of the user whose Discord metadata should be loaded.
+	 * @return void
+	 */
+	public function load_discord_user_data( int $user_id ): void {
+		foreach ( $this->discord_meta_keys as $property => $meta_key ) {
+			if ( empty( $meta_key ) ) {
+				continue;
+			}
+
+			$value = sanitize_text_field( get_user_meta( $user_id, $meta_key, true ) );
+
+			switch ( $property ) {
+				case 'discord_username':
+					$this->set_discord_user_name( $value ?: null );
+					break;
+				case 'discord_user_avatar':
+					$this->set_discord_user_avatar( $value ?: null );
+					break;
+				case 'discord_user_id':
+					$this->set_discord_user_id( $value ? (int) $value : null );
+					break;
+			}
+		}
+	}
+
 
 
 	/**
@@ -104,6 +156,7 @@ abstract class Dro_AIO_Discord_Service {
 	 * @return int|null
 	 */
 	public function get_discord_user_id(): ?int {
+		$discord_user_id = sanitize_text_field( get_user_meta( $user_id, '_ets_pmpro_discord_user_id', true ) );
 		return $this->discord_user_id;
 	}
 

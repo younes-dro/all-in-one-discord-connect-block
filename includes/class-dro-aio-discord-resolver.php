@@ -107,7 +107,7 @@ class Dro_AIO_Discord_Resolver {
 		// error_log( print_r( $service_class, true));
 		if ( class_exists( $service_class ) ) {
 
-			return new $service_class();
+			return $service_class::get_instance();
 		}
 		return null;
 	}

@@ -46,6 +46,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_Interface {
 
 
+		/**
+		 * The singleton instance of the class.
+		 *
+		 * @var self|null
+		 */
 	protected static ?self $instance = null;
 	/**
 	 * The plugin name for the PMPro Discord add-on.
@@ -281,7 +286,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 		$button_html .= '<a href="?action=discord-logout"
          class="dro-aio-discord-disconnect-button"
          id="pmpro-disconnect-discord"
-         data-user-id="' . $user_id . '"
+         data-user-id="' . esc_attr( $user_id ) . '"
          style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
 			. esc_html__( $button_text )
 			. '<i class="fab fa-discord"></i></a>';

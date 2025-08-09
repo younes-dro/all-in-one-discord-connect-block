@@ -263,8 +263,6 @@ class Dro_AIO_Discord_Rest_Api {
 			return $response;
 
 		} catch ( Exception $e ) {
-			// Log error for debugging
-			error_log( 'Discord REST API Error: ' . $e->getMessage() );
 
 			return new WP_Error(
 				'internal_error',
@@ -322,7 +320,6 @@ class Dro_AIO_Discord_Rest_Api {
 			return new WP_REST_Response( $response_data, 200 );
 
 		} catch ( Exception $e ) {
-			error_log( 'Discord Service Info Error: ' . $e->getMessage() );
 
 			return new WP_Error(
 				'internal_error',

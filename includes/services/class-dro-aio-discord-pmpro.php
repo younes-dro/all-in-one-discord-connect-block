@@ -46,6 +46,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_Interface {
 
 
+		/**
+		 * The singleton instance of the class.
+		 *
+		 * @var self|null
+		 */
+	protected static ?self $instance = null;
 	/**
 	 * The plugin name for the PMPro Discord add-on.
 	 *
@@ -63,6 +69,66 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * @var string
 	 */
 	private const PLUGIN_ICON = 'https://ps.w.org/pmpro-discord-add-on/assets/icon-256x256.png';
+
+	/**
+	 * Maps Discord user data properties to their corresponding WordPress user meta keys.
+	 *
+	 * This array is used by the base class to retrieve and assign Discord-related metadata
+	 * for a specific user. Each key represents a logical property, and each value is the
+	 * actual meta key stored in the WordPress database.
+	 *
+	 * Keys:
+	 * - 'discord_username'    → Meta key for the Discord username
+	 * - 'discord_user_avatar' → Meta key for the Discord avatar URL
+	 * - 'discord_user_id'     → Meta key for the Discord user ID
+	 *
+	 * @var array<string, string>
+	 */
+
+	protected array $discord_meta_keys = array(
+		'discord_username'    => '_ets_pmpro_discord_username',
+		'discord_user_avatar' => '_ets_pmpro_discord_avatar',
+		'discord_user_id'     => '_ets_pmpro_discord_user_id',
+		'access_token'        => '_ets_pmpro_discord_access_token',
+	);
+	/**
+	 * Private constructor to prevent direct instantiation.
+	 *
+	 * This enforces the singleton pattern by restricting object creation
+	 * to the `get_instance()` method.
+	 */
+	private function __construct() {
+	}
+	/**
+	 * Private clone method to prevent cloning of the singleton instance.
+	 *
+	 * Cloning is disabled to ensure that only one instance of the service exists.
+	 *
+	 * @return void
+	 */
+	private function __clone() {}
+	/**
+	 * Private wakeup method to prevent unserializing of the singleton instance.
+	 *
+	 * Unserialization is disabled to maintain the integrity of the singleton pattern.
+	 *
+	 * @return void
+	 */
+	private function __wakeup() {}
+
+
+	/**
+	 * Returns a singleton instance of the Discord service.
+	 *
+	 * Ensures that only one instance of the service is created and reused.
+	 * This method is typically used to access the service without directly instantiating it.
+	 *
+	 * @return Discord_Service_Interface The singleton instance of the service.
+	 */
+	public static function get_instance(): Discord_Service_Interface {
+
+		return self::$instance ?? new self();
+	}
 
 	/**
 	 * Get the plugin name for the PMPro Discord add-on.
@@ -84,27 +150,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 		return $this->check_active_plugin();
 	}
 
-	/**
-	 * Loads Discord user data for the PMPro service.
-	 *
-	 * Note: The PMPro Discord Add-on does not set the meta key `_ets_pmpro_discord_avatar`,
-	 * so it will typically return null. This key is retained for compatibility purposes.
-	 *
-	 * @param int $user_id The ID of the user whose Discord data should be loaded.
-	 * @return void
-	 */
-	public function load_discord_user_data( int $user_id ): void {
-		$username   = sanitize_text_field( get_user_meta( $user_id, '_ets_pmpro_discord_username', true ) );
-		$avatar     = sanitize_text_field( get_user_meta( $user_id, '_ets_pmpro_discord_avatar', true ) );
-		$discord_id = sanitize_text_field( get_user_meta( $user_id, '_ets_pmpro_discord_user_id', true ) );
 
-		$this->set_discord_user_name( $username ?: null );
-		$this->set_discord_user_avatar( $avatar ?: null );
-
-		$this->set_discord_user_id( (int) $discord_id ?: null );
-
-		$this->discord_user_id = $discord_id ? (int) $discord_id : null;
-	}
 
 	/**
 	 * Gets the discord connected account for a user.
@@ -137,21 +183,6 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	}
 
 	/**
-	 * Get the IDs of active Discord roles for a user.
-	 *
-	 * @param int $user_id The user ID.
-	 *
-	 * @return array<int>|null Array of Discord role IDs or null.
-	 */
-	public function get_user_active_discord_roles_ids( int $user_id ): array|null {
-		if ( function_exists( 'ets_pmpro_discord_get_current_level_ids' ) ) {
-			$curr_level_ids = \ets_pmpro_discord_get_current_level_ids( $user_id );
-
-		}
-		return is_array( $curr_level_ids ) ? $curr_level_ids : null;
-	}
-
-	/**
 	 * Get the service name.
 	 *
 	 * @return string The service identifier.
@@ -179,18 +210,11 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * @return string
 	 */
 	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {
-		$user_id                        = (int) sanitize_text_field( (int) get_current_user_id() );
-		$access_token                   = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_pmpro_discord_access_token', true ) ) );
-		$allow_none_member              = sanitize_text_field( trim( get_option( 'ets_pmpro_allow_none_member' ) ) );
-		$logged_in_text                 = isset( $attributes['loggedInText'] ) ? esc_html( $attributes['loggedInText'] ) : esc_html__( 'Connect to Discord', 'dro-aio-discord-block' );
-		$logged_out_text                = isset( $attributes['loggedOutText'] ) ? esc_html( $attributes['loggedOutText'] ) : esc_html__( 'Disconnect from Discord', 'dro-aio-discord-block' );
-		$connect_button_bg_color        = isset( $attributes['connectButtonBgColor'] ) ? esc_attr( $attributes['connectButtonBgColor'] ) : '#77a02e';
-		$connect_button_text_color      = isset( $attributes['connectButtonTextColor'] ) ? esc_attr( $attributes['connectButtonTextColor'] ) : '#ffffff';
-		$disconnect_button_bg_color     = isset( $attributes['disconnectButtonBgColor'] ) ? esc_attr( $attributes['disconnectButtonBgColor'] ) : '#ff0000';
-		$disconnect_button_text_color   = isset( $attributes['disconnectButtonTextColor'] ) ? esc_attr( $attributes['disconnectButtonTextColor'] ) : '#ffffff';
-		$discord_connected_account_text = isset( $attributes['discordConnectedAccountText'] ) ? esc_html( $attributes['discordConnectedAccountText'] ) : esc_html__( 'Connected account:', 'dro-aio-discord-block' );
-		$role_will_assign_text          = isset( $attributes['roleWillAssignText'] ) ? esc_html( $attributes['roleWillAssignText'] ) : esc_html__( 'You will be assigned the following Discord roles:', 'dro-aio-discord-block' );
-		$role_assigned_text             = isset( $attributes['roleAssignedText'] ) ? esc_html( $attributes['roleAssignedText'] ) : esc_html__( 'You have been assigned the following Discord roles:', 'dro-aio-discord-block' );
+		$user_id           = (int) sanitize_text_field( (int) get_current_user_id() );
+		$access_token      = $this->get_user_access_token();
+		$allow_none_member = sanitize_text_field( trim( get_option( 'ets_pmpro_allow_none_member' ) ) );
+
+		extract( $this->set_block_attributes( $attributes ) );
 
 		$html = '';
 
@@ -198,21 +222,21 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 			$html .= $this->get_disconnect_button(
 				$user_id,
-				$disconnect_button_bg_color,
-				$disconnect_button_text_color,
-				$logged_out_text
+				$disconnectButtonBgColor,
+				$disconnectButtonTextColor,
+				$loggedOutText
 			);
-			$html .= $this->get_user_infos( $discord_connected_account_text, $user_id );
-			$html .= $this->get_user_roles( $role_assigned_text, $user_id );
+			$html .= $this->get_user_infos( $discordConnectedAccountText, $user_id );
+			$html .= $this->get_user_roles( $roleAssignedText, $user_id );
 
 		} elseif ( pmpro_hasMembershipLevel() || $allow_none_member == 'yes' ) {
 
 			$html .= $this->get_connect_button(
-				$connect_button_bg_color,
-				$connect_button_text_color,
-				$logged_in_text
+				$connectButtonBgColor,
+				$connectButtonTextColor,
+				$loggedInText
 			);
-			$html .= $this->get_user_roles( $role_will_assign_text, $user_id );
+			$html .= $this->get_user_roles( $roleWillAssignText, $user_id );
 		} else {
 			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'dro-aio-discord-block' ) . '</p>';
 		}
@@ -263,7 +287,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 		$button_html .= '<a href="?action=discord-logout"
          class="dro-aio-discord-disconnect-button"
          id="pmpro-disconnect-discord"
-         data-user-id="' . $user_id . '"
+         data-user-id="' . esc_attr( $user_id ) . '"
          style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
 			. esc_html__( $button_text )
 			. '<i class="fab fa-discord"></i></a>';

@@ -8,11 +8,12 @@ Requires PHP:      7.4
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-A Gutenberg block that allows users to connect their Discord accounts with customizable styling for add-ons that link users to Discord servers and assign roles.
+A Gutenberg block to connect Discord accounts with customizable buttons and support for membership plugin add-ons.
 
 == Description ==
 
-**All In One Discord Connect Block** is a powerful Gutenberg block that enables users to connect their Discord accounts directly from any page or post. This block provides full customization options, including button text, colors, and styles, while dynamically displaying the user's connection status.
+**All In One Discord Connect Block** is a powerful Gutenberg block that enables users to connect their Discord accounts directly from any page or post.
+This block provides full customization options, including button text, colors, and styles, while dynamically displaying the user's connection status.
 
 Unlike traditional shortcodes, this block supports custom design variations based on the specific post or page it’s used on — giving you full control over layout and context-aware styling.
 
@@ -22,12 +23,13 @@ Unlike traditional shortcodes, this block supports custom design variations base
 This block is compatible with the following plugins:
 - [ExpressTech MemberPress Discord Add-on](https://wordpress.org/plugins/expresstechsoftwares-memberpress-discord-add-on/)
 - [PMPro Discord Add-on](https://wordpress.org/plugins/pmpro-discord-add-on/)
+- [Connect Ultimate Member to Discord](https://wordpress.org/plugins/ultimate-member-discord-add-on/)
 
 ### Features:
 - Connect Discord accounts using a fully customizable button.
 - Display the user’s Discord role if connected.
 - Show a "Disconnect" button for users who are already linked.
-- Compatible with multiple membership plugins (PMPro, MemberPress, LearnPress, etc.).
+- Compatible with multiple membership plugins (PMPro, MemberPress, Ultimate Member).
 - No coding required – customize everything visually in the block editor.
 
 == Installation ==
@@ -43,14 +45,16 @@ This section describes how to install the plugin and get it working.
 This block allows users to connect their Discord accounts directly from any page or post using a visually customizable button.
 
 = Does this block work with any Discord integration plugin? =
-Currently, it supports the PMPro and MemberPress Discord add-ons, but it may work with other similar plugins as well.
+Currently, it supports the PMPro, MemberPress, and Ultimate Member Discord add-ons, but it may work with other similar plugins as well.
 
 = Can I customize the button style? =
 Yes! You can customize the button’s text, colors, and size directly within the Gutenberg editor.
 
+= Can I preview changes live before saving? =
+Yes! The block includes a Play/Stop toggle that lets you render the live frontend output instantly inside the editor. This helps you see exactly how the block will appear to users — without needing to reload or publish the page.
+
 == Screenshots ==
 
-(Screenshots will go here)
 
 == Changelog ==
 

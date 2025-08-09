@@ -234,7 +234,6 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 		$html = '';
 
 		if ( ets_memberpress_discord_check_saved_settings_status() && $access_token ) {
-
 			$html .= $this->get_disconnect_button(
 				$user_id,
 				$disconnectButtonBgColor,
@@ -243,9 +242,7 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 			);
 			$html .= $this->get_user_infos( $discordConnectedAccountText, $user_id );
 			$html .= $this->get_user_roles( $roleAssignedText, $user_id );
-
 		} elseif ( current_user_can( 'memberpress_authorized' ) && $mapped_role_ids || $allow_none_member == 'yes' ) {
-
 			$html .= $this->get_connect_button(
 				$connectButtonBgColor,
 				$connectButtonTextColor,

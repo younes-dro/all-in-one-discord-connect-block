@@ -78,7 +78,6 @@ class Dro_AIO_Discord_Resolver {
 	public static function resolve(): ?Dro_AIO_Discord_Service_Interface {
 
 		if ( self::$active_service !== null ) {
-
 			return self::$active_service;
 		}
 
@@ -88,7 +87,6 @@ class Dro_AIO_Discord_Resolver {
 
 		foreach ( self::$priority_map as $plugin_slug => $service_key ) {
 			if ( is_plugin_active( $plugin_slug ) ) {
-
 				self::$active_service = self::set_active_service( $service_key );
 				break;
 			} else {
@@ -106,7 +104,6 @@ class Dro_AIO_Discord_Resolver {
 		$service_class = '\\Dro\\AIODiscordBlock\\includes\\Services\\Dro_AIO_Discord_' . ucfirst( $service_name );
 
 		if ( class_exists( $service_class ) ) {
-
 			return $service_class::get_instance();
 		}
 		return null;

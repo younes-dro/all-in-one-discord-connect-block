@@ -231,7 +231,6 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 		$html = '';
 
 		if ( Check_saved_settings_status() && $access_token ) {
-
 			$html .= $this->get_disconnect_button(
 				$user_id,
 				$disconnectButtonBgColor,
@@ -240,9 +239,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 			);
 			$html .= $this->get_user_infos( $discordConnectedAccountText, $user_id );
 			$html .= $this->get_user_roles( $roleAssignedText, $user_id );
-
 		} elseif ( pmpro_hasMembershipLevel() || $allow_none_member == 'yes' ) {
-
 			$html .= $this->get_connect_button(
 				$connectButtonBgColor,
 				$connectButtonTextColor,

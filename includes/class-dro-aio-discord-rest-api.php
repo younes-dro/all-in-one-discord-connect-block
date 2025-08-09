@@ -168,7 +168,6 @@ class Dro_AIO_Discord_Rest_Api {
 		$nonce = $request->get_header( 'X-WP-Nonce' );
 
 		if ( empty( $nonce ) ) {
-
 			$nonce = $request->get_param( '_wpnonce' );
 		}
 
@@ -261,9 +260,7 @@ class Dro_AIO_Discord_Rest_Api {
 			$response->header( 'Cache-Control', 'public, max-age=3600' );
 
 			return $response;
-
 		} catch ( Exception $e ) {
-
 			return new WP_Error(
 				'internal_error',
 				__( 'An internal error occurred while fetching the icon.', 'dro-aio-discord-block' ),
@@ -318,9 +315,7 @@ class Dro_AIO_Discord_Rest_Api {
 			);
 
 			return new WP_REST_Response( $response_data, 200 );
-
 		} catch ( Exception $e ) {
-
 			return new WP_Error(
 				'internal_error',
 				__( 'An internal error occurred while fetching service information.', 'dro-aio-discord-block' ),

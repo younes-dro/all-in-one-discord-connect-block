@@ -117,7 +117,6 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 		$html = '';
 
 		if ( ultimatemember_discord_check_saved_settings_status() && $access_token ) {
-
 			$html .= $this->get_disconnect_button(
 				$user_id,
 				$disconnectButtonBgColor,
@@ -127,7 +126,6 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 			$html .= $this->get_user_infos( $discordConnectedAccountText, $user_id );
 			$html .= $this->get_user_roles( $roleAssignedText, $user_id );
 		} else {
-
 			$html .= $this->get_connect_button(
 				$connectButtonBgColor,
 				$connectButtonTextColor,

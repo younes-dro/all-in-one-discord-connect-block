@@ -45,7 +45,6 @@ class Dro_AIO_Discord_Resolver {
 	 * - PMPro Discord Add-On
 	 * - MemberPress Discord Add-On
 	 * - Ultimate Member Discord Add-On
-	 * - Tutor LMS Discord Add-On
 	 *
 	 * @var array
 	 */
@@ -53,7 +52,6 @@ class Dro_AIO_Discord_Resolver {
 		'pmpro-discord-add-on/pmpro-discord.php' => 'Pmpro',
 		'expresstechsoftwares-memberpress-discord-add-on/memberpress-discord.php' => 'MemberPress',
 		'ultimate-member-discord-add-on/ultimate-member-discord-add-on.php' => 'UltimateMember',
-		'connect-discord-tutor-lms/connect-discord-tutor-lms.php' => 'tutor_lms',
 
 	);
 

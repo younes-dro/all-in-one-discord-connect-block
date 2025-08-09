@@ -1,4 +1,4 @@
-name: Build and Package WordPress Plugin
+name: Build and Package AIO Discord Connect Block
 
 on:
   push:

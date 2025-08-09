@@ -1,0 +1,187 @@
+name: Build and Package WordPress Plugin
+
+on:
+  push:
+    branches:
+      - "feature/16-17-add-um-tutorlms" # Testing on your working branch
+      - main # Production builds
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - main
+
+env:
+  PLUGIN_SLUG: all-in-one-discord-connect-block
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests (if available)
+        run: |
+          if [ -f "package.json" ] && grep -q '"test"' package.json; then
+            npm test
+          else
+            echo "No tests found, skipping..."
+          fi
+        continue-on-error: true
+
+      - name: Build project
+        run: npm run build
+
+      - name: Extract plugin information
+        id: plugin_info
+        run: |
+          # Find the main plugin file
+          MAIN_FILE=$(find . -maxdepth 1 -name "*.php" -exec grep -l "Plugin Name:" {} \; | head -n1)
+
+          if [ -z "$MAIN_FILE" ]; then
+            echo "No main plugin file found, using defaults"
+            echo "plugin_name=${{ env.PLUGIN_SLUG }}" >> $GITHUB_OUTPUT
+            echo "version=1.0.0" >> $GITHUB_OUTPUT
+          else
+            # Extract plugin name and version
+            PLUGIN_NAME=$(grep "Plugin Name:" "$MAIN_FILE" | sed 's/.*Plugin Name:\s*//' | sed 's/\s*$//')
+            VERSION=$(grep "Version:" "$MAIN_FILE" | sed 's/.*Version:\s*//' | sed 's/\s*$//')
+
+            if [ -z "$VERSION" ]; then
+              VERSION="1.0.0"
+            fi
+
+            echo "plugin_name=${PLUGIN_NAME:-${{ env.PLUGIN_SLUG }}}" >> $GITHUB_OUTPUT
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "main_file=$MAIN_FILE" >> $GITHUB_OUTPUT
+          fi
+
+          # Create timestamp
+          echo "timestamp=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_OUTPUT
+
+      - name: Prepare plugin directory
+        run: |
+          # Create plugin directory
+          mkdir -p ${{ env.PLUGIN_SLUG }}
+
+          # Copy main plugin files
+          find . -maxdepth 1 -name "*.php" -exec cp {} ${{ env.PLUGIN_SLUG }}/ \;
+
+          # Copy documentation
+          find . -maxdepth 1 \( -name "*.txt" -o -name "*.md" -o -name "LICENSE*" \) -exec cp {} ${{ env.PLUGIN_SLUG }}/ \;
+
+          # Copy essential directories
+          [ -d "build" ] && cp -r build ${{ env.PLUGIN_SLUG }}/
+          [ -d "includes" ] && cp -r includes ${{ env.PLUGIN_SLUG }}/
+          [ -d "assets" ] && cp -r assets ${{ env.PLUGIN_SLUG }}/
+          [ -d "languages" ] && cp -r languages ${{ env.PLUGIN_SLUG }}/
+          [ -d "templates" ] && cp -r templates ${{ env.PLUGIN_SLUG }}/
+
+          # Create .distignore file to exclude development files
+          cat > .distignore << EOF
+          .git
+          .github
+          node_modules
+          src
+          .gitignore
+          .distignore
+          package.json
+          package-lock.json
+          webpack.config.js
+          .babelrc
+          .eslintrc.js
+          phpunit.xml
+          tests/
+          .phpcs.xml
+          composer.json
+          composer.lock
+          vendor/
+          *.log
+          .DS_Store
+          EOF
+
+      - name: Generate plugin info file
+        run: |
+          cat > ${{ env.PLUGIN_SLUG }}/plugin-info.json << EOF
+          {
+            "name": "${{ steps.plugin_info.outputs.plugin_name }}",
+            "slug": "${{ env.PLUGIN_SLUG }}",
+            "version": "${{ steps.plugin_info.outputs.version }}",
+            "build_date": "${{ steps.plugin_info.outputs.timestamp }}",
+            "commit": "${{ github.sha }}",
+            "branch": "${{ github.ref_name }}"
+          }
+          EOF
+
+      - name: Create plugin packages
+        run: |
+          # Create versioned ZIP
+          zip -r "${{ env.PLUGIN_SLUG }}-v${{ steps.plugin_info.outputs.version }}.zip" ${{ env.PLUGIN_SLUG }}
+
+          # Create latest ZIP
+          cp "${{ env.PLUGIN_SLUG }}-v${{ steps.plugin_info.outputs.version }}.zip" "${{ env.PLUGIN_SLUG }}-latest.zip"
+
+          # Create timestamped ZIP for development
+          cp "${{ env.PLUGIN_SLUG }}-v${{ steps.plugin_info.outputs.version }}.zip" "${{ env.PLUGIN_SLUG }}-${{ steps.plugin_info.outputs.timestamp }}.zip"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: wordpress-plugin-${{ steps.plugin_info.outputs.version }}
+          path: |
+            *.zip
+            ${{ env.PLUGIN_SLUG }}/plugin-info.json
+          retention-days: 90
+
+      # Only create release on main branch pushes or tags
+      - name: Create GitHub Release
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('v{0}', steps.plugin_info.outputs.version) }}
+          name: ${{ steps.plugin_info.outputs.plugin_name }} v${{ steps.plugin_info.outputs.version }}
+          body: |
+            ## ${{ steps.plugin_info.outputs.plugin_name }} v${{ steps.plugin_info.outputs.version }}
+
+            **Release Information:**
+            - 🏷️ Version: ${{ steps.plugin_info.outputs.version }}
+            - 📅 Build Date: ${{ steps.plugin_info.outputs.timestamp }}
+            - 🔗 Commit: ${{ github.sha }}
+            - 🌿 Branch: ${{ github.ref_name }}
+
+            **Installation:**
+            1. Download the ZIP file below
+            2. Go to WordPress Admin → Plugins → Add New → Upload Plugin
+            3. Upload the ZIP file and activate
+
+            **Files included:**
+            - Main plugin files
+            - Built assets (from npm run build)
+            - Business logic (includes folder)
+            - Documentation
+          files: |
+            ${{ env.PLUGIN_SLUG }}-v${{ steps.plugin_info.outputs.version }}.zip
+            ${{ env.PLUGIN_SLUG }}-latest.zip
+          draft: false
+          prerelease: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Optional: Deploy to WordPress.org (requires additional setup)
+      - name: Deploy to WordPress.org
+        if: startsWith(github.ref, 'refs/tags/') && contains(github.event.head_commit.message, '[deploy]')
+        run: |
+          echo "🚀 This is where you would deploy to WordPress.org"
+          echo "You would need to set up SVN credentials and deployment script"
+          # This requires additional setup with WordPress.org SVN credentials

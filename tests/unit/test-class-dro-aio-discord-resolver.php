@@ -35,10 +35,6 @@ class Dro_AIO_Discord_Resolver_Test extends WP_UnitTestCase {
                 'ultimate-member-discord-add-on/ultimate-member-discord-add-on',
                 'Dro\\AIODiscordBlock\\includes\\Services\\Dro_AIO_Discord_Ultimate_Member',
             ],
-            'tutor_lms' => [
-                'connect-discord-tutor-lms/connect-discord-tutor-lms.php',
-                'Dro\\AIODiscordBlock\\includes\\Services\\Dro_AIO_Discord_Tutor_LMS',
-            ],
         ];
     }
 

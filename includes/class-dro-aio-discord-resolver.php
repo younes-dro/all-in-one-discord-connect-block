@@ -45,7 +45,6 @@ class Dro_AIO_Discord_Resolver {
 	 * - PMPro Discord Add-On
 	 * - MemberPress Discord Add-On
 	 * - Ultimate Member Discord Add-On
-	 * - Tutor LMS Discord Add-On
 	 *
 	 * @var array
 	 */
@@ -53,7 +52,6 @@ class Dro_AIO_Discord_Resolver {
 		'pmpro-discord-add-on/pmpro-discord.php' => 'Pmpro',
 		'expresstechsoftwares-memberpress-discord-add-on/memberpress-discord.php' => 'MemberPress',
 		'ultimate-member-discord-add-on/ultimate-member-discord-add-on.php' => 'UltimateMember',
-		'connect-discord-tutor-lms/connect-discord-tutor-lms.php' => 'tutor_lms',
 
 	);
 
@@ -78,7 +76,6 @@ class Dro_AIO_Discord_Resolver {
 	public static function resolve(): ?Dro_AIO_Discord_Service_Interface {
 
 		if ( self::$active_service !== null ) {
-
 			return self::$active_service;
 		}
 
@@ -88,7 +85,6 @@ class Dro_AIO_Discord_Resolver {
 
 		foreach ( self::$priority_map as $plugin_slug => $service_key ) {
 			if ( is_plugin_active( $plugin_slug ) ) {
-
 				self::$active_service = self::set_active_service( $service_key );
 				break;
 			} else {
@@ -106,7 +102,6 @@ class Dro_AIO_Discord_Resolver {
 		$service_class = '\\Dro\\AIODiscordBlock\\includes\\Services\\Dro_AIO_Discord_' . ucfirst( $service_name );
 
 		if ( class_exists( $service_class ) ) {
-
 			return $service_class::get_instance();
 		}
 		return null;

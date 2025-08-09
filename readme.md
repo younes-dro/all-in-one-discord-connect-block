@@ -12,7 +12,6 @@
 - Conditional visibility based on login status
 - Seamless integration with popular plugins:
   - **Membership:** Paid Memberships Pro, MemberPress, Ultimate Member
-  - **LMS:** Tutor LMS, LearnDash, LifterLMS
 - Developer-friendly: Easily extensible with hooks and filters
 
 ---
@@ -60,8 +59,5 @@ This plugin supports out-of-the-box integrations with:
   - Paid Memberships Pro
   - MemberPress
   - Ultimate Member
-
-- **LMS Plugins:**
-  - Tutor LMS
 
 ---

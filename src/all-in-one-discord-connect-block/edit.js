@@ -16,12 +16,12 @@ import {
 	ToolbarButton,
 	Spinner,
 } from '@wordpress/components';
-import { brush, overlayText } from '@wordpress/icons';
+import { brush, overlayText, cautionFilled } from '@wordpress/icons';
 import { DiscordIcon, PlayIcon, StopIcon, LivePreviewBadge } from './assets/components';
 import { ServiceIconSVG } from './assets/CustomServiceIcon';
 import './editor.scss';
 
-const textDomain = 'dro-aio-discord-block';
+const textDomain = 'all-in-one-discord-connect-block';
 
 /**
  * Edit function for the All In One Discord Connect Block.
@@ -72,12 +72,12 @@ export default function Edit({ attributes, setAttributes }) {
 					setServiceIconName(response.data.service_name);
 
 				} else {
-					throw new Error(__('No icon URL found in response', 'dro-aio-discord-block'));
+					throw new Error(__('No icon URL found in response', textDomain));
 				}
 
 			} catch (err) {
-				console.error('Error fetching Discord service icon:', err);
-				setServiceIconError(err.message || __('Failed to fetch service icon', 'dro-aio-discord-block'));
+				console.info('Error fetching Discord service icon:', err);
+				setServiceIconError(err.message || __('Failed to fetch service icon', textDomain));
 			} finally {
 				setServiceIconLoading(false);
 			}
@@ -187,7 +187,7 @@ export default function Edit({ attributes, setAttributes }) {
 					<ToolbarButton
 						icon={isServiceIconLoading
 							? (<Spinner />) : isServiceIconError ? (
-								caution
+								<Icon icon={cautionFilled} />
 							) :
 								(
 									<Icon icon={() => <ServiceIconSVG iconURL={serviceIconURL} size={20} />} />

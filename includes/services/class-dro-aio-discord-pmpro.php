@@ -100,21 +100,33 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	private function __construct() {
 	}
 	/**
-	 * Private clone method to prevent cloning of the singleton instance.
-	 *
-	 * Cloning is disabled to ensure that only one instance of the service exists.
+	 * Prevent cloning of the instance.
 	 *
 	 * @return void
 	 */
-	private function __clone() {}
+	public function __clone() {
+
+		$cloning_message = sprintf(
+			/* translators: %s is the class name that cannot be cloned */
+			esc_html__( 'You cannot clone instance of %s', 'all-in-one-discord-connect-block' ),
+			get_class( $this )
+		);
+		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+	}
 	/**
-	 * Private wakeup method to prevent unserializing of the singleton instance.
-	 *
-	 * Unserialization is disabled to maintain the integrity of the singleton pattern.
+	 * Prevent unserializing of the instance.
 	 *
 	 * @return void
 	 */
-	private function __wakeup() {}
+	public function __wakeup() {
+
+		$unserializing_message = sprintf(
+			/* translators: %s is the class name that cannot be unserialized */
+			esc_html__( 'You cannot unserialize instance of %s', 'all-in-one-discord-connect-block' ),
+			get_class( $this )
+		);
+		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+	}
 
 
 	/**
@@ -219,7 +231,6 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 		$html = '';
 
 		if ( Check_saved_settings_status() && $access_token ) {
-
 			$html .= $this->get_disconnect_button(
 				$user_id,
 				$disconnectButtonBgColor,
@@ -228,9 +239,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 			);
 			$html .= $this->get_user_infos( $discordConnectedAccountText, $user_id );
 			$html .= $this->get_user_roles( $roleAssignedText, $user_id );
-
 		} elseif ( pmpro_hasMembershipLevel() || $allow_none_member == 'yes' ) {
-
 			$html .= $this->get_connect_button(
 				$connectButtonBgColor,
 				$connectButtonTextColor,
@@ -238,16 +247,13 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 			);
 			$html .= $this->get_user_roles( $roleWillAssignText, $user_id );
 		} else {
-			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'dro-aio-discord-block' ) . '</p>';
+			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'all-in-one-discord-connect-block' ) . '</p>';
 		}
 
 		return $html;
 	}
 	/**
 	 * Generates the HTML markup for the Discord connect button.
-	 *
-	 * @since 1.0.0
-	 * @access private
 	 *
 	 * @param string $button_bg_color   Background color for the button.
 	 * @param string $button_text_color Text color for the button.
@@ -256,24 +262,22 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * @return string HTML markup for the connect button.
 	 */
 	private function get_connect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
-		$button_html  = '';
-		$current_url  = ets_pmpro_discord_get_current_screen_url();
-		$button_html .= '<a href="?action=discord-login&url=' . $current_url . '"
-        class="dro-aio-discord-connect-button"
-        style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
-		. esc_html( $button_text )
-		. '<i class="fab fa-discord"></i></a>';
+		$current_url = ets_pmpro_discord_get_current_screen_url();
 
-		return $button_html;
+		return sprintf(
+			'<a href="?action=discord-login&url=%s" class="dro-aio-discord-connect-button" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			esc_url( $current_url ),
+			esc_attr( $button_bg_color ),
+			esc_attr( $button_text_color ),
+			esc_html( $button_text )
+		);
 	}
+
 
 	/**
 	 * Generates the HTML markup for the Discord disconnect button.
 	 *
-	 * @since 1.0.0
-	 * @access private
-	 *
-	 * @param int    $user_id           ID of the user to disconnect.
+	 * @param int    $user_id           ID of the user.
 	 * @param string $button_bg_color   Background color for the button.
 	 * @param string $button_text_color Text color for the button.
 	 * @param string $button_text       Text displayed on the button.
@@ -283,35 +287,32 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	private function get_disconnect_button( int $user_id, string $button_bg_color, string $button_text_color, string $button_text ): string {
 		wp_enqueue_script( 'ets_pmpro_add_discord_script' );
 		wp_enqueue_style( 'ets_pmpro_add_discord_style' );
-		$button_html  = '';
-		$button_html .= '<a href="?action=discord-logout"
-         class="dro-aio-discord-disconnect-button"
-         id="pmpro-disconnect-discord"
-         data-user-id="' . esc_attr( $user_id ) . '"
-         style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
-			. esc_html__( $button_text )
-			. '<i class="fab fa-discord"></i></a>';
+
+		$button_html = sprintf(
+			'<a href="?action=discord-logout" class="dro-aio-discord-disconnect-button" id="pmpro-disconnect-discord" data-user-id="%s" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			esc_attr( $user_id ),
+			esc_attr( $button_bg_color ),
+			esc_attr( $button_text_color ),
+			esc_html( $button_text )
+		);
 
 		return $button_html . '<span class="ets-spinner"></span>';
 	}
-
-
-
 	/**
-	 * Get user information.
-	 * Discord username, avatar.
+	 * Get user information: Discord username and avatar.
 	 *
-	 * @param string $discord_connected_account_text
-	 * @param int    $user_id
-	 * @return string
+	 * @param string $discord_connected_account_text Text label for the connected account.
+	 * @param int    $user_id                        ID of the user.
+	 *
+	 * @return string|null HTML markup for user info.
 	 */
-	private function get_user_infos( $discord_connected_account_text, $user_id ): ?string {
-
-		return '<div class="user-infos">' .
-		'<span class="roles-text">' . esc_html( $discord_connected_account_text ) . '</span>'
-		. '<span class="connected-account">' . $this->get_user_connected_account( $user_id ) . '</span>'
-		. $this->get_user_avatar_img()
-		. '</div>';
+	private function get_user_infos( string $discord_connected_account_text, int $user_id ): ?string {
+		return sprintf(
+			'<div class="user-infos"><span class="roles-text">%s</span><span class="connected-account">%s</span>%s</div>',
+			esc_html( $discord_connected_account_text ),
+			$this->get_user_connected_account( $user_id ),
+			$this->get_user_avatar_img()
+		);
 	}
 
 	/**
@@ -332,10 +333,15 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 		$user_roles_html  = '';
 		$mapped_role_name = '';
-		if ( isset( $_GET['level'] ) && $_GET['level'] > 0 ) {
-			$curr_level_id = $_GET['level'];
+		if ( isset( $_GET['level'] ) ) {
+			$level_raw = wp_unslash( $_GET['level'] );
+			$level     = intval( $level_raw ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- native WordPress nonce is used
+
+			if ( $level > 0 ) {
+				$curr_level_id = $level;
+			}
 		} else {
-				$curr_level_id = ets_pmpro_discord_get_current_level_id( $user_id );
+			$curr_level_id = ets_pmpro_discord_get_current_level_id( $user_id );
 		}
 
 		$mapped_role_name = '';

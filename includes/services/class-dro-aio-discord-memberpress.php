@@ -88,6 +88,7 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 		'discord_username'    => '_ets_memberpress_discord_username',
 		'discord_user_avatar' => '_ets_memberpress_discord_avatar',
 		'discord_user_id'     => '_ets_memberpress_discord_user_id',
+		'access_token'        => '_ets_memberpress_discord_access_token',
 	);
 
 	/**
@@ -198,8 +199,9 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 	 * @return string
 	 */
 	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {
+
 		$user_id                              = (int) sanitize_text_field( (int) get_current_user_id() );
-		$access_token                         = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_memberpress_discord_access_token', true ) ) );
+		$access_token                         = $this->get_user_access_token();
 		$allow_none_member                    = sanitize_text_field( trim( get_option( 'ets_memberpress_discord_allow_none_member' ) ) );
 		$active_memberships                   = ets_memberpress_discord_get_active_memberships( $user_id );
 		$mapped_role_ids                      = array();
@@ -285,7 +287,7 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 	 * @return string HTML markup for the disconnect button.
 	 */
 	private function get_disconnect_button( int $user_id, string $button_bg_color, string $button_text_color, string $button_text ): string {
-		wp_enqueue_script( 'connect-memberpress-discord-add-on' );
+		wp_enqueue_script( 'connect-memberpress-discord-add-onpublic_js' );
 		wp_enqueue_style( 'connect-memberpress-discord-add-onpublic_css' );
 		$button_html = '';
 
@@ -353,7 +355,7 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 
 			foreach ( $mapped_role_ids as $mapped_role_id ) {
 				if ( isset( $roles_color[ $mapped_role_id ] ) ) {
-					$user_roles_html .= $this->get_discord_role_color_label( $all_roles, $mapped_role_id, $roles_color[ $mapped_role_id ] );
+					$user_roles_html .= $this->get_discord_role_color_label( $all_roles, (int) $mapped_role_id, $roles_color[ $mapped_role_id ] );
 				}
 			}
 

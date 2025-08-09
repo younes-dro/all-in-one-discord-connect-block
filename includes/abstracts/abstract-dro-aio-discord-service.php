@@ -63,6 +63,13 @@ abstract class Dro_AIO_Discord_Service {
 	protected ?string $discord_user_name = null;
 
 	/**
+	 * The user discord access token
+	 *
+	 * @var string|null
+	 */
+	protected ?string $user_access_token = null;
+
+	/**
 	 * The Block attributes with default values.
 	 *
 	 * @var array
@@ -106,6 +113,7 @@ abstract class Dro_AIO_Discord_Service {
 		'discord_username'    => '',
 		'discord_user_avatar' => '',
 		'discord_user_id'     => '',
+		'access_token'        => '',
 	);
 
 	/**
@@ -143,6 +151,9 @@ abstract class Dro_AIO_Discord_Service {
 					break;
 				case 'discord_user_id':
 					$this->set_discord_user_id( $value ? (int) $value : null );
+					break;
+				case 'access_token':
+					$this->set_user_access_token( $value ?: null );
 					break;
 			}
 		}
@@ -206,6 +217,14 @@ abstract class Dro_AIO_Discord_Service {
 	 */
 	public function set_discord_user_name( ?string $name ): void {
 		$this->discord_user_name = $name;
+	}
+
+	public function set_user_access_token( ?string $token ): void {
+		$this->user_access_token = $token;
+	}
+
+	public function get_user_access_token() {
+		return $this->user_access_token;
 	}
 
 	/**

@@ -16,7 +16,7 @@ import {
 	ToolbarButton,
 	Spinner,
 } from '@wordpress/components';
-import { brush, overlayText, caution } from '@wordpress/icons';
+import { brush, overlayText } from '@wordpress/icons';
 import { DiscordIcon, PlayIcon, StopIcon, LivePreviewBadge } from './assets/components';
 import { ServiceIconSVG } from './assets/CustomServiceIcon';
 import './editor.scss';

@@ -89,6 +89,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 		'discord_username'    => '_ets_pmpro_discord_username',
 		'discord_user_avatar' => '_ets_pmpro_discord_avatar',
 		'discord_user_id'     => '_ets_pmpro_discord_user_id',
+		'access_token'        => '_ets_pmpro_discord_access_token',
 	);
 	/**
 	 * Private constructor to prevent direct instantiation.
@@ -210,7 +211,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 */
 	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {
 		$user_id           = (int) sanitize_text_field( (int) get_current_user_id() );
-		$access_token      = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_pmpro_discord_access_token', true ) ) );
+		$access_token      = $this->get_user_access_token();
 		$allow_none_member = sanitize_text_field( trim( get_option( 'ets_pmpro_allow_none_member' ) ) );
 
 		extract( $this->set_block_attributes( $attributes ) );

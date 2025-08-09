@@ -27,7 +27,30 @@ try {
 } catch ( Throwable $e ) {
 	error_log( $e->getMessage() );
 }
+$allowed_html = array(
+	'div'  => array(
+		'class' => true,
+		'style' => true,
+	),
+	'a'    => array(
+		'href'         => true,
+		'class'        => true,
+		'style'        => true,
+		'id'           => true,
+		'data-user-id' => true,
+	),
+	'i'    => array(
+		'class' => true,
+		'style' => true,
+	),
+	'span' => array(
+		'class' => true,
+		'style' => true,
+	),
+	'img'  => array(
+		'src' => true,
+	),
 
-echo $render_block;
+);
 
-// echo wp_kses_post( $render_block );
+echo wp_kses( $render_block, $allowed_html );

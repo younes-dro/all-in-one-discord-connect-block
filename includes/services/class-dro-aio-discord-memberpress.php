@@ -109,7 +109,7 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 
 		$cloning_message = sprintf(
 			/* translators: %s is the class name that cannot be cloned */
-			esc_html__( 'You cannot clone instance of %s', 'dro-aio-discord-block' ),
+			esc_html__( 'You cannot clone instance of %s', 'all-in-one-discord-connect-block' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
@@ -123,7 +123,7 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 
 		$unserializing_message = sprintf(
 			/* translators: %s is the class name that cannot be unserialized */
-			esc_html__( 'You cannot unserialize instance of %s', 'dro-aio-discord-block' ),
+			esc_html__( 'You cannot unserialize instance of %s', 'all-in-one-discord-connect-block' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
@@ -250,7 +250,7 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 			);
 			$html .= $this->get_user_roles( $roleWillAssignText, $user_id );
 		} else {
-			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'dro-aio-discord-block' ) . '</p>';
+			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'all-in-one-discord-connect-block' ) . '</p>';
 		}
 
 		return $html;
@@ -295,7 +295,7 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 			esc_attr( $user_id ),
 			esc_attr( $button_bg_color ),
 			esc_attr( $button_text_color ),
-			esc_html__( $button_text )
+			esc_html( $button_text )
 		);
 
 		return $button_html . '<span class="ets-spinner"></span>';

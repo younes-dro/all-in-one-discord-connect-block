@@ -69,7 +69,7 @@ class Dro_AIO_Discord {
 
 		$cloning_message = sprintf(
 			/* translators: %s is the class name that cannot be cloned */
-			esc_html__( 'You cannot clone instance of %s', 'dro-aio-discord-block' ),
+			esc_html__( 'You cannot clone instance of %s', 'all-in-one-discord-connect-block' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );

@@ -108,7 +108,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 		$cloning_message = sprintf(
 			/* translators: %s is the class name that cannot be cloned */
-			esc_html__( 'You cannot clone instance of %s', 'dro-aio-discord-block' ),
+			esc_html__( 'You cannot clone instance of %s', 'all-in-one-discord-connect-block' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
@@ -122,7 +122,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 		$unserializing_message = sprintf(
 			/* translators: %s is the class name that cannot be unserialized */
-			esc_html__( 'You cannot unserialize instance of %s', 'dro-aio-discord-block' ),
+			esc_html__( 'You cannot unserialize instance of %s', 'all-in-one-discord-connect-block' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
@@ -247,7 +247,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 			);
 			$html .= $this->get_user_roles( $roleWillAssignText, $user_id );
 		} else {
-			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'dro-aio-discord-block' ) . '</p>';
+			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'all-in-one-discord-connect-block' ) . '</p>';
 		}
 
 		return $html;
@@ -293,7 +293,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 			esc_attr( $user_id ),
 			esc_attr( $button_bg_color ),
 			esc_attr( $button_text_color ),
-			esc_html__( $button_text )
+			esc_html( $button_text )
 		);
 
 		return $button_html . '<span class="ets-spinner"></span>';
@@ -333,10 +333,15 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 		$user_roles_html  = '';
 		$mapped_role_name = '';
-		if ( isset( $_GET['level'] ) && $_GET['level'] > 0 ) {
-			$curr_level_id = $_GET['level'];
+		if ( isset( $_GET['level'] ) ) {
+			$level_raw = wp_unslash( $_GET['level'] );
+			$level     = intval( $level_raw ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- native WordPress nonce is used
+
+			if ( $level > 0 ) {
+				$curr_level_id = $level;
+			}
 		} else {
-				$curr_level_id = ets_pmpro_discord_get_current_level_id( $user_id );
+			$curr_level_id = ets_pmpro_discord_get_current_level_id( $user_id );
 		}
 
 		$mapped_role_name = '';

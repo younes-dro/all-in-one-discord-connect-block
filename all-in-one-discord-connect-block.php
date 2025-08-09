@@ -10,7 +10,7 @@
  * Author URI:        https://github.com/younes-dro
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       dro-aio-discord-block
+ * Text Domain:       all-in-one-discord-connect-block
  *
  * @package AllInOneDiscordConnectBlock
  */

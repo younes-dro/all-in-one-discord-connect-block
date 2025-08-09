@@ -306,20 +306,22 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 
 
 	/**
-	 * Get user information.
-	 * Discord username, avatar.
+	 * Get user information: Discord username and avatar.
 	 *
-	 * @param string $discord_connected_account_text
-	 * @param int    $user_id
-	 * @return string
+	 * @param string $discord_connected_account_text Text label for the connected account.
+	 * @param int    $user_id                        ID of the user.
+	 *
+	 * @return string|null HTML markup for user info.
 	 */
-	private function get_user_infos( $discord_connected_account_text, $user_id ): ?string {
-		return '<div class="user-infos">' .
-		'<span class="roles-text">' . esc_html( $discord_connected_account_text ) . '</span>'
-		. '<span class="connected-account">' . $this->get_user_connected_account( $user_id ) . '</span>'
-		. $this->get_user_avatar_img()
-		. '</div>';
+	private function get_user_infos( string $discord_connected_account_text, int $user_id ): ?string {
+		return sprintf(
+			'<div class="user-infos"><span class="roles-text">%s</span><span class="connected-account">%s</span>%s</div>',
+			esc_html( $discord_connected_account_text ),
+			$this->get_user_connected_account( $user_id ),
+			$this->get_user_avatar_img()
+		);
 	}
+
 
 	/**
 	 * Get user roles.

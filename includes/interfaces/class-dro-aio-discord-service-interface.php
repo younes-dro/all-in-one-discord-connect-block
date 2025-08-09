@@ -54,7 +54,7 @@ interface Dro_AIO_Discord_Service_Interface {
 	 * @param integer $user_id
 	 * @return string|null
 	 */
-	public function get_user_connected_account( int $user_id ): string|null;
+	public function get_user_connected_account( int $user_id ): ?string;
 
 	/**
 	 * Renders the HTML for the Discord connect block.
@@ -79,7 +79,7 @@ interface Dro_AIO_Discord_Service_Interface {
 	 * @return array<int>|null An array of integer IDs, or null if no data
 	 *                         is found.
 	 */
-	public function get_user_access_context( int $user_id ): array|null;
+	public function get_user_access_context( int $user_id ): ?array;
 
 
 	/**

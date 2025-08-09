@@ -122,7 +122,7 @@ class Dro_AIO_Discord_Render {
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
 
 		if ( ! $this->active_service instanceof Discord_Service_Interface ) {
-			return '<p>' . esc_html__( 'No active Discord service found.', 'dro-aio-discord-block' ) . '</p>';
+			return '<h2>' . esc_html__( 'No active Discord service found.', 'dro-aio-discord-block' ) . '</h2>';
 		}
 
 		$html  = '';

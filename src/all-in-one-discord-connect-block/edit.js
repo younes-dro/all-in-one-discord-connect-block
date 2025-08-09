@@ -76,7 +76,7 @@ export default function Edit({ attributes, setAttributes }) {
 				}
 
 			} catch (err) {
-				console.error('Error fetching Discord service icon:', err);
+				console.info('Error fetching Discord service icon:', err);
 				setServiceIconError(err.message || __('Failed to fetch service icon', 'dro-aio-discord-block'));
 			} finally {
 				setServiceIconLoading(false);

@@ -261,10 +261,7 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 
 
 	/**
-	 * Generates the HTML markup for the Discord connect button.
-	 *
-	 * @since 1.0.0
-	 * @access private
+	 * Generates the HTML markup for the MemberPress Discord connect button.
 	 *
 	 * @param string $button_bg_color   Background color for the button.
 	 * @param string $button_text_color Text color for the button.
@@ -273,24 +270,19 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 	 * @return string HTML markup for the connect button.
 	 */
 	private function get_connect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
-		$button_html = '';
-
-		$button_html .= '<a href="?action=memberpress-discord-login"
-        class="dro-aio-discord-connect-button"
-        style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
-		. esc_html( $button_text )
-		. '<i class="fab fa-discord"></i></a>';
-
-		return $button_html;
+		return sprintf(
+			'<a href="?action=memberpress-discord-login" class="dro-aio-discord-connect-button" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			esc_attr( $button_bg_color ),
+			esc_attr( $button_text_color ),
+			esc_html( $button_text )
+		);
 	}
 
+
 	/**
-	 * Generates the HTML markup for the Discord disconnect button.
+	 * Generates the HTML markup for the MemberPress Discord disconnect button.
 	 *
-	 * @since 1.0.0
-	 * @access private
-	 *
-	 * @param int    $user_id           ID of the user to disconnect.
+	 * @param int    $user_id           ID of the user.
 	 * @param string $button_bg_color   Background color for the button.
 	 * @param string $button_text_color Text color for the button.
 	 * @param string $button_text       Text displayed on the button.
@@ -300,18 +292,18 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 	private function get_disconnect_button( int $user_id, string $button_bg_color, string $button_text_color, string $button_text ): string {
 		wp_enqueue_script( 'connect-memberpress-discord-add-onpublic_js' );
 		wp_enqueue_style( 'connect-memberpress-discord-add-onpublic_css' );
-		$button_html = '';
 
-		$button_html .= '<a href="#" class="ets-btn btn-disconnect"
-
-         id="memberpress-disconnect-discord"
-         data-user-id="' . esc_attr( $user_id ) . '"
-         style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
-			. esc_html__( $button_text )
-			. '<i class="fab fa-discord"></i></a>';
+		$button_html = sprintf(
+			'<a href="#" class="ets-btn btn-disconnect" id="memberpress-disconnect-discord" data-user-id="%s" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			esc_attr( $user_id ),
+			esc_attr( $button_bg_color ),
+			esc_attr( $button_text_color ),
+			esc_html__( $button_text )
+		);
 
 		return $button_html . '<span class="ets-spinner"></span>';
 	}
+
 
 	/**
 	 * Get user information.

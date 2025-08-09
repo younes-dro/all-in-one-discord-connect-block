@@ -16,7 +16,7 @@ import {
 	ToolbarButton,
 	Spinner,
 } from '@wordpress/components';
-import { brush, overlayText } from '@wordpress/icons';
+import { brush, overlayText, cautionFilled } from '@wordpress/icons';
 import { DiscordIcon, PlayIcon, StopIcon, LivePreviewBadge } from './assets/components';
 import { ServiceIconSVG } from './assets/CustomServiceIcon';
 import './editor.scss';
@@ -187,7 +187,7 @@ export default function Edit({ attributes, setAttributes }) {
 					<ToolbarButton
 						icon={isServiceIconLoading
 							? (<Spinner />) : isServiceIconError ? (
-								caution
+								<Icon icon={cautionFilled} />
 							) :
 								(
 									<Icon icon={() => <ServiceIconSVG iconURL={serviceIconURL} size={20} />} />

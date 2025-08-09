@@ -3,7 +3,6 @@ name: Build and Package AIO Discord Connect Block
 on:
   push:
     branches:
-      - "feature/16-17-add-um-tutorlms" # Testing on your working branch
       - main # Production builds
     tags:
       - "v*"

@@ -100,21 +100,33 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	private function __construct() {
 	}
 	/**
-	 * Private clone method to prevent cloning of the singleton instance.
-	 *
-	 * Cloning is disabled to ensure that only one instance of the service exists.
+	 * Prevent cloning of the instance.
 	 *
 	 * @return void
 	 */
-	private function __clone() {}
+	public function __clone() {
+
+		$cloning_message = sprintf(
+			/* translators: %s is the class name that cannot be cloned */
+			esc_html__( 'You cannot clone instance of %s', 'dro-aio-discord-block' ),
+			get_class( $this )
+		);
+		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+	}
 	/**
-	 * Private wakeup method to prevent unserializing of the singleton instance.
-	 *
-	 * Unserialization is disabled to maintain the integrity of the singleton pattern.
+	 * Prevent unserializing of the instance.
 	 *
 	 * @return void
 	 */
-	private function __wakeup() {}
+	public function __wakeup() {
+
+		$unserializing_message = sprintf(
+			/* translators: %s is the class name that cannot be unserialized */
+			esc_html__( 'You cannot unserialize instance of %s', 'dro-aio-discord-block' ),
+			get_class( $this )
+		);
+		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+	}
 
 
 	/**

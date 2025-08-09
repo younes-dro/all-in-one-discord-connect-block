@@ -101,22 +101,33 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 	}
 
 	/**
-	 * Private clone method to prevent cloning of the singleton instance.
-	 *
-	 * Cloning is disabled to ensure that only one instance of the service exists.
+	 * Prevent cloning of the instance.
 	 *
 	 * @return void
 	 */
-	private function __clone() {}
+	public function __clone() {
 
+		$cloning_message = sprintf(
+			/* translators: %s is the class name that cannot be cloned */
+			esc_html__( 'You cannot clone instance of %s', 'all-in-one-discord-connect-block' ),
+			get_class( $this )
+		);
+		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+	}
 	/**
-	 * Private wakeup method to prevent unserializing of the singleton instance.
-	 *
-	 * Unserialization is disabled to maintain the integrity of the singleton pattern.
+	 * Prevent unserializing of the instance.
 	 *
 	 * @return void
 	 */
-	private function __wakeup() {}
+	public function __wakeup() {
+
+		$unserializing_message = sprintf(
+			/* translators: %s is the class name that cannot be unserialized */
+			esc_html__( 'You cannot unserialize instance of %s', 'all-in-one-discord-connect-block' ),
+			get_class( $this )
+		);
+		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+	}
 
 	/**
 	 * Returns a singleton instance of the Discord service.
@@ -223,7 +234,6 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 		$html = '';
 
 		if ( ets_memberpress_discord_check_saved_settings_status() && $access_token ) {
-
 			$html .= $this->get_disconnect_button(
 				$user_id,
 				$disconnectButtonBgColor,
@@ -232,9 +242,7 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 			);
 			$html .= $this->get_user_infos( $discordConnectedAccountText, $user_id );
 			$html .= $this->get_user_roles( $roleAssignedText, $user_id );
-
 		} elseif ( current_user_can( 'memberpress_authorized' ) && $mapped_role_ids || $allow_none_member == 'yes' ) {
-
 			$html .= $this->get_connect_button(
 				$connectButtonBgColor,
 				$connectButtonTextColor,
@@ -242,7 +250,7 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 			);
 			$html .= $this->get_user_roles( $roleWillAssignText, $user_id );
 		} else {
-			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'dro-aio-discord-block' ) . '</p>';
+			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'all-in-one-discord-connect-block' ) . '</p>';
 		}
 
 		return $html;
@@ -250,10 +258,7 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 
 
 	/**
-	 * Generates the HTML markup for the Discord connect button.
-	 *
-	 * @since 1.0.0
-	 * @access private
+	 * Generates the HTML markup for the MemberPress Discord connect button.
 	 *
 	 * @param string $button_bg_color   Background color for the button.
 	 * @param string $button_text_color Text color for the button.
@@ -262,24 +267,19 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 	 * @return string HTML markup for the connect button.
 	 */
 	private function get_connect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
-		$button_html = '';
-
-		$button_html .= '<a href="?action=memberpress-discord-login"
-        class="dro-aio-discord-connect-button"
-        style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
-		. esc_html( $button_text )
-		. '<i class="fab fa-discord"></i></a>';
-
-		return $button_html;
+		return sprintf(
+			'<a href="?action=memberpress-discord-login" class="dro-aio-discord-connect-button" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			esc_attr( $button_bg_color ),
+			esc_attr( $button_text_color ),
+			esc_html( $button_text )
+		);
 	}
 
+
 	/**
-	 * Generates the HTML markup for the Discord disconnect button.
+	 * Generates the HTML markup for the MemberPress Discord disconnect button.
 	 *
-	 * @since 1.0.0
-	 * @access private
-	 *
-	 * @param int    $user_id           ID of the user to disconnect.
+	 * @param int    $user_id           ID of the user.
 	 * @param string $button_bg_color   Background color for the button.
 	 * @param string $button_text_color Text color for the button.
 	 * @param string $button_text       Text displayed on the button.
@@ -289,34 +289,36 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 	private function get_disconnect_button( int $user_id, string $button_bg_color, string $button_text_color, string $button_text ): string {
 		wp_enqueue_script( 'connect-memberpress-discord-add-onpublic_js' );
 		wp_enqueue_style( 'connect-memberpress-discord-add-onpublic_css' );
-		$button_html = '';
 
-		$button_html .= '<a href="#" class="ets-btn btn-disconnect"
-
-         id="memberpress-disconnect-discord"
-         data-user-id="' . esc_attr( $user_id ) . '"
-         style="background-color:' . esc_attr( $button_bg_color ) . '; color:' . esc_attr( $button_text_color ) . ';">'
-			. esc_html__( $button_text )
-			. '<i class="fab fa-discord"></i></a>';
+		$button_html = sprintf(
+			'<a href="#" class="ets-btn btn-disconnect" id="memberpress-disconnect-discord" data-user-id="%s" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			esc_attr( $user_id ),
+			esc_attr( $button_bg_color ),
+			esc_attr( $button_text_color ),
+			esc_html( $button_text )
+		);
 
 		return $button_html . '<span class="ets-spinner"></span>';
 	}
 
+
 	/**
-	 * Get user information.
-	 * Discord username, avatar.
+	 * Get user information: Discord username and avatar.
 	 *
-	 * @param string $discord_connected_account_text
-	 * @param int    $user_id
-	 * @return string
+	 * @param string $discord_connected_account_text Text label for the connected account.
+	 * @param int    $user_id                        ID of the user.
+	 *
+	 * @return string|null HTML markup for user info.
 	 */
-	private function get_user_infos( $discord_connected_account_text, $user_id ): ?string {
-		return '<div class="user-infos">' .
-		'<span class="roles-text">' . esc_html( $discord_connected_account_text ) . '</span>'
-		. '<span class="connected-account">' . $this->get_user_connected_account( $user_id ) . '</span>'
-		. $this->get_user_avatar_img()
-		. '</div>';
+	private function get_user_infos( string $discord_connected_account_text, int $user_id ): ?string {
+		return sprintf(
+			'<div class="user-infos"><span class="roles-text">%s</span><span class="connected-account">%s</span>%s</div>',
+			esc_html( $discord_connected_account_text ),
+			$this->get_user_connected_account( $user_id ),
+			$this->get_user_avatar_img()
+		);
 	}
+
 
 	/**
 	 * Get user roles.

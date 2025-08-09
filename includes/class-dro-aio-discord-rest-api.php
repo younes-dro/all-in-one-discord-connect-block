@@ -82,7 +82,7 @@ class Dro_AIO_Discord_Rest_Api {
 	public function __clone() {
 		$cloning_message = sprintf(
 			/* translators: %s is the class name that cannot be cloned */
-			esc_html__( 'You cannot clone instance of %s', 'dro-aio-discord-block' ),
+			esc_html__( 'You cannot clone instance of %s', 'all-in-one-discord-connect-block' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
@@ -97,7 +97,7 @@ class Dro_AIO_Discord_Rest_Api {
 	public function __wakeup() {
 		$unserializing_message = sprintf(
 			/* translators: %s is the class name that cannot be unserialized */
-			esc_html__( 'You cannot unserialize instance of %s', 'dro-aio-discord-block' ),
+			esc_html__( 'You cannot unserialize instance of %s', 'all-in-one-discord-connect-block' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
@@ -160,7 +160,7 @@ class Dro_AIO_Discord_Rest_Api {
 		if ( ! current_user_can( 'read' ) ) {
 			return new WP_Error(
 				'rest_forbidden',
-				__( 'You must be logged in to access this endpoint.', 'dro-aio-discord-block' ),
+				__( 'You must be logged in to access this endpoint.', 'all-in-one-discord-connect-block' ),
 				array( 'status' => 403 )
 			);
 		}
@@ -168,14 +168,13 @@ class Dro_AIO_Discord_Rest_Api {
 		$nonce = $request->get_header( 'X-WP-Nonce' );
 
 		if ( empty( $nonce ) ) {
-
 			$nonce = $request->get_param( '_wpnonce' );
 		}
 
 		if ( empty( $nonce ) ) {
 			return new WP_Error(
 				'missing_nonce',
-				__( 'Missing security token. Please refresh the page and try again.', 'dro-aio-discord-block' ),
+				__( 'Missing security token. Please refresh the page and try again.', 'all-in-one-discord-connect-block' ),
 				array( 'status' => 403 )
 			);
 		}
@@ -183,7 +182,7 @@ class Dro_AIO_Discord_Rest_Api {
 		if ( ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
 			return new WP_Error(
 				'invalid_nonce',
-				__( 'Invalid security token. Please refresh the page and try again.', 'dro-aio-discord-block' ),
+				__( 'Invalid security token. Please refresh the page and try again.', 'all-in-one-discord-connect-block' ),
 				array( 'status' => 403 )
 			);
 		}
@@ -199,7 +198,7 @@ class Dro_AIO_Discord_Rest_Api {
 
 		return new WP_Error(
 			'insufficient_permissions',
-			__( 'You do not have sufficient permissions to access this endpoint.', 'dro-aio-discord-block' ),
+			__( 'You do not have sufficient permissions to access this endpoint.', 'all-in-one-discord-connect-block' ),
 			array( 'status' => 403 )
 		);
 	}
@@ -221,7 +220,7 @@ class Dro_AIO_Discord_Rest_Api {
 			if ( ! $active_service instanceof Discord_Service_Interface ) {
 				return new WP_Error(
 					'no_active_service',
-					__( 'No active Discord service found.', 'dro-aio-discord-block' ),
+					__( 'No active Discord service found.', 'all-in-one-discord-connect-block' ),
 					array( 'status' => 404 )
 				);
 			}
@@ -230,7 +229,7 @@ class Dro_AIO_Discord_Rest_Api {
 			if ( empty( $service_icon ) ) {
 				return new WP_Error(
 					'no_icon_available',
-					__( 'No icon available for the active service.', 'dro-aio-discord-block' ),
+					__( 'No icon available for the active service.', 'all-in-one-discord-connect-block' ),
 					array( 'status' => 404 )
 				);
 			}
@@ -238,7 +237,7 @@ class Dro_AIO_Discord_Rest_Api {
 			if ( ! filter_var( $service_icon, FILTER_VALIDATE_URL ) ) {
 				return new WP_Error(
 					'invalid_icon_url',
-					__( 'Invalid icon URL returned from service.', 'dro-aio-discord-block' ),
+					__( 'Invalid icon URL returned from service.', 'all-in-one-discord-connect-block' ),
 					array( 'status' => 500 )
 				);
 			}
@@ -261,12 +260,10 @@ class Dro_AIO_Discord_Rest_Api {
 			$response->header( 'Cache-Control', 'public, max-age=3600' );
 
 			return $response;
-
 		} catch ( Exception $e ) {
-
 			return new WP_Error(
 				'internal_error',
-				__( 'An internal error occurred while fetching the icon.', 'dro-aio-discord-block' ),
+				__( 'An internal error occurred while fetching the icon.', 'all-in-one-discord-connect-block' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -287,7 +284,7 @@ class Dro_AIO_Discord_Rest_Api {
 			if ( ! $active_service instanceof Discord_Service_Interface ) {
 				return new WP_Error(
 					'no_active_service',
-					__( 'No active Discord service found.', 'dro-aio-discord-block' ),
+					__( 'No active Discord service found.', 'all-in-one-discord-connect-block' ),
 					array( 'status' => 404 )
 				);
 			}
@@ -318,12 +315,10 @@ class Dro_AIO_Discord_Rest_Api {
 			);
 
 			return new WP_REST_Response( $response_data, 200 );
-
 		} catch ( Exception $e ) {
-
 			return new WP_Error(
 				'internal_error',
-				__( 'An internal error occurred while fetching service information.', 'dro-aio-discord-block' ),
+				__( 'An internal error occurred while fetching service information.', 'all-in-one-discord-connect-block' ),
 				array( 'status' => 500 )
 			);
 		}

@@ -2,123 +2,248 @@
 /**
  * Ultimate Member Discord Service Implementation
  *
- * This class handles the Ultimate Member service for Discord integration.
- * It implements the Dro_AIO_Discord_Service_Interface and extends the abstract service.
- *
- * PHP version 7.4+
+ * Handles Discord integration for Ultimate Member plugin.
  *
  * @package  Dro\AIODiscordBlock\Services
  * @category Plugin
- * @author   Younes DRO <younesdro@gmail.com>
- * @license  GPL-2.0-or-later https://www.gnu.org/licenses/gpl-2.0.html
- * @version  GIT: 1.0.0
- * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
- * @since    1.0.0
+ * @author   Younes DRO
+ * @license  GPL-2.0-or-later
+ * @version  1.0.0
  */
+
+declare(strict_types=1);
 
 namespace Dro\AIODiscordBlock\includes\Services;
 
-use Dro\AIODiscordBlock\includes\Abstracts\Dro_AIO_Discord_Service;
-use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface;
+use Dro\AIODiscordBlock\includes\Abstracts\Dro_AIO_Discord_Service as Discord_Service;
+use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
- * Class Dro_AIO_Discord_UltimateMember
- *
- * Handles Ultimate Member service for Discord integration.
- *
- * @category Plugin
- * @package  Dro\AIODiscordBlock\Services
- * @author   Younes DRO <younesdro@gmail.com>
- * @license  GPL-2.0-or-later https://www.gnu.org/licenses/gpl-2.0.html
- * @version  Release: 1.0.0
- * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
- * @since    1.0.0
- */
-class Dro_AIO_Discord_UltimateMember extends Dro_AIO_Discord_Service implements Dro_AIO_Discord_Service_Interface {
+class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_Service_Interface {
 
-	/**
-	 * The plugin slug for the Ultimate Member Discord add-on.
-	 *
-	 * @since  1.0.0
-	 * @access private
-	 * @var    string
-	 */
+	protected static ?self $instance = null;
+
 	private const PLUGIN_NAME = 'ultimate-member-discord-add-on/ultimate-member-discord-add-on.php';
 
+	private const PLUGIN_ICON = 'https://ps.w.org/ultimate-member-discord-add-on/assets/icon-256x256.png';
+
+	protected array $discord_meta_keys = array(
+		'discord_username'    => '_ets_ultimatemember_discord_username',
+		'discord_user_avatar' => '_ets_ultimatemember_discord_avatar',
+		'discord_user_id'     => '_ets_ultimatemember_discord_user_id',
+		'access_token'        => '_ets_ultimatemember_discord_access_token',
+	);
+
 	/**
-	 * Get the plugin slug.
+	 * Private constructor to prevent direct instantiation.
 	 *
-	 * @return string
+	 * This enforces the singleton pattern by restricting object creation
+	 * to the `get_instance()` method.
 	 */
+	private function __construct() {
+	}
+	/**
+	 * Prevent cloning of the instance.
+	 *
+	 * @return void
+	 */
+	public function __clone() {
+
+		$cloning_message = sprintf(
+			/* translators: %s is the class name that cannot be cloned */
+			esc_html__( 'You cannot clone instance of %s', 'all-in-one-discord-connect-block' ),
+			get_class( $this )
+		);
+		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+	}
+	/**
+	 * Prevent unserializing of the instance.
+	 *
+	 * @return void
+	 */
+	public function __wakeup() {
+
+		$unserializing_message = sprintf(
+			/* translators: %s is the class name that cannot be unserialized */
+			esc_html__( 'You cannot unserialize instance of %s', 'all-in-one-discord-connect-block' ),
+			get_class( $this )
+		);
+		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+	}
+
+	public static function get_instance(): Discord_Service_Interface {
+		return self::$instance ?? new self();
+	}
+
 	protected function get_plugin_name(): string {
 		return self::PLUGIN_NAME;
 	}
 
-	/**
-	 * Check if Ultimate Member Discord plugin is active.
-	 *
-	 * @return bool
-	 */
 	public function is_plugin_active(): bool {
 		return $this->check_active_plugin();
 	}
 
-	/**
-	 * Get Discord username linked to this Ultimate Member account.
-	 *
-	 * @param int $user_id
-	 * @return string|null
-	 */
-	public function get_user_connected_account( int $user_id ): string|null {
-		return get_user_meta( $user_id, '_ets_um_discord_username', true ) ?: null;
+	public function get_user_connected_account( int $user_id ): string {
+		$discord_connected_account = $this->discord_user_name;
+		if ( strpos( $discord_connected_account, '#' ) !== false ) {
+			return esc_html( strstr( $discord_connected_account, '#', true ) );
+		}
+		return esc_html( $discord_connected_account );
 	}
 
-	/**
-	 * Get Ultimate Member role(s) or group context for the user.
-	 *
-	 * @param int $user_id
-	 * @return array<int>|null
-	 */
 	public function get_user_access_context( int $user_id ): ?array {
-		// TODO: Return array of Ultimate Member roles or group IDs.
+		// Ultimate Member doesn't use membership levels like PMPro.
+		// You may implement role-based logic here if needed.
 		return null;
 	}
 
-	/**
-	 * Get Discord role IDs based on Ultimate Member role.
-	 *
-	 * @param int $user_id
-	 * @return array<int>|null
-	 */
-	public function get_user_active_discord_roles_ids( int $user_id ): array|null {
-		// TODO: Map UM roles to Discord role IDs.
-		return null;
-	}
-
-	/**
-	 * Get internal service identifier.
-	 *
-	 * @return string
-	 */
 	public function get_service_name(): string {
 		return 'ultimate-member-discord-service';
 	}
 
+	public function get_service_icon_url(): string {
+		return self::PLUGIN_ICON;
+	}
+
+	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {
+		$user_id      = get_current_user_id();
+		$access_token = $this->get_user_access_token();
+
+		extract( $this->set_block_attributes( $attributes ) );
+
+		$html = '';
+
+		if ( ultimatemember_discord_check_saved_settings_status() && $access_token ) {
+			$html .= $this->get_disconnect_button(
+				$user_id,
+				$disconnectButtonBgColor,
+				$disconnectButtonTextColor,
+				$loggedOutText
+			);
+			$html .= $this->get_user_infos( $discordConnectedAccountText, $user_id );
+			$html .= $this->get_user_roles( $roleAssignedText, $user_id );
+		} else {
+			$html .= $this->get_connect_button(
+				$connectButtonBgColor,
+				$connectButtonTextColor,
+				$loggedInText
+			);
+			$html .= $this->get_user_roles( $roleWillAssignText, $user_id );
+		}
+
+		return $html;
+	}
 	/**
-	 * Base64-encoded service icon.
+	 * Generates the HTML markup for the Discord connect button.
 	 *
+	 * @param string $button_bg_color   Background color for the button.
+	 * @param string $button_text_color Text color for the button.
+	 * @param string $button_text       Text displayed on the button.
+	 *
+	 * @return string HTML markup for the connect button.
+	 */
+	private function get_connect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
+
+		return sprintf(
+			'<a href="?action=ultimate-discord" class="dro-aio-discord-connect-button" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			esc_attr( $button_bg_color ),
+			esc_attr( $button_text_color ),
+			esc_html( $button_text )
+		);
+	}
+
+	/**
+	 * Generates the HTML markup for the Discord disconnect button.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @param int    $user_id           ID of the user to disconnect.
+	 * @param string $button_bg_color   Background color for the button.
+	 * @param string $button_text_color Text color for the button.
+	 * @param string $button_text       Text displayed on the button.
+	 *
+	 * @return string HTML markup for the disconnect button.
+	 */
+	private function get_disconnect_button( int $user_id, string $button_bg_color, string $button_text_color, string $button_text ): string {
+		wp_enqueue_script( 'ultimate-member-discord-add-on' );
+		wp_enqueue_style( 'ultimate-member-discord-add-on' );
+
+		$button_html = sprintf(
+			'<a href="#" class="dro-aio-discord-disconnect-button" id="ultimate-member-disconnect-discord" data-user-id="%s" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			esc_attr( $user_id ),
+			esc_attr( $button_bg_color ),
+			esc_attr( $button_text_color ),
+			esc_html( $button_text )
+		);
+
+		return $button_html . '<span class="ets-spinner"></span>';
+	}
+
+
+
+	/**
+	 * Get user information.
+	 * Discord username, avatar.
+	 *
+	 * @param string $discord_connected_account_text
+	 * @param int    $user_id
 	 * @return string
 	 */
-	public function get_service_icon_url(): string {
-		// TODO: Provide base64 image of Ultimate Member icon.
-		return '';
+	private function get_user_infos( $discord_connected_account_text, $user_id ): ?string {
+
+		return sprintf(
+			'<div class="user-infos"><span class="roles-text">%s</span><span class="connected-account">%s</span>%s</div>',
+			esc_html( $discord_connected_account_text ),
+			$this->get_user_connected_account( $user_id ),
+			$this->get_user_avatar_img()
+		);
 	}
-	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {
-		// TODO: Implement the HTML block rendering logic.
-		return '';
+		/**
+		 * Get user roles.
+		 * This will return the user roles as a label.
+		 *
+		 * @param string $roles_text
+		 * @param  int    $user_id
+		 *
+		 * @return string
+		 */
+	private function get_user_roles( $roles_text, $user_id ): ?string {
+
+		$default_role                            = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_default_role_id' ) ) );
+		$ets_ultimatemember_discord_role_mapping = json_decode( get_option( 'ets_ultimatemember_discord_role_mapping' ), true );
+		$all_roles                               = unserialize( get_option( 'ets_ultimatemember_discord_all_roles' ) );
+		$roles_color                             = unserialize( get_option( 'ets_ultimatemember_discord_roles_color' ) );
+		$curr_level_id                           = ets_ultimatemember_discord_get_current_level_id( $user_id );
+		$user_roles_html                         = '';
+		$mapped_role_name                        = '';
+		if ( $curr_level_id && is_array( $all_roles ) ) {
+			if ( is_array( $ets_ultimatemember_discord_role_mapping ) && array_key_exists( 'ultimate-member_level_id_' . $curr_level_id, $ets_ultimatemember_discord_role_mapping ) ) {
+				$mapped_role_id = $ets_ultimatemember_discord_role_mapping[ 'ultimate-member_level_id_' . $curr_level_id ];
+				if ( array_key_exists( $mapped_role_id, $all_roles ) ) {
+					$mapped_role_name .= '<span> <i style="background-color:#' . dechex( $roles_color[ $mapped_role_id ] ) . '">' . $all_roles[ $mapped_role_id ] . '</i></span>';
+				}
+			}
+		}
+		$default_role_name = '';
+		if ( $default_role != 'none' && is_array( $all_roles ) && array_key_exists( $default_role, $all_roles ) ) {
+			$default_role_name = '<span><i style="background-color:#' . dechex( $roles_color[ $default_role ] ) . '">' . $all_roles[ $default_role ] . '</i></span>';
+		}
+
+		if ( $mapped_role_name || $default_role_name ) {
+			$user_roles_html .= '<span class="roles-text">' . $roles_text . '</span>';
+		}
+		if ( $mapped_role_name ) {
+			$user_roles_html .= ets_ultimatemember_discord_allowed_html( $mapped_role_name );
+		}
+
+		if ( $default_role_name ) {
+			$user_roles_html .= ets_ultimatemember_discord_allowed_html( $default_role_name );
+		}
+
+		return '<div class="user-infos">' . $user_roles_html . '</div>';
 	}
 }

@@ -265,6 +265,8 @@ abstract class Dro_AIO_Discord_Service {
 	 * @return string
 	 */
 	protected function get_user_avatar_img(): string {
+		// Prevent PHP notice: Undefined variable
+		$avatar_url = '';
 		if ( $this->discord_user_avatar ) {
 			$avatar_url = '<img src="https://cdn.discordapp.com/avatars/' . $this->discord_user_id . '/' . $this->discord_user_avatar . '.png" />';
 		}

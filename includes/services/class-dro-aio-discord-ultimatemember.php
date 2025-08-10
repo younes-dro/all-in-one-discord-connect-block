@@ -22,14 +22,51 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Service integration for Ultimate Member + Discord.
+ *
+ * @since 1.0.0
+ */
 class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_Service_Interface {
 
+	/**
+	 * The singleton instance.
+	 *
+	 * @since 1.0.0
+	 * @var self|null
+	 */
 	protected static ?self $instance = null;
 
+	/**
+	 * Main plugin file path used to detect whether the Ultimate Member Discord add-on is active.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
 	private const PLUGIN_NAME = 'ultimate-member-discord-add-on/ultimate-member-discord-add-on.php';
 
-	private const PLUGIN_ICON = 'https://ps.w.org/ultimate-member-discord-add-on/assets/icon-256x256.png';
+	/**
+	 * Unique internal service slug used for asset naming and identification.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	private const SERVICE_NAME = 'ultimate-member-discord-service';
 
+	/**
+	 * URL to the bundled service icon in the plugin's assets directory.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	private const PLUGIN_ICON = DRO_AIO_DISCORD_BLOCK_URL . '/assets/' . self::SERVICE_NAME . '.png';
+
+	/**
+	 * Mapping of logical Discord meta keys to their Ultimate Member add-on user_meta keys.
+	 *
+	 * @since 1.0.0
+	 * @var array<string,string>
+	 */
 	protected array $discord_meta_keys = array(
 		'discord_username'    => '_ets_ultimatemember_discord_username',
 		'discord_user_avatar' => '_ets_ultimatemember_discord_avatar',
@@ -42,12 +79,16 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 	 *
 	 * This enforces the singleton pattern by restricting object creation
 	 * to the `get_instance()` method.
+	 *
+	 * @since 1.0.0
 	 */
 	private function __construct() {
 	}
+
 	/**
 	 * Prevent cloning of the instance.
 	 *
+	 * @since 1.0.0
 	 * @return void
 	 */
 	public function __clone() {
@@ -59,9 +100,11 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
 	}
+
 	/**
 	 * Prevent unserializing of the instance.
 	 *
+	 * @since 1.0.0
 	 * @return void
 	 */
 	public function __wakeup() {
@@ -74,18 +117,45 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
 	}
 
+	/**
+	 * Return the singleton instance of this service.
+	 *
+	 * @since 1.0.0
+	 * @return Discord_Service_Interface
+	 */
 	public static function get_instance(): Discord_Service_Interface {
 		return self::$instance ?? new self();
 	}
 
+	/**
+	 * Get the dependent add-on plugin name (path) used for activation checks.
+	 *
+	 * @since 1.0.0
+	 * @return string Plugin file path.
+	 */
 	protected function get_plugin_name(): string {
 		return self::PLUGIN_NAME;
 	}
 
+	/**
+	 * Determine whether the Ultimate Member Discord add-on is active.
+	 *
+	 * @since 1.0.0
+	 * @return bool True if active, false otherwise.
+	 */
 	public function is_plugin_active(): bool {
 		return $this->check_active_plugin();
 	}
 
+	/**
+	 * Get the connected Discord username for the current user.
+	 *
+	 * Removes the discriminator suffix (e.g., #1234) if present.
+	 *
+	 * @since 1.0.0
+	 * @param int $user_id The user ID.
+	 * @return string The sanitized Discord username.
+	 */
 	public function get_user_connected_account( int $user_id ): string {
 		$discord_connected_account = $this->discord_user_name;
 		if ( strpos( $discord_connected_account, '#' ) !== false ) {
@@ -94,20 +164,52 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 		return esc_html( $discord_connected_account );
 	}
 
+	/**
+	 * Get the user access context used for role or permission mapping.
+	 *
+	 * Ultimate Member does not define membership levels; return null by default.
+	 *
+	 * @since 1.0.0
+	 * @param int $user_id The user ID.
+	 * @return array<string,mixed>|null Access context or null when not applicable.
+	 */
 	public function get_user_access_context( int $user_id ): ?array {
 		// Ultimate Member doesn't use membership levels like PMPro.
 		// You may implement role-based logic here if needed.
 		return null;
 	}
 
+	/**
+	 * Get the unique service name/slug.
+	 *
+	 * @since 1.0.0
+	 * @return string Service slug.
+	 */
 	public function get_service_name(): string {
-		return 'ultimate-member-discord-service';
+		return self::SERV;
 	}
 
+	/**
+	 * Get the URL for the service icon.
+	 *
+	 * @since 1.0.0
+	 * @return string Icon URL.
+	 */
 	public function get_service_icon_url(): string {
 		return self::PLUGIN_ICON;
 	}
 
+	/**
+	 * Build and return the HTML markup for the block frontend.
+	 *
+	 * Renders connect/disconnect UI, user info, and mapped roles based on the user's state.
+	 *
+	 * @since 1.0.0
+	 * @param array     $attributes Block attributes.
+	 * @param string    $content    Block content (unused).
+	 * @param \WP_Block $block      Block instance.
+	 * @return string Rendered HTML.
+	 */
 	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {
 		$user_id      = get_current_user_id();
 		$access_token = $this->get_user_access_token();
@@ -136,6 +238,7 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 
 		return $html;
 	}
+
 	/**
 	 * Generates the HTML markup for the Discord connect button.
 	 *
@@ -183,15 +286,13 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 		return $button_html . '<span class="ets-spinner"></span>';
 	}
 
-
-
 	/**
-	 * Get user information.
-	 * Discord username, avatar.
+	 * Get user information (Discord username and avatar).
 	 *
-	 * @param string $discord_connected_account_text
-	 * @param int    $user_id
-	 * @return string
+	 * @since 1.0.0
+	 * @param string $discord_connected_account_text Label preceding the connected account.
+	 * @param int    $user_id                        The user ID.
+	 * @return string|null Rendered HTML or null on failure.
 	 */
 	private function get_user_infos( $discord_connected_account_text, $user_id ): ?string {
 
@@ -202,15 +303,17 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 			$this->get_user_avatar_img()
 		);
 	}
-		/**
-		 * Get user roles.
-		 * This will return the user roles as a label.
-		 *
-		 * @param string $roles_text
-		 * @param  int    $user_id
-		 *
-		 * @return string
-		 */
+
+	/**
+	 * Get user roles label(s) to display.
+	 *
+	 * Outputs the mapped role (if any) and/or default role with color chips.
+	 *
+	 * @since 1.0.0
+	 * @param string $roles_text Label preceding the roles list.
+	 * @param int    $user_id    The user ID.
+	 * @return string|null Rendered HTML or null on failure.
+	 */
 	private function get_user_roles( $roles_text, $user_id ): ?string {
 
 		$default_role                            = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_default_role_id' ) ) );

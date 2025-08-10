@@ -60,6 +60,13 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * @var    string
 	 */
 	private const PLUGIN_NAME = 'pmpro-discord-add-on/pmpro-discord.php';
+	/**
+	 * Unique internal service slug used for asset naming and identification.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	private const SERVICE_NAME = 'pmpro-discord-service';
 
 	/**
 	 * The official icon URL for the service add-on.
@@ -68,7 +75,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * @access private
 	 * @var string
 	 */
-	private const PLUGIN_ICON = 'https://ps.w.org/pmpro-discord-add-on/assets/icon-256x256.png';
+	private const PLUGIN_ICON = DRO_AIO_DISCORD_BLOCK_URL . '/assets/' . self::SERVICE_NAME . '.png';
 
 	/**
 	 * Maps Discord user data properties to their corresponding WordPress user meta keys.
@@ -200,7 +207,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * @return string The service identifier.
 	 */
 	public function get_service_name(): string {
-		return 'pmpro-discord-service';
+		return self::SERVICE_NAME;
 	}
 
 	/**

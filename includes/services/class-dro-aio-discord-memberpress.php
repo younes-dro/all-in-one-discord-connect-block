@@ -62,13 +62,21 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 	private const PLUGIN_NAME = 'connect-memberpress-discord-add-on/memberpress-discord.php';
 
 	/**
+	 * Unique internal service slug used for asset naming and identification.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	private const SERVICE_NAME = 'memberpress-discord-service';
+
+	/**
 	 * The official icon URL for the service add-on.
 	 *
 	 * @since 1.0.0
 	 * @access private
 	 * @var string
 	 */
-	private const PLUGIN_ICON = 'https://ps.w.org/expresstechsoftwares-memberpress-discord-add-on/assets/icon-256x256.gif';
+	private const PLUGIN_ICON = DRO_AIO_DISCORD_BLOCK_URL . '/assets/' . self::SERVICE_NAME . '.gif';
 
 	/**
 	 * Maps Discord user data properties to their corresponding WordPress user meta keys.
@@ -189,7 +197,7 @@ class Dro_AIO_Discord_Memberpress extends Discord_Service implements Discord_Ser
 	 * @return string The service identifier.
 	 */
 	public function get_service_name(): string {
-		return 'memberpress-discord-service';
+		return self::SERVICE_NAME;
 	}
 
 	/**

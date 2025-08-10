@@ -26,7 +26,7 @@ try {
 	$render_block = Discord_Render::get_instance( $service )
 					->render( $attributes, $content, $block );
 } catch ( Throwable $e ) {
-	error_log( $e->getMessage() );
+	Discord_Helper::safe_log( $e );
 }
 
 echo wp_kses( $render_block, Discord_Helper::get_allowed_html() );

@@ -26,8 +26,9 @@ This block is compatible with the following plugins:
 - [Connect Ultimate Member to Discord](https://wordpress.org/plugins/ultimate-member-discord-add-on/)
 
 ### Features:
+- Real-time live preview in the editor with a Play/Stop toggle to see the exact frontend output instantly.
 - Connect Discord accounts using a fully customizable button.
-- Display the user’s Discord role if connected.
+- Display the user's Discord role if connected.
 - Show a "Disconnect" button for users who are already linked.
 - Compatible with multiple membership plugins (PMPro, MemberPress, Ultimate Member).
 - No coding required – customize everything visually in the block editor.

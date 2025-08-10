@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dro\AIODiscordBlock\includes\Dro_AIO_Discord_Render as Discord_Render;
 use Dro\AIODiscordBlock\includes\Dro_AIO_Discord_Resolver as Discord_Resolver;
+use Dro\AIODiscordBlock\includes\helpers\Dro_AIO_Discord_Helper as Discord_Helper;
 
 
 $user_id = get_current_user_id();
@@ -27,30 +28,5 @@ try {
 } catch ( Throwable $e ) {
 	error_log( $e->getMessage() );
 }
-$allowed_html = array(
-	'div'  => array(
-		'class' => true,
-		'style' => true,
-	),
-	'a'    => array(
-		'href'         => true,
-		'class'        => true,
-		'style'        => true,
-		'id'           => true,
-		'data-user-id' => true,
-	),
-	'i'    => array(
-		'class' => true,
-		'style' => true,
-	),
-	'span' => array(
-		'class' => true,
-		'style' => true,
-	),
-	'img'  => array(
-		'src' => true,
-	),
 
-);
-
-echo wp_kses( $render_block, $allowed_html );
+echo wp_kses( $render_block, Discord_Helper::get_allowed_html() );

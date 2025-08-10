@@ -263,15 +263,23 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 */
 	private function get_connect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
 		$current_url = ets_pmpro_discord_get_current_screen_url();
+		$encoded_url = rawurlencode( $current_url );
+		$link        = add_query_arg(
+			array(
+				'action' => 'discord-login',
+				'url'    => $encoded_url,
+			),
+		);
 
 		return sprintf(
-			'<a href="?action=discord-login&url=%s" class="dro-aio-discord-connect-button" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
-			esc_url( $current_url ),
+			'<a href="%s" class="dro-aio-discord-connect-button" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			esc_url( $link ),
 			esc_attr( $button_bg_color ),
 			esc_attr( $button_text_color ),
 			esc_html( $button_text )
 		);
 	}
+
 
 
 	/**

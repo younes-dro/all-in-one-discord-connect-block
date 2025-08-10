@@ -60,6 +60,13 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * @var    string
 	 */
 	private const PLUGIN_NAME = 'pmpro-discord-add-on/pmpro-discord.php';
+	/**
+	 * Unique internal service slug used for asset naming and identification.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	private const SERVICE_NAME = 'pmpro-discord-service';
 
 	/**
 	 * The official icon URL for the service add-on.
@@ -68,7 +75,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * @access private
 	 * @var string
 	 */
-	private const PLUGIN_ICON = 'https://ps.w.org/pmpro-discord-add-on/assets/icon-256x256.png';
+	private const PLUGIN_ICON = DRO_AIO_DISCORD_BLOCK_URL . '/assets/' . self::SERVICE_NAME . '.png';
 
 	/**
 	 * Maps Discord user data properties to their corresponding WordPress user meta keys.
@@ -200,7 +207,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * @return string The service identifier.
 	 */
 	public function get_service_name(): string {
-		return 'pmpro-discord-service';
+		return self::SERVICE_NAME;
 	}
 
 	/**
@@ -263,15 +270,23 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 */
 	private function get_connect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
 		$current_url = ets_pmpro_discord_get_current_screen_url();
+		$encoded_url = rawurlencode( $current_url );
+		$link        = add_query_arg(
+			array(
+				'action' => 'discord-login',
+				'url'    => $encoded_url,
+			),
+		);
 
 		return sprintf(
-			'<a href="?action=discord-login&url=%s" class="dro-aio-discord-connect-button" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
-			esc_url( $current_url ),
+			'<a href="%s" class="dro-aio-discord-connect-button" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			esc_url( $link ),
 			esc_attr( $button_bg_color ),
 			esc_attr( $button_text_color ),
 			esc_html( $button_text )
 		);
 	}
+
 
 
 	/**
@@ -333,16 +348,9 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 		$user_roles_html  = '';
 		$mapped_role_name = '';
-		if ( isset( $_GET['level'] ) ) {
-			$level_raw = wp_unslash( $_GET['level'] );
-			$level     = intval( $level_raw ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- native WordPress nonce is used
 
-			if ( $level > 0 ) {
-				$curr_level_id = $level;
-			}
-		} else {
-			$curr_level_id = ets_pmpro_discord_get_current_level_id( $user_id );
-		}
+		$curr_level_id = ets_pmpro_discord_get_current_level_id( $user_id );
+		
 
 		$mapped_role_name = '';
 		if ( $curr_level_id && is_array( $all_roles ) ) {

@@ -33,6 +33,8 @@ This block is compatible with the following plugins:
 - Compatible with multiple membership plugins (PMPro, MemberPress, Ultimate Member).
 - No coding required – customize everything visually in the block editor.
 
+This plugin's code is [available on GitHub](https://github.com/younes-dro/all-in-one-discord-connect-block). Please feel free to fork the repository and send a pull request. If you find a bug in the plugin, open an issue.
+
 == Installation ==
 
 This section describes how to install the plugin and get it working.

@@ -348,16 +348,9 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 		$user_roles_html  = '';
 		$mapped_role_name = '';
-		if ( isset( $_GET['level'] ) ) {
-			$level_raw = wp_unslash( $_GET['level'] );
-			$level     = intval( $level_raw ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- native WordPress nonce is used
 
-			if ( $level > 0 ) {
-				$curr_level_id = $level;
-			}
-		} else {
-			$curr_level_id = ets_pmpro_discord_get_current_level_id( $user_id );
-		}
+		$curr_level_id = ets_pmpro_discord_get_current_level_id( $user_id );
+		
 
 		$mapped_role_name = '';
 		if ( $curr_level_id && is_array( $all_roles ) ) {

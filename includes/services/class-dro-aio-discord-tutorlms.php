@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0
  */
-class Dro_AIO_Discord_TutorLMS extends Discord_Service implements Discord_Service_Interface {
+class Dro_AIO_Discord_TutorLms extends Discord_Service implements Discord_Service_Interface {
 	/**
 	 * The singleton instance.
 	 *
@@ -198,8 +198,9 @@ class Dro_AIO_Discord_TutorLMS extends Discord_Service implements Discord_Servic
 		extract( $this->set_block_attributes( $attributes ) );
 
 		$html = '';
-		if ( function_exists( 'ets_tutor_lms_discord_check_saved_settings_status()' ) ) {
+		if ( function_exists( 'ets_tutor_lms_discord_check_saved_settings_status' ) ) {
 			$allow_none_student = sanitize_text_field( trim( get_option( 'ets_tutor_lms_discord_allow_none_student' ) ) );
+			$default_role       = sanitize_text_field( trim( get_option( 'ets_tutor_lms_discord_default_role_id' ) ) );
 			if ( ets_tutor_lms_discord_check_saved_settings_status() && $access_token ) {
 				$html .= $this->get_disconnect_button(
 					$user_id,
@@ -209,8 +210,8 @@ class Dro_AIO_Discord_TutorLMS extends Discord_Service implements Discord_Servic
 				);
 				$html .= $this->get_user_infos( $discordConnectedAccountText, $user_id );
 				$html .= $this->get_user_roles( $roleAssignedText, $user_id );
-			} elseif ( ( ets_tutor_lms_discord_get_student_courses_ids( $user_id ) && $mapped_role_name )
-								|| ( $default_role_name != 'none' )
+			} elseif ( ( ets_tutor_lms_discord_get_student_courses_ids( $user_id ) && $this->get_mapped_role_name() )
+								|| ( $default_role != 'none' )
 								|| ( $allow_none_student == 'yes' ) ) {
 				$html .= $this->get_connect_button(
 					$connectButtonBgColor,
@@ -268,7 +269,49 @@ class Dro_AIO_Discord_TutorLMS extends Discord_Service implements Discord_Servic
 	 * @return string|null Rendered HTML or null on failure.
 	 */
 	private function get_user_roles( $roles_text, $user_id ): ?string {
-		$default_role               = sanitize_text_field( trim( get_option( 'ets_tutor_lms_discord_default_role_id' ) ) );
+		$default_role                       = sanitize_text_field( trim( get_option( 'ets_tutor_lms_discord_default_role_id' ) ) );
+		$ets_tutor_lms_discord_role_mapping = json_decode( get_option( 'ets_tutor_lms_discord_role_mapping' ), true );
+		$all_roles                          = unserialize( get_option( 'ets_tutor_lms_discord_all_roles' ) );
+		$roles_color                        = unserialize( get_option( 'ets_tutor_lms_discord_roles_color' ) );
+		$enrolled_courses                   = ets_tutor_lms_discord_get_student_courses_ids( $user_id );
+		$mapped_role_name                   = '';
+		$user_roles_html                    = '';
+		if ( is_array( $enrolled_courses ) && is_array( $all_roles ) && is_array( $ets_tutor_lms_discord_role_mapping ) ) {
+			foreach ( $enrolled_courses as $key => $enrolled_course_id ) {
+				if ( array_key_exists( 'course_id_' . $enrolled_course_id, $ets_tutor_lms_discord_role_mapping ) ) {
+
+					$mapped_role_id = $ets_tutor_lms_discord_role_mapping[ 'course_id_' . $enrolled_course_id ];
+
+					if ( array_key_exists( $mapped_role_id, $all_roles ) ) {
+						$mapped_role_name .= '<span> <i style="background-color:#' . dechex( $roles_color[ $mapped_role_id ] ) . '">' . $all_roles[ $mapped_role_id ] . '</i></span>';
+					}
+				}
+			}
+		}
+
+		$default_role_name = '';
+		if ( is_array( $all_roles ) ) {
+			if ( $default_role != 'none' && array_key_exists( $default_role, $all_roles ) ) {
+				$default_role_name = '<span><i style="background-color:#' . dechex( $roles_color[ $default_role ] ) . '"> ' . $all_roles[ $default_role ] . '</i></span>';
+			}
+		}
+
+		if ( $mapped_role_name || $default_role_name ) {
+			$user_roles_html .= '<span class="roles-text">' . $roles_text . '</span>';
+		}
+		if ( $mapped_role_name ) {
+			$user_roles_html .= $mapped_role_name;
+		}
+
+		if ( $default_role_name ) {
+			$user_roles_html .= $default_role_name;
+		}
+		return '<div class="user-infos">' . $user_roles_html . '</div>';
+	}
+
+	private function get_mapped_role_name() {
+		$user_id = (int) get_current_user_id();
+
 		$ets_tutor_lms_discord_role_mapping = json_decode( get_option( 'ets_tutor_lms_discord_role_mapping' ), true );
 		$all_roles                          = unserialize( get_option( 'ets_tutor_lms_discord_all_roles' ) );
 		$roles_color                        = unserialize( get_option( 'ets_tutor_lms_discord_roles_color' ) );
@@ -286,13 +329,6 @@ class Dro_AIO_Discord_TutorLMS extends Discord_Service implements Discord_Servic
 				}
 			}
 		}
-
-		$default_role_name = '';
-		if ( is_array( $all_roles ) ) {
-			if ( $default_role != 'none' && array_key_exists( $default_role, $all_roles ) ) {
-				$default_role_name = '<span><i style="background-color:#' . dechex( $roles_color[ $default_role ] ) . '"></i> ' . $all_roles[ $default_role ] . '</span>';
-			}
-		}
-		return '';
+		return $mapped_role_name;
 	}
 }

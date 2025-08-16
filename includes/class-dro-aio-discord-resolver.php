@@ -39,19 +39,28 @@ class Dro_AIO_Discord_Resolver {
 	protected static ?Dro_AIO_Discord_Service_Interface $active_service = null;
 
 	/**
-	 * Array mapping plugin slugs to service keys.
-	 * This array defines the priority order for services based on active plugins.
-	 * Supported add-ons are:
+	 * Array mapping plugin slugs to service class suffixes.
+	 *
+	 * The key is the plugin slug as stored in the 'active_plugins' option.
+	 * The value is the service class name suffix (without the 'Dro_AIO_Discord_' prefix).
+	 *
+	 * This array defines the priority order for resolving active Discord services
+	 * based on which supported plugin is currently active.
+	 *
+	 * Supported add-ons:
 	 * - PMPro Discord Add-On
 	 * - MemberPress Discord Add-On
 	 * - Ultimate Member Discord Add-On
+	 * - Connect Tutor LMS to Discord
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
+
 	private static array $priority_map = array(
 		'pmpro-discord-add-on/pmpro-discord.php' => 'Pmpro',
 		'expresstechsoftwares-memberpress-discord-add-on/memberpress-discord.php' => 'MemberPress',
 		'ultimate-member-discord-add-on/ultimate-member-discord-add-on.php' => 'UltimateMember',
+		'connect-tutorlms-to-discord/connect-discord-tutor-lms.php' => 'TutorLms',
 
 	);
 

@@ -186,7 +186,7 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 	 * @return string Service slug.
 	 */
 	public function get_service_name(): string {
-		return self::SERV;
+		return self::SERVICE_NAME;
 	}
 
 	/**

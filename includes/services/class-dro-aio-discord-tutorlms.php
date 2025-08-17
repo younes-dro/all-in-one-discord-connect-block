@@ -69,15 +69,28 @@ class Dro_AIO_Discord_TutorLms extends Discord_Service implements Discord_Servic
 		'access_token'        => '_ets_tutor_lms_discord_access_token',
 	);
 
-		/**
-		 * Private constructor to prevent direct instantiation.
-		 *
-		 * This enforces the singleton pattern by restricting object creation
-		 * to the `get_instance()` method.
-		 *
-		 * @since 1.0.0
-		 */
-	private function __construct() {}
+	/**
+	 * Flag indicating whether the Tutor LMS Discord script should be enqueued.
+	 *
+	 * Set to true when the disconnect button is rendered,
+	 * ensuring assets are conditionally loaded only when needed.
+	 *
+	 * @since 1.0.0
+	 * @var bool
+	 */
+	private $should_enqueue_script = false;
+
+	/**
+	 * Private constructor to prevent direct instantiation.
+	 *
+	 * This enforces the singleton pattern by restricting object creation
+	 * to the `get_instance()` method.
+	 *
+	 * @since 1.0.0
+	 */
+	private function __construct() {
+		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_scripts' ) );
+	}
 
 	/**
 	 * Prevent cloning of the instance.
@@ -191,6 +204,18 @@ class Dro_AIO_Discord_TutorLms extends Discord_Service implements Discord_Servic
 		return self::PLUGIN_ICON;
 	}
 
+	/**
+	 * Build the dynamic block output for Tutor LMS Discord integration.
+	 *
+	 * Generates connect/disconnect buttons, user info, and role assignments
+	 * depending on the user's connection state and Tutor LMS configuration.
+	 *
+	 * @since 1.0.0
+	 * @param array     $attributes Block attributes from editor.
+	 * @param string    $content    Saved block content (unused).
+	 * @param \WP_Block $block      The parsed block instance.
+	 * @return string Rendered HTML for the block.
+	 */
 	public function build_html_block( array $attributes, string $content, \WP_Block $block ): string {
 		$user_id      = get_current_user_id();
 		$access_token = $this->get_user_access_token();
@@ -224,7 +249,15 @@ class Dro_AIO_Discord_TutorLms extends Discord_Service implements Discord_Servic
 
 		return $html;
 	}
-
+	/**
+	 * Generate the HTML markup for the Discord connect button.
+	 *
+	 * @since 1.0.0
+	 * @param string $button_bg_color   Background color for the button.
+	 * @param string $button_text_color Text color for the button.
+	 * @param string $button_text       Button label text.
+	 * @return string HTML markup for the connect button.
+	 */
 	private function get_connect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
 		return sprintf(
 			'<a href="?action=tutor-lms-discord-login" class="dro-aio-discord-connect-button" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
@@ -233,10 +266,21 @@ class Dro_AIO_Discord_TutorLms extends Discord_Service implements Discord_Servic
 			esc_html( $button_text )
 		);
 	}
-
+	/**
+	 * Generate the HTML markup for the Discord disconnect button.
+	 *
+	 * Also sets the internal flag to enqueue Tutor LMS Discord scripts/styles.
+	 *
+	 * @since 1.0.0
+	 * @param int    $user_id           The user ID.
+	 * @param string $button_bg_color   Background color for the button.
+	 * @param string $button_text_color Text color for the button.
+	 * @param string $button_text       Button label text.
+	 * @return string HTML markup for the disconnect button.
+	 */
 	private function get_disconnect_button( int $user_id, string $button_bg_color, string $button_text_color, string $button_text ): string {
-		wp_enqueue_script( 'connect-discord-tutor-lms' );
-		wp_enqueue_style( 'connect-discord-tutor-lms' );
+
+		$this->should_enqueue_script = true;
 
 		$button_html = sprintf(
 			'<a href="#" class="dro-aio-discord-disconnect-button" id="tutor-lms-discord-disconnect-discord" data-user-id="%s" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
@@ -248,7 +292,16 @@ class Dro_AIO_Discord_TutorLms extends Discord_Service implements Discord_Servic
 
 		return $button_html . '<span class="ets-spinner"></span>';
 	}
-
+	/**
+	 * Render the connected Discord account information.
+	 *
+	 * Includes the username and avatar image for the current user.
+	 *
+	 * @since 1.0.0
+	 * @param string $discord_connected_account_text Label text for the account section.
+	 * @param int    $user_id                        The user ID.
+	 * @return string|null HTML markup for the account information, or null if unavailable.
+	 */
 	private function get_user_infos( $discord_connected_account_text, $user_id ): ?string {
 		return sprintf(
 			'<div class="user-infos"><span class="roles-text">%s</span><span class="connected-account">%s</span>%s</div>',
@@ -308,7 +361,14 @@ class Dro_AIO_Discord_TutorLms extends Discord_Service implements Discord_Servic
 		}
 		return '<div class="user-infos">' . $user_roles_html . '</div>';
 	}
-
+	/**
+	 * Get the mapped role name(s) for the current user based on enrolled courses.
+	 *
+	 * Looks up Tutor LMS → Discord role mappings and returns formatted labels.
+	 *
+	 * @since 1.0.0
+	 * @return string Rendered HTML of mapped role names, or empty string if none found.
+	 */
 	private function get_mapped_role_name() {
 		$user_id = (int) get_current_user_id();
 
@@ -330,5 +390,20 @@ class Dro_AIO_Discord_TutorLms extends Discord_Service implements Discord_Servic
 			}
 		}
 		return $mapped_role_name;
+	}
+	/**
+	 * Conditionally enqueue Tutor LMS Discord scripts and styles.
+	 *
+	 * Runs during the `wp_enqueue_scripts` action and loads assets only if
+	 * `$should_enqueue_script` has been set to true (e.g., when disconnect button is rendered).
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function maybe_enqueue_scripts() {
+		if ( $this->should_enqueue_script ) {
+			wp_enqueue_script( 'connect-discord-tutor-lms' );
+			wp_enqueue_style( 'connect-discord-tutor-lms' );
+		}
 	}
 }

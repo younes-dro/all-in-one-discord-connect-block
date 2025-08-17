@@ -11,7 +11,7 @@
 - Connected account display
 - Conditional visibility based on login status
 - Seamless integration with popular plugins:
-  - **Membership:** Paid Memberships Pro, MemberPress, Ultimate Member
+  - **Membership:** Paid Memberships Pro, MemberPress, Ultimate Member, Tutor LMS
 - Developer-friendly: Easily extensible with hooks and filters
 
 ---
@@ -59,5 +59,6 @@ This plugin supports out-of-the-box integrations with:
   - Paid Memberships Pro
   - MemberPress
   - Ultimate Member
+	- Tutor LMS
 
 ---

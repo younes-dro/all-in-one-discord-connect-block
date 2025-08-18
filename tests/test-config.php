@@ -2,7 +2,7 @@
 /**
  * Test configuration for Discord Service tests.
  *
- * @package Dro\AIODiscordBlock\Tests
+ * @package CustomConnectButtonBlock\Tests
  */
 
 // Define test constants
@@ -209,7 +209,7 @@ class Discord_Service_Test_Config {
 
 		// Reset any static variables
 		if ( class_exists( 'Dro\\AIODiscordBlock\\Tests\\Helpers\\Discord_Service_Mock_Helper' ) ) {
-			\Dro\AIODiscordBlock\Tests\Helpers\Discord_Service_Mock_Helper::reset();
+			\CustomConnectButtonBlock\Tests\Helpers\Discord_Service_Mock_Helper::reset();
 		}
 
 		// Clear any cached data

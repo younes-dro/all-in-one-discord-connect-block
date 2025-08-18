@@ -6,7 +6,7 @@
  * This class handles REST API endpoints for retrieving Discord service information
  * including service icons and other related data from active Discord add-ons.
  *
- * @package    Dro\AIODiscordBlock
+ * @package    CustomConnectButtonBlock
  * @subpackage includes
  * @since      1.0.0
  * @author     Younes DRO<younesdro@gmail.com>
@@ -14,10 +14,10 @@
 
 declare(strict_types=1);
 
-namespace Dro\AIODiscordBlock\includes;
+namespace Dro\CustomConnectButtonBlock\includes;
 
-use Dro\AIODiscordBlock\includes\Dro_AIO_Discord_Resolver as Discord_Resolver;
-use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
+use CustomConnectButtonBlock\includes\Dro_AIO_Discord_Resolver as Discord_Resolver;
+use CustomConnectButtonBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
 use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -82,10 +82,10 @@ class Dro_AIO_Discord_Rest_Api {
 	public function __clone() {
 		$cloning_message = sprintf(
 			/* translators: %s is the class name that cannot be cloned */
-			esc_html__( 'You cannot clone instance of %s', 'all-in-one-discord-connect-block' ),
+			esc_html__( 'You cannot clone instance of %s', custom-connect-button-block-for-discord ),
 			get_class( $this )
 		);
-		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_CCBB_VERSION ) );
 	}
 
 	/**
@@ -97,10 +97,10 @@ class Dro_AIO_Discord_Rest_Api {
 	public function __wakeup() {
 		$unserializing_message = sprintf(
 			/* translators: %s is the class name that cannot be unserialized */
-			esc_html__( 'You cannot unserialize instance of %s', 'all-in-one-discord-connect-block' ),
+			esc_html__( 'You cannot unserialize instance of %s', custom-connect-button-block-for-discord ),
 			get_class( $this )
 		);
-		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_CCBB_VERSION ) );
 	}
 
 	/**
@@ -160,7 +160,7 @@ class Dro_AIO_Discord_Rest_Api {
 		if ( ! current_user_can( 'read' ) ) {
 			return new WP_Error(
 				'rest_forbidden',
-				__( 'You must be logged in to access this endpoint.', 'all-in-one-discord-connect-block' ),
+				__( 'You must be logged in to access this endpoint.', custom-connect-button-block-for-discord ),
 				array( 'status' => 403 )
 			);
 		}
@@ -174,7 +174,7 @@ class Dro_AIO_Discord_Rest_Api {
 		if ( empty( $nonce ) ) {
 			return new WP_Error(
 				'missing_nonce',
-				__( 'Missing security token. Please refresh the page and try again.', 'all-in-one-discord-connect-block' ),
+				__( 'Missing security token. Please refresh the page and try again.', custom-connect-button-block-for-discord ),
 				array( 'status' => 403 )
 			);
 		}
@@ -182,7 +182,7 @@ class Dro_AIO_Discord_Rest_Api {
 		if ( ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
 			return new WP_Error(
 				'invalid_nonce',
-				__( 'Invalid security token. Please refresh the page and try again.', 'all-in-one-discord-connect-block' ),
+				__( 'Invalid security token. Please refresh the page and try again.', custom-connect-button-block-for-discord ),
 				array( 'status' => 403 )
 			);
 		}
@@ -198,7 +198,7 @@ class Dro_AIO_Discord_Rest_Api {
 
 		return new WP_Error(
 			'insufficient_permissions',
-			__( 'You do not have sufficient permissions to access this endpoint.', 'all-in-one-discord-connect-block' ),
+			__( 'You do not have sufficient permissions to access this endpoint.', custom-connect-button-block-for-discord ),
 			array( 'status' => 403 )
 		);
 	}
@@ -220,7 +220,7 @@ class Dro_AIO_Discord_Rest_Api {
 			if ( ! $active_service instanceof Discord_Service_Interface ) {
 				return new WP_Error(
 					'no_active_service',
-					__( 'No active Discord service found.', 'all-in-one-discord-connect-block' ),
+					__( 'No active Discord service found.', custom-connect-button-block-for-discord ),
 					array( 'status' => 404 )
 				);
 			}
@@ -229,7 +229,7 @@ class Dro_AIO_Discord_Rest_Api {
 			if ( empty( $service_icon ) ) {
 				return new WP_Error(
 					'no_icon_available',
-					__( 'No icon available for the active service.', 'all-in-one-discord-connect-block' ),
+					__( 'No icon available for the active service.', custom-connect-button-block-for-discord ),
 					array( 'status' => 404 )
 				);
 			}
@@ -237,7 +237,7 @@ class Dro_AIO_Discord_Rest_Api {
 			if ( ! filter_var( $service_icon, FILTER_VALIDATE_URL ) ) {
 				return new WP_Error(
 					'invalid_icon_url',
-					__( 'Invalid icon URL returned from service.', 'all-in-one-discord-connect-block' ),
+					__( 'Invalid icon URL returned from service.', custom-connect-button-block-for-discord ),
 					array( 'status' => 500 )
 				);
 			}
@@ -263,7 +263,7 @@ class Dro_AIO_Discord_Rest_Api {
 		} catch ( Exception $e ) {
 			return new WP_Error(
 				'internal_error',
-				__( 'An internal error occurred while fetching the icon.', 'all-in-one-discord-connect-block' ),
+				__( 'An internal error occurred while fetching the icon.', custom-connect-button-block-for-discord ),
 				array( 'status' => 500 )
 			);
 		}
@@ -284,7 +284,7 @@ class Dro_AIO_Discord_Rest_Api {
 			if ( ! $active_service instanceof Discord_Service_Interface ) {
 				return new WP_Error(
 					'no_active_service',
-					__( 'No active Discord service found.', 'all-in-one-discord-connect-block' ),
+					__( 'No active Discord service found.', custom-connect-button-block-for-discord ),
 					array( 'status' => 404 )
 				);
 			}
@@ -318,7 +318,7 @@ class Dro_AIO_Discord_Rest_Api {
 		} catch ( Exception $e ) {
 			return new WP_Error(
 				'internal_error',
-				__( 'An internal error occurred while fetching service information.', 'all-in-one-discord-connect-block' ),
+				__( 'An internal error occurred while fetching service information.', custom-connect-button-block-for-discord ),
 				array( 'status' => 500 )
 			);
 		}

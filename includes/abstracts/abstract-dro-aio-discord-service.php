@@ -8,20 +8,20 @@
  *
  * PHP version 7.4+
  *
- * @package  Dro\AIODiscordBlock\Abstracts
+ * @package  CustomConnectButtonBlock\Abstracts
  * @category Plugin
  * @author   Younes DRO <younesdro@gmail.com>
  * @license  GPL-2.0-or-later https://www.gnu.org/licenses/gpl-2.0.html
  * @version  GIT: 1.0.0
- * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
+ * @link     https://github.com/younes-dro/custom-connect-button-block-for-discord
  * @since    1.0.0
  */
 
 declare(strict_types=1);
 
-namespace Dro\AIODiscordBlock\includes\Abstracts;
+namespace CustomConnectButtonBlock\includes\Abstracts;
 
-use Dro\AIODiscordBlock\includes\helpers\Dro_AIO_Discord_Helper as Discord_Helper;
+use CustomConnectButtonBlock\includes\helpers\Dro_AIO_Discord_Helper as Discord_Helper;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -272,7 +272,7 @@ abstract class Dro_AIO_Discord_Service {
 
 			return '<img src="https://cdn.discordapp.com/avatars/' . esc_attr( $this->discord_user_id ) . '/' . esc_attr( $this->discord_user_avatar ) . '.png" alt="" />';
 		}
-		$default_avatar_url = DRO_AIO_DISCORD_BLOCK_URL . 'assets/default-discord-avatar.png';
+		$default_avatar_url = DRO_CCBB_URL . 'assets/default-discord-avatar.png';
 		if ( $default_avatar_url ) {
 			return '<img src="' . esc_url( $default_avatar_url ) . '" alt="Default Discord avatar" />';
 		}

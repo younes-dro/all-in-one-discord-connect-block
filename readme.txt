@@ -1,4 +1,4 @@
-=== All In One Discord Connect Block ===
+=== Custom connect button block for Discord ===
 Contributors:      vanbom
 Tags:              block, discord, gutenberg, membership, LMS
 Tested up to:      6.8
@@ -12,7 +12,7 @@ A Gutenberg block to connect Discord accounts with customizable buttons and supp
 
 == Description ==
 
-**All In One Discord Connect Block** is a powerful Gutenberg block that enables users to connect their Discord accounts directly from any page or post.
+**Custom connect button block for Discord** is a powerful Gutenberg block that enables users to connect their Discord accounts directly from any page or post.
 This block provides full customization options, including button text, colors, and styles, while dynamically displaying the user's connection status.
 
 Unlike traditional shortcodes, this block supports custom design variations based on the specific post or page it’s used on — giving you full control over layout and context-aware styling.
@@ -34,13 +34,13 @@ This block is compatible with the following plugins:
 - Compatible with multiple membership plugins (PMPro, MemberPress, Ultimate Member, Tutor LMS).
 - No coding required – customize everything visually in the block editor.
 
-This plugin's code is [available on GitHub](https://github.com/younes-dro/all-in-one-discord-connect-block). Please feel free to fork the repository and send a pull request. If you find a bug in the plugin, open an issue.
+This plugin's code is [available on GitHub](https://github.com/younes-dro/custom-connect-button-block-for-discord). Please feel free to fork the repository and send a pull request. If you find a bug in the plugin, open an issue.
 
 == Installation ==
 
 This section describes how to install the plugin and get it working.
 
-1. Upload the plugin files to the `/wp-content/plugins/all-in-one-discord-connect-block/` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/custom-connect-button-block-for-discord/` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
 
 == Frequently Asked Questions ==

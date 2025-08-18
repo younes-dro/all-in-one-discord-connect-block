@@ -21,10 +21,10 @@ import { DiscordIcon, PlayIcon, StopIcon, LivePreviewBadge } from './assets/comp
 import { ServiceIconSVG } from './assets/CustomServiceIcon';
 import './editor.scss';
 
-const textDomain = 'all-in-one-discord-connect-block';
+const textDomain = custom-connect-button-block-for-discord;
 
 /**
- * Edit function for the All In One Discord Connect Block.
+ * Edit function for the Custom connect button block for Discord.
  *
  * @param {Object} props - The block properties.
  * @param {Object} props.attributes - The block attributes.
@@ -92,7 +92,7 @@ export default function Edit({ attributes, setAttributes }) {
 		<div className="live-preview-wrapper" style={{ position: 'relative' }}>
 			<LivePreviewBadge />
 			<ServerSideRender
-				block="dro-block/all-in-one-discord-connect-block"
+				block="dro-block/custom-connect-button-block-for-discord"
 				attributes={attributes}
 				LoadingResponseComponent={() => (
 					<div style={{ textAlign: 'center', padding: '20px' }}>

@@ -7,9 +7,9 @@
  */
 
 declare(strict_types=1);
-namespace Dro\AIODiscordBlock\includes;
+namespace Dro\CustomConnectButtonBlock\includes;
 
-use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface;
+use CustomConnectButtonBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * It checks for active plugins and returns the corresponding service instance.
  * The priority order is defined in the $priority_map array.
  *
- * @package Dro\AIODiscordBlock\includes
+ * @package CustomConnectButtonBlock\includes
  * @since 1.0.0
  * @version 1.0.0
  * @author Younes DRO<younesdro@gmail.com>

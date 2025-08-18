@@ -8,21 +8,21 @@
  *
  * PHP version 7.4+
  *
- * @package  Dro\AIODiscordBlock\Services
+ * @package  CustomConnectButtonBlock\Services
  * @category Plugin
  * @author   Younes DRO <younesdro@gmail.com>
  * @license  GPL-2.0-or-later https://www.gnu.org/licenses/gpl-2.0.html
  * @version  GIT: 1.0.0
- * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
+ * @link     https://github.com/younes-dro/custom-connect-button-block-for-discord
  * @since    1.0.0
  */
 
 declare(strict_types=1);
 
-namespace Dro\AIODiscordBlock\includes\Services;
+namespace CustomConnectButtonBlock\includes\Services;
 
-use Dro\AIODiscordBlock\includes\Abstracts\Dro_AIO_Discord_Service as Discord_Service;
-use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
+use CustomConnectButtonBlock\includes\Abstracts\Dro_AIO_Discord_Service as Discord_Service;
+use CustomConnectButtonBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,11 +36,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * plugin status, retrieve user membership data, and manage Discord roles.
  *
  * @category Plugin
- * @package  Dro\AIODiscordBlock\Services
+ * @package  CustomConnectButtonBlock\Services
  * @author   Younes DRO <younesdro@gmail.com>
  * @license  GPL-2.0-or-later https://www.gnu.org/licenses/gpl-2.0.html
  * @version  Release: 1.0.0
- * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
+ * @link     https://github.com/younes-dro/custom-connect-button-block-for-discord
  * @since    1.0.0
  */
 class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_Interface {
@@ -75,7 +75,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * @access private
 	 * @var string
 	 */
-	private const PLUGIN_ICON = DRO_AIO_DISCORD_BLOCK_URL . '/assets/' . self::SERVICE_NAME . '.png';
+	private const PLUGIN_ICON = DRO_CCBB_URL . '/assets/' . self::SERVICE_NAME . '.png';
 
 	/**
 	 * Maps Discord user data properties to their corresponding WordPress user meta keys.
@@ -115,10 +115,10 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 		$cloning_message = sprintf(
 			/* translators: %s is the class name that cannot be cloned */
-			esc_html__( 'You cannot clone instance of %s', 'all-in-one-discord-connect-block' ),
+			esc_html__( 'You cannot clone instance of %s', custom-connect-button-block-for-discord ),
 			get_class( $this )
 		);
-		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_CCBB_VERSION ) );
 	}
 	/**
 	 * Prevent unserializing of the instance.
@@ -129,10 +129,10 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 		$unserializing_message = sprintf(
 			/* translators: %s is the class name that cannot be unserialized */
-			esc_html__( 'You cannot unserialize instance of %s', 'all-in-one-discord-connect-block' ),
+			esc_html__( 'You cannot unserialize instance of %s', custom-connect-button-block-for-discord ),
 			get_class( $this )
 		);
-		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_CCBB_VERSION ) );
 	}
 
 
@@ -254,7 +254,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 			);
 			$html .= $this->get_user_roles( $roleWillAssignText, $user_id );
 		} else {
-			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'all-in-one-discord-connect-block' ) . '</p>';
+			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', custom-connect-button-block-for-discord ) . '</p>';
 		}
 
 		return $html;
@@ -350,7 +350,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 		$mapped_role_name = '';
 
 		$curr_level_id = ets_pmpro_discord_get_current_level_id( $user_id );
-		
+
 
 		$mapped_role_name = '';
 		if ( $curr_level_id && is_array( $all_roles ) ) {

@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name:       All In One Discord Connect Block
- * Plugin URI:        https://github.com/younes-dro/all-in-one-discord-connect-block
- * Description:       A Gutenberg block that displays a custom Connect to Discord button with flexible style options. Seamlessly integrates with membership plugins like PMPro, MemberPress, and Ultimate Member.
+ * Plugin Name:       Custom connect button block for Discord
+ * Plugin URI:        https://github.com/younes-dro/custom-connect-button-block-for-discord
+ * Description:       A Gutenberg block that displays a custom Connect to Discord button with flexible style options. Seamlessly integrates with membership plugins like PMPro, MemberPress, Ultimate Member and Tutor LMS.
  * Version:           1.0.0
  * Requires at least: 6.8
  * Requires PHP:      7.4
@@ -10,38 +10,38 @@
  * Author URI:        https://github.com/younes-dro
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       all-in-one-discord-connect-block
+ * Text Domain:       custom-connect-button-block-for-discord
  *
- * @package AllInOneDiscordConnectBlock
+ * @package @package CustomConnectButtonBlockForDiscord
  */
 declare( strict_types=1 );
 
-namespace Dro\AIODiscordBlock;
+namespace Dro\CustomConnectButtonBlock;
 
-use Dro\AIODiscordBlock\includes\Dro_AIO_Discord;
+use Dro\CustomConnectButtonBlock\includes\Dro_AIO_Discord;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'DRO_AIO_DISCORD_BLOCK_VERSION', get_file_data( __FILE__, array( 'Version' ), 'plugin' )[0] ?? '1.0.0' );
-define( 'DRO_AIO_DISCORD_BLOCK_FILE', __FILE__ );
-define( 'DRO_AIO_DISCORD_BLOCK_DIR', plugin_dir_path( __FILE__ ) );
-define( 'DRO_AIO_DISCORD_BLOCK_URL', plugin_dir_url( __FILE__ ) );
+define( 'DRO_CCBB_VERSION', get_file_data( __FILE__, array( 'Version' ), 'plugin' )[0] ?? '1.0.0' );
+define( 'DRO_CCBB_FILE', __FILE__ );
+define( 'DRO_CCBB_DIR', plugin_dir_path( __FILE__ ) );
+define( 'DRO_CCBB_URL', plugin_dir_url( __FILE__ ) );
 
 /**
- * Activation hook for the All In One Discord Connect Block plugin.
+ * Activation hook for the Custom connect button block for Discord plugin.
  * TO DO: Add maybe some activation logic here in the future.
  *
  * @since 1.0.0
  *
  * @return void
  */
-function dro_aio_discord_block_activation() {
+function ccbb_activation() {
 	// empty function for now, but can be used in the future for activation logic.
 }
 
-register_activation_hook( DRO_AIO_DISCORD_BLOCK_FILE, __NAMESPACE__ . '\\dro_aio_discord_block_activation' );
+register_activation_hook( DRO_CCBB_FILE, __NAMESPACE__ . '\\ccbb_activation' );
 
 /**
  * Registers a custom autoloader for the All-in-One Discord Connect Block plugin.
@@ -63,7 +63,7 @@ register_activation_hook( DRO_AIO_DISCORD_BLOCK_FILE, __NAMESPACE__ . '\\dro_aio
  *
  * @return void
  */
-function dro_aio_discord_autoload() {
+function ccbb_autoload() {
 	spl_autoload_register(
 		function ( $class ) {
 			if ( strncmp( __NAMESPACE__ . '\\', $class, strlen( __NAMESPACE__ ) + 1 ) !== 0 ) {
@@ -92,7 +92,7 @@ function dro_aio_discord_autoload() {
  * @see https://make.wordpress.org/core/2025/03/13/more-efficient-block-type-registration-in-6-8/
  * @see https://make.wordpress.org/core/2024/10/17/new-block-type-registration-apis-to-improve-performance-in-wordpress-6-7/
  */
-function dro_aio_discord_block_block_init() {
+function ccbb_block_init() {
 
 	if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) ) {
 		wp_register_block_types_from_metadata_collection( __DIR__ . '/build', __DIR__ . '/build/blocks-manifest.php' );
@@ -107,18 +107,18 @@ function dro_aio_discord_block_block_init() {
 		register_block_type( __DIR__ . "/build/{$block_type}" );
 	}
 }
-add_action( 'init', __NAMESPACE__ . '\\dro_aio_discord_block_block_init' );
+add_action( 'init', __NAMESPACE__ . '\\ccbb_block_init' );
 
 /**
- * Initialize the All In One Discord Connect Block plugin.
+ * Initialize the Custom connect button block for Discord plugin.
  * This function is called to set up the plugin's functionality.
  *
  * @since 1.0.0
  *
  * @return void
  */
-function dro_aio_discord() {
-	dro_aio_discord_autoload();
+function ccbb_init() {
+	ccbb_autoload();
 	Dro_AIO_Discord::get_instance();
 }
-dro_aio_discord();
+ccbb_init();

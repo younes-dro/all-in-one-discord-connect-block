@@ -2,16 +2,16 @@
 /**
  * Server-side rendering for the All-in-One Discord Connect Block.
  *
- * @package AllInOneDiscordConnectBlock
+ * @package @package CustomConnectButtonBlockForDiscord
  */
 declare(strict_types=1);
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dro\AIODiscordBlock\includes\Dro_AIO_Discord_Render as Discord_Render;
-use Dro\AIODiscordBlock\includes\Dro_AIO_Discord_Resolver as Discord_Resolver;
-use Dro\AIODiscordBlock\includes\helpers\Dro_AIO_Discord_Helper as Discord_Helper;
+use CustomConnectButtonBlock\includes\Dro_AIO_Discord_Render as Discord_Render;
+use CustomConnectButtonBlock\includes\Dro_AIO_Discord_Resolver as Discord_Resolver;
+use CustomConnectButtonBlock\includes\helpers\Dro_AIO_Discord_Helper as Discord_Helper;
 
 
 $user_id = get_current_user_id();

@@ -1,11 +1,11 @@
 <?php
 
 /**
- *  All In One Discord Connect Block - Render
+ *  Custom connect button block for Discord - Render
  *  This class is responsible for rendering the Discord connect block.
  *  It will use the active service stored in the global variable $dro_aio_discord_active_service.
  *
- *  @package AllInOneDiscordConnectBlock
+ *  @package @package CustomConnectButtonBlockForDiscord
  * @author Younes DRO <younesdro@gmail.com>
  * @license GPL-2.0-or-later
  *  @version 1.0.0
@@ -13,9 +13,9 @@
 
 declare(strict_types=1);
 
-namespace Dro\AIODiscordBlock\includes;
+namespace Dro\CustomConnectButtonBlock\includes;
 
-use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
+use CustomConnectButtonBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
 use WP_Block;
 
 
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * This class is responsible for rendering the Discord connect block.
  * It will use the active service stored in the global variable $dro_aio_discord_active_service.
  *
- * @package AllInOneDiscordConnectBlock
+ * @package @package CustomConnectButtonBlockForDiscord
  * @author Younes DRO <younesdro@gmail.com>
  * @license GPL-2.0-or-later
  * @version 1.0.0
@@ -90,10 +90,10 @@ class Dro_AIO_Discord_Render {
 
 		$cloning_message = sprintf(
 			/* translators: %s is the class name that cannot be cloned */
-			esc_html__( 'You cannot clone instance of %s', 'all-in-one-discord-connect-block' ),
+			esc_html__( 'You cannot clone instance of %s', custom-connect-button-block-for-discord ),
 			get_class( $this )
 		);
-		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_CCBB_VERSION ) );
 	}
 	/**
 	 * Prevent unserializing of the instance.
@@ -104,10 +104,10 @@ class Dro_AIO_Discord_Render {
 
 		$unserializing_message = sprintf(
 			/* translators: %s is the class name that cannot be unserialized */
-			esc_html__( 'You cannot unserialize instance of %s', 'all-in-one-discord-connect-block' ),
+			esc_html__( 'You cannot unserialize instance of %s', custom-connect-button-block-for-discord ),
 			get_class( $this )
 		);
-		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_CCBB_VERSION ) );
 	}
 
 	/**
@@ -122,7 +122,7 @@ class Dro_AIO_Discord_Render {
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
 
 		if ( ! $this->active_service instanceof Discord_Service_Interface ) {
-			return '<h2>' . esc_html__( 'No active Discord service found.', 'all-in-one-discord-connect-block' ) . '</h2>';
+			return '<h2>' . esc_html__( 'No active Discord service found.', custom-connect-button-block-for-discord ) . '</h2>';
 		}
 
 		$html  = '';

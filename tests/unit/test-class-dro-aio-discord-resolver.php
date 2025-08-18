@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Dro\AIODiscordBlock\includes\Dro_AIO_Discord_Resolver as Discord_Resolver;
+use CustomConnectButtonBlock\includes\Dro_AIO_Discord_Resolver as Discord_Resolver;
 
 class Dro_AIO_Discord_Resolver_Test extends WP_UnitTestCase {
 

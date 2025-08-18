@@ -1,6 +1,6 @@
 <?php
 /**
- * All In One Discord Connect Block - Service Interface
+ * Custom connect button block for Discord - Service Interface
  *
  * Defines the contract for Discord integration services that
  * fetch user-related data from supported plugins.
@@ -8,15 +8,15 @@
  * PHP version 7.4+
  *
  * @category Plugin
- * @package  Dro\AIODiscordBlock\Interfaces
+ * @package  CustomConnectButtonBlock\Interfaces
  * @author   Younes DRO <younesdro@gmail.com>
  * @license  GPL-2.0-or-later https://www.gnu.org/licenses/gpl-2.0.html
  * @version  GIT: 1.0.0
- * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
+ * @link     https://github.com/younes-dro/custom-connect-button-block-for-discord
  * @since    1.0.0
  */
 
-namespace Dro\AIODiscordBlock\includes\Interfaces;
+namespace CustomConnectButtonBlock\includes\Interfaces;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -32,11 +32,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * context, retrieving active Discord roles, and providing service metadata.
  *
  * @category Plugin
- * @package  Dro\AIODiscordBlock\Interfaces
+ * @package  CustomConnectButtonBlock\Interfaces
  * @author   Your Name <younesdro@gmail.com>
  * @license  GPL-2.0-or-later https://www.gnu.org/licenses/gpl-2.0.html
  * @version  Release: 1.0.0
- * @link     https://github.com/younes-dro/all-in-one-discord-connect-block
+ * @link     https://github.com/younes-dro/custom-connect-button-block-for-discord
  * @since    1.0.0
  */
 interface Dro_AIO_Discord_Service_Interface {

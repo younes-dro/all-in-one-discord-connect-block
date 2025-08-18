@@ -4,7 +4,7 @@
  *
  * Handles Discord integration for Ultimate Member plugin.
  *
- * @package  Dro\AIODiscordBlock\Services
+ * @package  CustomConnectButtonBlock\Services
  * @category Plugin
  * @author   Younes DRO
  * @license  GPL-2.0-or-later
@@ -13,10 +13,10 @@
 
 declare(strict_types=1);
 
-namespace Dro\AIODiscordBlock\includes\Services;
+namespace CustomConnectButtonBlock\includes\Services;
 
-use Dro\AIODiscordBlock\includes\Abstracts\Dro_AIO_Discord_Service as Discord_Service;
-use Dro\AIODiscordBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
+use CustomConnectButtonBlock\includes\Abstracts\Dro_AIO_Discord_Service as Discord_Service;
+use CustomConnectButtonBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -59,7 +59,7 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private const PLUGIN_ICON = DRO_AIO_DISCORD_BLOCK_URL . '/assets/' . self::SERVICE_NAME . '.png';
+	private const PLUGIN_ICON = DRO_CCBB_URL . '/assets/' . self::SERVICE_NAME . '.png';
 
 	/**
 	 * Mapping of logical Discord meta keys to their Ultimate Member add-on user_meta keys.
@@ -95,10 +95,10 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 
 		$cloning_message = sprintf(
 			/* translators: %s is the class name that cannot be cloned */
-			esc_html__( 'You cannot clone instance of %s', 'all-in-one-discord-connect-block' ),
+			esc_html__( 'You cannot clone instance of %s', custom-connect-button-block-for-discord ),
 			get_class( $this )
 		);
-		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_CCBB_VERSION ) );
 	}
 
 	/**
@@ -111,10 +111,10 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 
 		$unserializing_message = sprintf(
 			/* translators: %s is the class name that cannot be unserialized */
-			esc_html__( 'You cannot unserialize instance of %s', 'all-in-one-discord-connect-block' ),
+			esc_html__( 'You cannot unserialize instance of %s', custom-connect-button-block-for-discord ),
 			get_class( $this )
 		);
-		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_AIO_DISCORD_BLOCK_VERSION ) );
+		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_CCBB_VERSION ) );
 	}
 
 	/**

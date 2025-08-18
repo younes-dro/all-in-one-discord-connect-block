@@ -2,12 +2,12 @@
 /**
  * General-purpose helper utilities for the plugin.
  *
- * @package AllInOneDiscordConnectBlock
+ * @package @package CustomConnectButtonBlockForDiscord
  */
 
 declare(strict_types=1);
 
-namespace Dro\AIODiscordBlock\includes\helpers;
+namespace CustomConnectButtonBlock\includes\helpers;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

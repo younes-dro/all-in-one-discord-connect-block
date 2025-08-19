@@ -17,6 +17,7 @@ namespace Dro\CustomConnectButtonBlock\includes\Services;
 
 use Dro\CustomConnectButtonBlock\includes\Abstracts\Dro_CCBB_Service as Abstract_Service;
 use Dro\CustomConnectButtonBlock\includes\Interfaces\Dro_CCBB_Service_Interface as Service_Interface;
+use Dro\CustomConnectButtonBlock\includes\helpers\Dro_CCBB_Helper as Helper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -260,10 +261,11 @@ class Dro_CCBB_TutorLms extends Abstract_Service implements Service_Interface {
 	 */
 	private function get_connect_button( string $button_bg_color, string $button_text_color, string $button_text ): string {
 		return sprintf(
-			'<a href="?action=tutor-lms-discord-login" class="dro-aio-discord-connect-button" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			'<a href="?action=tutor-lms-discord-login" class="dro-ccbb-connect-button" style="background-color:%s; color:%s;">%s <i>%s</i></a>',
 			esc_attr( $button_bg_color ),
 			esc_attr( $button_text_color ),
-			esc_html( $button_text )
+			esc_html( $button_text ),
+			wp_kses( Helper::get_discord_icon(), Helper::get_allowed_html() )
 		);
 	}
 	/**
@@ -283,7 +285,7 @@ class Dro_CCBB_TutorLms extends Abstract_Service implements Service_Interface {
 		$this->should_enqueue_script = true;
 
 		$button_html = sprintf(
-			'<a href="#" class="dro-aio-discord-disconnect-button" id="tutor-lms-discord-disconnect-discord" data-user-id="%s" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			'<a href="#" class="dro-ccbb-disconnect-button" id="tutor-lms-discord-disconnect-discord" data-user-id="%s" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
 			esc_attr( $user_id ),
 			esc_attr( $button_bg_color ),
 			esc_attr( $button_text_color ),

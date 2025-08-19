@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once __DIR__ . '/helpers/class-discord-service-mock-helper.php';
 
 // Load the abstract class being tested
-require_once __DIR__ . '/../includes/abstracts/class-dro-aio-discord-service.php';
+require_once __DIR__ . '/../includes/abstracts/class-dro-ccbb-service.php';
 
 /**
  * Test configuration class.

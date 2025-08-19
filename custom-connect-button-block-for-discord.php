@@ -10,7 +10,7 @@
  * Author URI:        https://github.com/younes-dro
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       'custom-connect-button-block-for-discord'
+ * Text Domain:       custom-connect-button-block-for-discord
  *
  * @package @package CustomConnectButtonBlockForDiscord
  */

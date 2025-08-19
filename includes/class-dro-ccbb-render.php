@@ -125,7 +125,7 @@ class Dro_CCBB_Render {
 		}
 
 		$html  = '';
-		$html .= $this->get_wrapper( get_block_wrapper_attributes( array( 'class' => 'dro-aio-discord-connect-block' ) ) );
+		$html .= $this->get_wrapper( get_block_wrapper_attributes( array( 'class' => 'dro-ccbb-discord-connect-block' ) ) );
 
 		$html .= $this->active_service->build_html_block(
 			$attributes,

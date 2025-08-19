@@ -23,6 +23,8 @@ namespace Dro\CustomConnectButtonBlock\includes\Services;
 
 use Dro\CustomConnectButtonBlock\includes\Abstracts\Dro_CCBB_Service as Abstract_Service;
 use Dro\CustomConnectButtonBlock\includes\Interfaces\Dro_CCBB_Service_Interface as Service_Interface;
+use Dro\CustomConnectButtonBlock\includes\helpers\Dro_CCBB_Helper as Helper;
+use PHP_CodeSniffer\Util\Help;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -279,11 +281,12 @@ class Dro_CCBB_Pmpro extends Abstract_Service implements Service_Interface {
 		);
 
 		return sprintf(
-			'<a href="%s" class="dro-aio-discord-connect-button" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			'<a href="%s" class="dro-ccbb-connect-button" style="background-color:%s; color:%s;">%s <i>%s</i></a>',
 			esc_url( $link ),
 			esc_attr( $button_bg_color ),
 			esc_attr( $button_text_color ),
-			esc_html( $button_text )
+			esc_html( $button_text ),
+			wp_kses( Helper::get_discord_icon(), Helper::get_allowed_html() )
 		);
 	}
 
@@ -304,7 +307,7 @@ class Dro_CCBB_Pmpro extends Abstract_Service implements Service_Interface {
 		wp_enqueue_style( 'ets_pmpro_add_discord_style' );
 
 		$button_html = sprintf(
-			'<a href="?action=discord-logout" class="dro-aio-discord-disconnect-button" id="pmpro-disconnect-discord" data-user-id="%s" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			'<a href="?action=discord-logout" class="dro-ccbb-disconnect-button" id="pmpro-disconnect-discord" data-user-id="%s" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
 			esc_attr( $user_id ),
 			esc_attr( $button_bg_color ),
 			esc_attr( $button_text_color ),

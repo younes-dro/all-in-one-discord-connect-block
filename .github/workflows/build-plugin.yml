@@ -137,7 +137,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: aio-discord-connect-block-${{ steps.plugin_info.outputs.version }}
+          name: custom-connect-button-block-for-discord${{ steps.plugin_info.outputs.version }}
           path: |
             *.zip
             ${{ env.PLUGIN_SLUG }}/plugin-info.json

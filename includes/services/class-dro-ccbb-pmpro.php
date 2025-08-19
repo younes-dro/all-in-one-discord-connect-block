@@ -340,11 +340,11 @@ class Dro_CCBB_Pmpro extends Abstract_Service implements Service_Interface {
 	 * @return string
 	 */
 	private function get_user_roles( $roles_text, $user_id ): ?string {
-		$all_roles                      = unserialize( get_option( 'ets_pmpro_discord_all_roles' ) );
+		$all_roles                      = maybe_unserialize( get_option( 'ets_pmpro_discord_all_roles' ) );
 		$ets_pmpor_discord_role_mapping = json_decode( get_option( 'ets_pmpor_discord_role_mapping' ), true );
 
 		$default_role = sanitize_text_field( trim( get_option( '_ets_pmpro_discord_default_role_id' ) ) );
-		$roles_color  = unserialize( get_option( 'ets_pmpro_discord_roles_color' ) );
+		$roles_color  = maybe_unserialize( get_option( 'ets_pmpro_discord_roles_color' ) );
 
 		$user_roles_html  = '';
 		$mapped_role_name = '';

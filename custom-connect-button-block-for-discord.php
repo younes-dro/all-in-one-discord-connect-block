@@ -62,7 +62,6 @@ function dro_ccbb_autoload() {
 			$class_path        = __DIR__ . '/' . implode( DIRECTORY_SEPARATOR, array_slice( $class_portions, 2 ) );
 			$class_file_prefix = ( stripos( $class, 'abstracts' ) !== false ? 'abstract-' : 'class-' );
 			$class_full_path   = $class_path . DIRECTORY_SEPARATOR . $class_file_prefix . $class_file_name . '.php';
-			// error_log( print_r( $class_full_path, true));
 
 			if ( file_exists( $class_full_path ) ) {
 				require_once $class_full_path;

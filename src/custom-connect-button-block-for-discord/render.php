@@ -17,7 +17,6 @@ use Dro\CustomConnectButtonBlock\includes\helpers\Dro_CCBB_Helper as Helper;
 $user_id = get_current_user_id();
 $service = Resolver::get_active_service();
 
-error_log( print_r( $service, true));
 
 if ( $service && $user_id ) {
 	$service->load_discord_user_data( $user_id );

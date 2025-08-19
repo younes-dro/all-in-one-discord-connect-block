@@ -342,7 +342,7 @@ class Dro_CCBB_Memberpress extends Abstract_Service implements Service_Interface
 		$default_role                         = (int) sanitize_text_field( trim( get_option( 'ets_memberpress_discord_default_role_id' ) ) );
 		$ets_memberpress_discord_role_mapping = json_decode( get_option( 'ets_memberpress_discord_role_mapping' ), true );
 		$all_roles                            = json_decode( get_option( 'ets_memberpress_discord_all_roles' ), true );
-		$roles_color                          = unserialize( get_option( 'ets_memberpress_discord_roles_color' ) );
+		$roles_color                          = maybe_unserialize( get_option( 'ets_memberpress_discord_roles_color' ) );
 		$active_memberships                   = ets_memberpress_discord_get_active_memberships( $user_id );
 		$mapped_role_ids                      = array();
 

@@ -110,7 +110,6 @@ class Dro_CCBB_Resolver {
 	public static function set_active_service( string $service_name ): ?Service_Interface {
 		$service_class = DRO_CCBB_SERVICE_PREFIX . ucfirst( $service_name );
 
-		error_log( print_r( __NAMESPACE__, true ) );
 		if ( class_exists( $service_class ) ) {
 			return $service_class::get_instance();
 		}

@@ -318,8 +318,8 @@ class Dro_CCBB_UltimateMember extends Abstract_Service implements Service_Interf
 
 		$default_role                            = sanitize_text_field( trim( get_option( 'ets_ultimatemember_discord_default_role_id' ) ) );
 		$ets_ultimatemember_discord_role_mapping = json_decode( get_option( 'ets_ultimatemember_discord_role_mapping' ), true );
-		$all_roles                               = unserialize( get_option( 'ets_ultimatemember_discord_all_roles' ) );
-		$roles_color                             = unserialize( get_option( 'ets_ultimatemember_discord_roles_color' ) );
+		$all_roles                               = maybe_unserialize( get_option( 'ets_ultimatemember_discord_all_roles' ) );
+		$roles_color                             = maybe_unserialize( get_option( 'ets_ultimatemember_discord_roles_color' ) );
 		$curr_level_id                           = ets_ultimatemember_discord_get_current_level_id( $user_id );
 		$user_roles_html                         = '';
 		$mapped_role_name                        = '';

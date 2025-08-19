@@ -324,8 +324,8 @@ class Dro_CCBB_TutorLms extends Abstract_Service implements Service_Interface {
 	private function get_user_roles( $roles_text, $user_id ): ?string {
 		$default_role                       = sanitize_text_field( trim( get_option( 'ets_tutor_lms_discord_default_role_id' ) ) );
 		$ets_tutor_lms_discord_role_mapping = json_decode( get_option( 'ets_tutor_lms_discord_role_mapping' ), true );
-		$all_roles                          = unserialize( get_option( 'ets_tutor_lms_discord_all_roles' ) );
-		$roles_color                        = unserialize( get_option( 'ets_tutor_lms_discord_roles_color' ) );
+		$all_roles                          = maybe_unserialize( get_option( 'ets_tutor_lms_discord_all_roles' ) );
+		$roles_color                        = maybe_unserialize( get_option( 'ets_tutor_lms_discord_roles_color' ) );
 		$enrolled_courses                   = ets_tutor_lms_discord_get_student_courses_ids( $user_id );
 		$mapped_role_name                   = '';
 		$user_roles_html                    = '';
@@ -373,8 +373,8 @@ class Dro_CCBB_TutorLms extends Abstract_Service implements Service_Interface {
 		$user_id = (int) get_current_user_id();
 
 		$ets_tutor_lms_discord_role_mapping = json_decode( get_option( 'ets_tutor_lms_discord_role_mapping' ), true );
-		$all_roles                          = unserialize( get_option( 'ets_tutor_lms_discord_all_roles' ) );
-		$roles_color                        = unserialize( get_option( 'ets_tutor_lms_discord_roles_color' ) );
+		$all_roles                          = maybe_unserialize( get_option( 'ets_tutor_lms_discord_all_roles' ) );
+		$roles_color                        = maybe_unserialize( get_option( 'ets_tutor_lms_discord_roles_color' ) );
 		$enrolled_courses                   = ets_tutor_lms_discord_get_student_courses_ids( $user_id );
 		$mapped_role_name                   = '';
 		if ( is_array( $enrolled_courses ) && is_array( $all_roles ) && is_array( $ets_tutor_lms_discord_role_mapping ) ) {

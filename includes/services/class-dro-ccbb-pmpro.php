@@ -351,7 +351,6 @@ class Dro_CCBB_Pmpro extends Abstract_Service implements Service_Interface {
 
 		$curr_level_id = ets_pmpro_discord_get_current_level_id( $user_id );
 
-
 		$mapped_role_name = '';
 		if ( $curr_level_id && is_array( $all_roles ) ) {
 			if ( is_array( $ets_pmpor_discord_role_mapping ) && array_key_exists( 'pmpro_level_id_' . $curr_level_id, $ets_pmpor_discord_role_mapping ) ) {

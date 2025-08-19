@@ -28,7 +28,7 @@ define( 'DRO_CCBB_VERSION', get_file_data( __FILE__, array( 'Version' ), 'plugin
 define( 'DRO_CCBB_FILE', __FILE__ );
 define( 'DRO_CCBB_DIR', plugin_dir_path( __FILE__ ) );
 define( 'DRO_CCBB_URL', plugin_dir_url( __FILE__ ) );
-define( 'DRO_CCBB_SERVICE_PREFIX', __NAMESPACE__ . '\\includes\\Services\\Dro_CCBB_');
+define( 'DRO_CCBB_SERVICE_PREFIX', __NAMESPACE__ . '\\includes\\Services\\Dro_CCBB_' );
 
 /**
  * Activation hook for the Custom connect button block for Discord plugin.
@@ -46,7 +46,6 @@ register_activation_hook( DRO_CCBB_FILE, __NAMESPACE__ . '\\dro_ccbb_activation'
 
 /**
  * Registers a custom autoloader.
- *
  *
  * @return void
  */

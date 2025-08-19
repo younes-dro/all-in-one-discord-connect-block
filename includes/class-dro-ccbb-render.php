@@ -3,7 +3,6 @@
 /**
  *  Custom connect button block for Discord - Render
  *  This class is responsible for rendering the Discord connect block.
-
  *
  *  @package @package CustomConnectButtonBlockForDiscord
  * @author Younes DRO <younesdro@gmail.com>

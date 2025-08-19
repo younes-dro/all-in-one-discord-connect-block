@@ -17,12 +17,13 @@ This block provides full customization options, including button text, colors, a
 
 Unlike traditional shortcodes, this block supports custom design variations based on the specific post or page it’s used on — giving you full control over layout and context-aware styling.
 
-✨ Behind the scenes, the block uses a server-side rendering mechanism that allows you to toggle between edit mode and live preview directly within the block editor. With Play/Stop controls, you can instantly view the real frontend output — exactly as it will appear to users — without needing to save the post or switch to the frontend.
+✨ Behind the scenes, the block uses a server-side rendering mechanism that allows you to toggle between edit mode and live preview directly within the block editor. With *Play/Stop* controls, you can instantly view the real frontend output — exactly as it will appear to users — without needing to save the post or switch to the frontend.
 
 ### Supported Add-ons:
 This block is compatible with the following plugins:
-- [ExpressTech MemberPress Discord Add-on](https://wordpress.org/plugins/expresstechsoftwares-memberpress-discord-add-on/)
 - [PMPro Discord Add-on](https://wordpress.org/plugins/pmpro-discord-add-on/)
+- [ExpressTech MemberPress Discord Add-on](https://wordpress.org/plugins/expresstechsoftwares-memberpress-discord-add-on/)
+- [Connect Ultimate Member to Discord](https://wordpress.org/plugins/ultimate-member-discord-add-on/)
 - [Connect Tutor LMS to Discord](https://wordpress.org/plugins/connect-tutorlms-to-discord/)
 
 
@@ -34,7 +35,7 @@ This block is compatible with the following plugins:
 - Compatible with multiple membership plugins (PMPro, MemberPress, Ultimate Member, Tutor LMS).
 - No coding required – customize everything visually in the block editor.
 
-This plugin's code is [available on GitHub](https://github.com/younes-dro/'custom-connect-button-block-for-discord'). Please feel free to fork the repository and send a pull request. If you find a bug in the plugin, open an issue.
+This plugin's code is [available on GitHub](https://github.com/younes-dro/custom-connect-button-block-for-discord). Please feel free to fork the repository and send a pull request. If you find a bug in the plugin, open an issue.
 
 == Installation ==
 
@@ -49,7 +50,7 @@ This section describes how to install the plugin and get it working.
 This block allows users to connect their Discord accounts directly from any page or post using a visually customizable button.
 
 = Does this block work with any Discord integration plugin? =
-Currently, it supports the PMPro, MemberPress, Ultimate Member, and Tutor LMS Discord add-ons, but it may work with other similar plugins as well.
+Currently, it supports the PMPro, MemberPress, Ultimate Member, and Tutor LMS Discord add-ons.
 
 = Can I customize the button style? =
 Yes! You can customize the button’s text, colors, and size directly within the Gutenberg editor.

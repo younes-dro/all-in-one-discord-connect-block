@@ -1,22 +1,22 @@
 <?php
 /**
- * * Class Dro_AIO_Discord_Resolver
+ * * Class Dro_CCBB_Resolver
  * * This class will detect which services sould be used.
- * * and save it in global variable $dro_aio_discord_active_service.
+ *
  * * In case more than one service is available, it will use the first one.
  */
 
 declare(strict_types=1);
 namespace Dro\CustomConnectButtonBlock\includes;
 
-use CustomConnectButtonBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface;
+use Dro\CustomConnectButtonBlock\includes\Interfaces\Dro_CCBB_Service_Interface as Service_Interface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 /**
- * Class Dro_AIO_Discord_Resolver
+ * Class Dro_CCBB_Resolver
  * This class is responsible for resolving the active Discord service based on installed plugins.
  * It checks for active plugins and returns the corresponding service instance.
  * The priority order is defined in the $priority_map array.
@@ -27,16 +27,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author Younes DRO<younesdro@gmail.com>
  * @license GPL-2.0-or-later
  */
-class Dro_AIO_Discord_Resolver {
+class Dro_CCBB_Resolver {
 
 	/**
 	 * The active service instance.
 	 * This property holds the currently active Discord service instance.
 	 * It is initialized to null and will be set when the resolve method is called.
 	 *
-	 * @var Dro_AIO_Discord_Service_Interface|null
+	 * @var Service_Interface|null
 	 */
-	protected static ?Dro_AIO_Discord_Service_Interface $active_service = null;
+	protected static ?Service_Interface $active_service = null;
 
 	/**
 	 * Array mapping plugin slugs to service class suffixes.
@@ -80,9 +80,9 @@ class Dro_AIO_Discord_Resolver {
 	/**
 	 * Resolves and sets the active service, based on installed/active add-ons.
 	 *
-	 * @return Dro_AIO_Discord_Service_Interface|null
+	 * @return Service_Interface|null
 	 */
-	public static function resolve(): ?Dro_AIO_Discord_Service_Interface {
+	public static function resolve(): ?Service_Interface {
 
 		if ( self::$active_service !== null ) {
 			return self::$active_service;
@@ -107,16 +107,17 @@ class Dro_AIO_Discord_Resolver {
 	}
 
 
-	public static function set_active_service( string $service_name ): ?Dro_AIO_Discord_Service_Interface {
-		$service_class = '\\Dro\\AIODiscordBlock\\includes\\Services\\Dro_AIO_Discord_' . ucfirst( $service_name );
+	public static function set_active_service( string $service_name ): ?Service_Interface {
+		$service_class = DRO_CCBB_SERVICE_PREFIX . ucfirst( $service_name );
 
+		error_log( print_r( __NAMESPACE__, true));
 		if ( class_exists( $service_class ) ) {
 			return $service_class::get_instance();
 		}
 		return null;
 	}
 
-	public static function get_active_service(): ?Dro_AIO_Discord_Service_Interface {
+	public static function get_active_service(): ?Service_Interface {
 		if ( self::$active_service === null ) {
 			self::resolve();
 		}

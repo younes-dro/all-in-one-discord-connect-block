@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Dro\CustomConnectButtonBlock\includes;
 
-use CustomConnectButtonBlock\includes\Dro_AIO_Discord_Resolver as Discord_Resolver;
-use CustomConnectButtonBlock\includes\Dro_AIO_Discord_Rest_Api as Discord_Rest_Api;
+use Dro\CustomConnectButtonBlock\includes\Dro_CCBB_Resolver as Resolver;
+use Dro\CustomConnectButtonBlock\includes\Dro_CCBB_Rest_Api as Discord_Rest_Api;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Main class for Custom connect button block for Discord.
  */
-class Dro_AIO_Discord {
+class Dro_CCBB_Main {
 
 	/**
 	 * The singleton instance of the class.
@@ -48,7 +48,7 @@ class Dro_AIO_Discord {
 	 * @return void
 	 */
 	public function plugin_loaded() {
-		Discord_Resolver::resolve();
+		Resolver::resolve();
 		Discord_Rest_Api::get_instance();
 	}
 	/**
@@ -69,7 +69,7 @@ class Dro_AIO_Discord {
 
 		$cloning_message = sprintf(
 			/* translators: %s is the class name that cannot be cloned */
-			esc_html__( 'You cannot clone instance of %s', custom-connect-button-block-for-discord ),
+			esc_html__( 'You cannot clone instance of %s', 'custom-connect-button-block-for-discord' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_CCBB_VERSION ) );

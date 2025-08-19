@@ -19,9 +19,7 @@
 
 declare(strict_types=1);
 
-namespace CustomConnectButtonBlock\includes\Abstracts;
-
-use CustomConnectButtonBlock\includes\helpers\Dro_AIO_Discord_Helper as Discord_Helper;
+namespace Dro\CustomConnectButtonBlock\includes\Abstracts;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -29,13 +27,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Abstract class Dro_AIO_Discord_Service
+ * Abstract class Dro_CCBB_Service
  *
  * Provides shared functionality for Discord service implementations.
  *
  * @since    1.0.0
  */
-abstract class Dro_AIO_Discord_Service {
+abstract class Dro_CCBB_Service {
 
 	/**
 	 * Get the plugin name/slug for the service.

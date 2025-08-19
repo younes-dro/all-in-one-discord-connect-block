@@ -21,7 +21,7 @@ import { DiscordIcon, PlayIcon, StopIcon, LivePreviewBadge } from './assets/comp
 import { ServiceIconSVG } from './assets/CustomServiceIcon';
 import './editor.scss';
 
-const textDomain = custom-connect-button-block-for-discord;
+const textDomain = 'custom-connect-button-block-for-discord';
 
 /**
  * Edit function for the Custom connect button block for Discord.

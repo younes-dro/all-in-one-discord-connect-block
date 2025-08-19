@@ -52,7 +52,7 @@ class Dro_CCBB_Rest_Api {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private const API_NAMESPACE = 'dro-ccbb/v1';
+	private const API_NAMESPACE = 'aio-discord/v1';
 
 	/**
 	 * Private constructor to prevent direct instantiation.
@@ -207,7 +207,7 @@ class Dro_CCBB_Rest_Api {
 	 * Get Discord service icons.
 	 *
 	 * Returns the official icon URL from the WordPress plugin repository.
-	 * Endpoint: GET /wp-json/dro-ccbb/v1/icons
+	 * Endpoint: GET /wp-json/aio-discord/v1/icons
 	 *
 	 * @since 1.0.0
 	 * @param WP_REST_Request $request The REST request object
@@ -272,7 +272,7 @@ class Dro_CCBB_Rest_Api {
 	/**
 	 * Get comprehensive service information.
 	 *
-	 * Endpoint: GET /wp-json/dro-ccbb/v1/service-info
+	 * Endpoint: GET /wp-json/aio-discord/v1/service-info
 	 *
 	 * @since 1.0.0
 	 * @param WP_REST_Request $request The REST request object

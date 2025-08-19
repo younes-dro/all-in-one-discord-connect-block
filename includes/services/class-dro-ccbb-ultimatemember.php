@@ -13,10 +13,10 @@
 
 declare(strict_types=1);
 
-namespace CustomConnectButtonBlock\includes\Services;
+namespace Dro\CustomConnectButtonBlock\includes\Services;
 
-use CustomConnectButtonBlock\includes\Abstracts\Dro_AIO_Discord_Service as Discord_Service;
-use CustomConnectButtonBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
+use Dro\CustomConnectButtonBlock\includes\Abstracts\Dro_CCBB_Service as Abstract_Service;
+use Dro\CustomConnectButtonBlock\includes\Interfaces\Dro_CCBB_Service_Interface as Service_Interface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0
  */
-class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_Service_Interface {
+class Dro_CCBB_UltimateMember extends Abstract_Service implements Service_Interface {
 
 	/**
 	 * The singleton instance.
@@ -95,7 +95,7 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 
 		$cloning_message = sprintf(
 			/* translators: %s is the class name that cannot be cloned */
-			esc_html__( 'You cannot clone instance of %s', custom-connect-button-block-for-discord ),
+			esc_html__( 'You cannot clone instance of %s', 'custom-connect-button-block-for-discord' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_CCBB_VERSION ) );
@@ -111,7 +111,7 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 
 		$unserializing_message = sprintf(
 			/* translators: %s is the class name that cannot be unserialized */
-			esc_html__( 'You cannot unserialize instance of %s', custom-connect-button-block-for-discord ),
+			esc_html__( 'You cannot unserialize instance of %s', 'custom-connect-button-block-for-discord' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_CCBB_VERSION ) );
@@ -121,9 +121,9 @@ class Dro_AIO_Discord_UltimateMember extends Discord_Service implements Discord_
 	 * Return the singleton instance of this service.
 	 *
 	 * @since 1.0.0
-	 * @return Discord_Service_Interface
+	 * @return Service_Interface
 	 */
-	public static function get_instance(): Discord_Service_Interface {
+	public static function get_instance(): Service_Interface {
 		return self::$instance ?? new self();
 	}
 

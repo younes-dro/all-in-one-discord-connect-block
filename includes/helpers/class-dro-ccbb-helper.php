@@ -7,13 +7,13 @@
 
 declare(strict_types=1);
 
-namespace CustomConnectButtonBlock\includes\helpers;
+namespace Dro\CustomConnectButtonBlock\includes\helpers;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Dro_AIO_Discord_Helper {
+class Dro_CCBB_Helper {
 
 	/**
 	 * Get allowed HTML tags for wp_kses().
@@ -67,7 +67,7 @@ class Dro_AIO_Discord_Helper {
 			if ( $message instanceof \Throwable ) {
 				$message = $message->getMessage();
 			}
-			$prefix = '[All-in-One Discord Connect][' . strtoupper( $level ) . '] ';
+			$prefix = '[CustomConnectButtonBlockForDiscord][' . strtoupper( $level ) . '] ';
 
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			error_log( $prefix . esc_html( (string) $message ) );

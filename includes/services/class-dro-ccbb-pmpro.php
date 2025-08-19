@@ -4,7 +4,7 @@
  * PMPro Discord Service Implementation
  *
  * This class handles the Paid Memberships Pro service for Discord integration.
- * It implements the Dro_AIO_Discord_Service_Interface and extends the abstract service.
+ * It implements the Dro_CCBB_Service_Interface and extends the abstract service.
  *
  * PHP version 7.4+
  *
@@ -13,16 +13,16 @@
  * @author   Younes DRO <younesdro@gmail.com>
  * @license  GPL-2.0-or-later https://www.gnu.org/licenses/gpl-2.0.html
  * @version  GIT: 1.0.0
- * @link     https://github.com/younes-dro/custom-connect-button-block-for-discord
+ * @link     https://github.com/younes-dro/'custom-connect-button-block-for-discord'
  * @since    1.0.0
  */
 
 declare(strict_types=1);
 
-namespace CustomConnectButtonBlock\includes\Services;
+namespace Dro\CustomConnectButtonBlock\includes\Services;
 
-use CustomConnectButtonBlock\includes\Abstracts\Dro_AIO_Discord_Service as Discord_Service;
-use CustomConnectButtonBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
+use Dro\CustomConnectButtonBlock\includes\Abstracts\Dro_CCBB_Service as Abstract_Service;
+use Dro\CustomConnectButtonBlock\includes\Interfaces\Dro_CCBB_Service_Interface as Service_Interface;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -40,10 +40,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author   Younes DRO <younesdro@gmail.com>
  * @license  GPL-2.0-or-later https://www.gnu.org/licenses/gpl-2.0.html
  * @version  Release: 1.0.0
- * @link     https://github.com/younes-dro/custom-connect-button-block-for-discord
+ * @link     https://github.com/younes-dro/'custom-connect-button-block-for-discord'
  * @since    1.0.0
  */
-class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_Interface {
+class Dro_CCBB_Pmpro extends Abstract_Service implements Service_Interface {
 
 
 		/**
@@ -115,7 +115,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 		$cloning_message = sprintf(
 			/* translators: %s is the class name that cannot be cloned */
-			esc_html__( 'You cannot clone instance of %s', custom-connect-button-block-for-discord ),
+			esc_html__( 'You cannot clone instance of %s', 'custom-connect-button-block-for-discord' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_CCBB_VERSION ) );
@@ -129,7 +129,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 
 		$unserializing_message = sprintf(
 			/* translators: %s is the class name that cannot be unserialized */
-			esc_html__( 'You cannot unserialize instance of %s', custom-connect-button-block-for-discord ),
+			esc_html__( 'You cannot unserialize instance of %s', 'custom-connect-button-block-for-discord' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_CCBB_VERSION ) );
@@ -142,9 +142,9 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 	 * Ensures that only one instance of the service is created and reused.
 	 * This method is typically used to access the service without directly instantiating it.
 	 *
-	 * @return Discord_Service_Interface The singleton instance of the service.
+	 * @return Service_Interface The singleton instance of the service.
 	 */
-	public static function get_instance(): Discord_Service_Interface {
+	public static function get_instance(): Service_Interface {
 
 		return self::$instance ?? new self();
 	}
@@ -254,7 +254,7 @@ class Dro_AIO_Discord_Pmpro extends Discord_Service implements Discord_Service_I
 			);
 			$html .= $this->get_user_roles( $roleWillAssignText, $user_id );
 		} else {
-			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', custom-connect-button-block-for-discord ) . '</p>';
+			$html .= '<p>' . esc_html__( 'You must be a member to connect to Discord.', 'custom-connect-button-block-for-discord' ) . '</p>';
 		}
 
 		return $html;

@@ -7,8 +7,8 @@
 
 namespace CustomConnectButtonBlock\Tests\Integration;
 
-use CustomConnectButtonBlock\Abstracts\Dro_AIO_Discord_Service;
-use CustomConnectButtonBlock\Tests\Helpers\Discord_Service_Mock_Helper;
+use Dro\CustomConnectButtonBlock\Abstracts\Dro_AIO_Discord_Service;
+use Dro\CustomConnectButtonBlock\Tests\Helpers\Discord_Service_Mock_Helper;
 use WP_UnitTestCase;
 
 /**

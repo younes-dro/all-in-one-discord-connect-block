@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Custom connect button block for Discord
- * Plugin URI:        https://github.com/younes-dro/custom-connect-button-block-for-discord
+ * Plugin URI:        https://github.com/younes-dro/'custom-connect-button-block-for-discord'
  * Description:       A Gutenberg block that displays a custom Connect to Discord button with flexible style options. Seamlessly integrates with membership plugins like PMPro, MemberPress, Ultimate Member and Tutor LMS.
  * Version:           1.0.0
  * Requires at least: 6.8
@@ -10,7 +10,7 @@
  * Author URI:        https://github.com/younes-dro
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       custom-connect-button-block-for-discord
+ * Text Domain:       'custom-connect-button-block-for-discord'
  *
  * @package @package CustomConnectButtonBlockForDiscord
  */
@@ -18,7 +18,7 @@ declare( strict_types=1 );
 
 namespace Dro\CustomConnectButtonBlock;
 
-use Dro\CustomConnectButtonBlock\includes\Dro_AIO_Discord;
+use Dro\CustomConnectButtonBlock\includes\Dro_CCBB_Main;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -28,6 +28,7 @@ define( 'DRO_CCBB_VERSION', get_file_data( __FILE__, array( 'Version' ), 'plugin
 define( 'DRO_CCBB_FILE', __FILE__ );
 define( 'DRO_CCBB_DIR', plugin_dir_path( __FILE__ ) );
 define( 'DRO_CCBB_URL', plugin_dir_url( __FILE__ ) );
+define( 'DRO_CCBB_SERVICE_PREFIX', __NAMESPACE__ . '\\includes\\Services\\Dro_CCBB_');
 
 /**
  * Activation hook for the Custom connect button block for Discord plugin.
@@ -37,33 +38,19 @@ define( 'DRO_CCBB_URL', plugin_dir_url( __FILE__ ) );
  *
  * @return void
  */
-function ccbb_activation() {
+function dro_ccbb_activation() {
 	// empty function for now, but can be used in the future for activation logic.
 }
 
-register_activation_hook( DRO_CCBB_FILE, __NAMESPACE__ . '\\ccbb_activation' );
+register_activation_hook( DRO_CCBB_FILE, __NAMESPACE__ . '\\dro_ccbb_activation' );
 
 /**
- * Registers a custom autoloader for the All-in-One Discord Connect Block plugin.
+ * Registers a custom autoloader.
  *
- * This autoloader dynamically includes PHP class files based on their namespace
- * and naming convention. It supports automatic loading of class and abstract class
- * files located in the plugin's `includes` directory structure.
- *
- * Naming convention:
- * - Classes should be stored as `class-<name>.php`
- * - Abstract classes should be stored as `abstract-<name>.php`
- *
- * The autoloader detects abstract classes by inspecting the namespace path
- * and checking whether it contains the "abstracts" segment.
- *
- * Example class:
- *   Namespace: Dro\AIODiscordBlock\includes\Abstracts\Dro_AIO_Discord_Service
- *   Path:      includes/abstracts/abstract-dro-aio-discord-service.php
  *
  * @return void
  */
-function ccbb_autoload() {
+function dro_ccbb_autoload() {
 	spl_autoload_register(
 		function ( $class ) {
 			if ( strncmp( __NAMESPACE__ . '\\', $class, strlen( __NAMESPACE__ ) + 1 ) !== 0 ) {
@@ -76,6 +63,7 @@ function ccbb_autoload() {
 			$class_path        = __DIR__ . '/' . implode( DIRECTORY_SEPARATOR, array_slice( $class_portions, 2 ) );
 			$class_file_prefix = ( stripos( $class, 'abstracts' ) !== false ? 'abstract-' : 'class-' );
 			$class_full_path   = $class_path . DIRECTORY_SEPARATOR . $class_file_prefix . $class_file_name . '.php';
+			// error_log( print_r( $class_full_path, true));
 
 			if ( file_exists( $class_full_path ) ) {
 				require_once $class_full_path;
@@ -92,7 +80,7 @@ function ccbb_autoload() {
  * @see https://make.wordpress.org/core/2025/03/13/more-efficient-block-type-registration-in-6-8/
  * @see https://make.wordpress.org/core/2024/10/17/new-block-type-registration-apis-to-improve-performance-in-wordpress-6-7/
  */
-function ccbb_block_init() {
+function dro_ccbb_block_init() {
 
 	if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) ) {
 		wp_register_block_types_from_metadata_collection( __DIR__ . '/build', __DIR__ . '/build/blocks-manifest.php' );
@@ -107,7 +95,7 @@ function ccbb_block_init() {
 		register_block_type( __DIR__ . "/build/{$block_type}" );
 	}
 }
-add_action( 'init', __NAMESPACE__ . '\\ccbb_block_init' );
+add_action( 'init', __NAMESPACE__ . '\\dro_ccbb_block_init' );
 
 /**
  * Initialize the Custom connect button block for Discord plugin.
@@ -117,8 +105,8 @@ add_action( 'init', __NAMESPACE__ . '\\ccbb_block_init' );
  *
  * @return void
  */
-function ccbb_init() {
-	ccbb_autoload();
-	Dro_AIO_Discord::get_instance();
+function dro_ccbb_init() {
+	dro_ccbb_autoload();
+	Dro_CCBB_Main::get_instance();
 }
-ccbb_init();
+dro_ccbb_init();

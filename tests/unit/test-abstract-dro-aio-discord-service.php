@@ -7,7 +7,7 @@
 
 namespace CustomConnectButtonBlock\Tests\Unit;
 
-use CustomConnectButtonBlock\includes\Abstracts\Dro_AIO_Discord_Service;
+use Dro\CustomConnectButtonBlock\includes\Abstracts\Dro_AIO_Discord_Service;
 
 
 /**

@@ -18,7 +18,7 @@
 
 ## 🚀 Installation
 
-1. Upload the plugin files to the `/wp-content/plugins/custom-connect-button-block-for-discord/` directory, or install it directly through the WordPress admin dashboard.
+1. Upload the plugin files to the `/wp-content/plugins/'custom-connect-button-block-for-discord'/` directory, or install it directly through the WordPress admin dashboard.
 2. Activate the plugin through the “Plugins” menu in WordPress.
 3. Edit a post or page using the Gutenberg Block Editor.
 4. Search for **“Discord Connect”** block and insert it.

@@ -3,7 +3,7 @@
 /**
  *  Custom connect button block for Discord - Render
  *  This class is responsible for rendering the Discord connect block.
- *  It will use the active service stored in the global variable $dro_aio_discord_active_service.
+
  *
  *  @package @package CustomConnectButtonBlockForDiscord
  * @author Younes DRO <younesdro@gmail.com>
@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace Dro\CustomConnectButtonBlock\includes;
 
-use CustomConnectButtonBlock\includes\Interfaces\Dro_AIO_Discord_Service_Interface as Discord_Service_Interface;
+use Dro\CustomConnectButtonBlock\includes\Interfaces\Dro_CCBB_Service_Interface as Service_Interface;
 use WP_Block;
 
 
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Dro_AIO_Discord_Render
+ * Class Dro_CCBB_Render
  * This class is responsible for rendering the Discord connect block.
  * It will use the active service stored in the global variable $dro_aio_discord_active_service.
  *
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version 1.0.0
  * @since 1.0.0
  */
-class Dro_AIO_Discord_Render {
+class Dro_CCBB_Render {
 
 
 	/**
@@ -47,38 +47,38 @@ class Dro_AIO_Discord_Render {
 	/**
 	 * The active service.
 	 *
-	 * @var Discord_Service_Interface|null
+	 * @var Service_Interface|null
 	 */
-	protected ?Discord_Service_Interface $active_service = null;
+	protected ?Service_Interface $active_service = null;
 
 	/**
-	 * Dro_AIO_Discord_Render constructor.
+	 * Dro_CCBB_Render constructor.
 	 * Private constructor to enforce singleton pattern.
 	 *
-	 * @param Discord_Service_Interface|null $active_service The active service.
+	 * @param Service_Interface|null $active_service The active service.
 	 */
-	private function __construct( ?Discord_Service_Interface $active_service = null ) {
+	private function __construct( ?Service_Interface $active_service = null ) {
 		$this->active_service = $active_service ?? null;
 	}
 
 	/**
 	 * Set the active service.
 	 *
-	 * @param Discord_Service_Interface $active_service
+	 * @param Service_Interface $active_service
 	 * @return void
 	 */
-	public function set_active_service( Discord_Service_Interface $active_service ): void {
+	public function set_active_service( Service_Interface $active_service ): void {
 		$this->active_service = $active_service;
 	}
 
 	/**
 	 * Get the instance of the class.
 	 *
-	 * @param Discord_Service_Interface|null $active_service The active service.
+	 * @param Service_Interface|null $active_service The active service.
 	 *
 	 * @return self|null
 	 */
-	public static function get_instance( ?Discord_Service_Interface $active_service = null ): ?self {
+	public static function get_instance( ?Service_Interface $active_service = null ): ?self {
 		return self::$instance ??= new self( $active_service );
 	}
 	/**
@@ -90,7 +90,7 @@ class Dro_AIO_Discord_Render {
 
 		$cloning_message = sprintf(
 			/* translators: %s is the class name that cannot be cloned */
-			esc_html__( 'You cannot clone instance of %s', custom-connect-button-block-for-discord ),
+			esc_html__( 'You cannot clone instance of %s', 'custom-connect-button-block-for-discord' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $cloning_message ), esc_html( DRO_CCBB_VERSION ) );
@@ -104,7 +104,7 @@ class Dro_AIO_Discord_Render {
 
 		$unserializing_message = sprintf(
 			/* translators: %s is the class name that cannot be unserialized */
-			esc_html__( 'You cannot unserialize instance of %s', custom-connect-button-block-for-discord ),
+			esc_html__( 'You cannot unserialize instance of %s', 'custom-connect-button-block-for-discord' ),
 			get_class( $this )
 		);
 		_doing_it_wrong( __FUNCTION__, esc_html( $unserializing_message ), esc_html( DRO_CCBB_VERSION ) );
@@ -121,8 +121,8 @@ class Dro_AIO_Discord_Render {
 	 */
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
 
-		if ( ! $this->active_service instanceof Discord_Service_Interface ) {
-			return '<h2>' . esc_html__( 'No active Discord service found.', custom-connect-button-block-for-discord ) . '</h2>';
+		if ( ! $this->active_service instanceof Service_Interface ) {
+			return '<h2>' . esc_html__( 'No active Discord service found.', 'custom-connect-button-block-for-discord' ) . '</h2>';
 		}
 
 		$html  = '';

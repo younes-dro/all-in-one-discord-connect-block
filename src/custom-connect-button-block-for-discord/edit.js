@@ -48,9 +48,9 @@ export default function Edit({ attributes, setAttributes }) {
 		isLivePreview = false,
 	} = attributes;
 
-	// const blockProps = { ...useBlockProps(), className: 'aio-discord-connect-block' };
+	// const blockProps = { ...useBlockProps(), className: 'dro-ccbb-connect-block' };
 	const blockProps = useBlockProps({
-		className: 'aio-discord-connect-block',
+		className: 'dro-ccbb-connect-block',
 	});
 
 	const [serviceIconURL, setServiceIconURL] = useState(null);
@@ -120,14 +120,14 @@ export default function Edit({ attributes, setAttributes }) {
 	const renderEditUI = () => (
 		<>
 			{/* <img src={serviceIconURL} /> */}
-			<div className='aio-discord-connect-buttons'>
+			<div className='dro-ccbb-connect-buttons'>
 
 				<button
 					style={{
 						backgroundColor: connectButtonBgColor,
 						color: connectButtonTextColor
 					}}
-					className="aio-discord-connect-button"
+					className="dro-ccbb-connect-button"
 				>
 					<RichText
 						tagName="span"
@@ -142,7 +142,7 @@ export default function Edit({ attributes, setAttributes }) {
 						backgroundColor: disconnectButtonBgColor,
 						color: disconnectButtonTextColor
 					}}
-					className="aio-discord-connect-button"
+					className="dro-ccbb-connect-button"
 				>
 					<RichText
 						tagName="span"

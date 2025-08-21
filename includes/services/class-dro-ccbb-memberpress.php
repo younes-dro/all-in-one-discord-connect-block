@@ -301,11 +301,12 @@ class Dro_CCBB_Memberpress extends Abstract_Service implements Service_Interface
 		wp_enqueue_style( 'connect-memberpress-discord-add-onpublic_css' );
 
 		$button_html = sprintf(
-			'<a href="#" class="ets-btn btn-disconnect" id="memberpress-disconnect-discord" data-user-id="%s" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			'<a href="#" class="ets-btn btn-disconnect" id="memberpress-disconnect-discord" data-user-id="%s" style="background-color:%s; color:%s;">%s <i>%s</i></a>',
 			esc_attr( $user_id ),
 			esc_attr( $button_bg_color ),
 			esc_attr( $button_text_color ),
-			esc_html( $button_text )
+			esc_html( $button_text ),
+			wp_kses( Helper::get_discord_icon(), Helper::get_allowed_html() )
 		);
 
 		return $button_html . '<span class="ets-spinner"></span>';

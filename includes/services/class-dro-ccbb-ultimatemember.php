@@ -278,11 +278,12 @@ class Dro_CCBB_UltimateMember extends Abstract_Service implements Service_Interf
 		wp_enqueue_style( 'ultimate-member-discord-add-on' );
 
 		$button_html = sprintf(
-			'<a href="#" class="dro-ccbb-disconnect-button" id="ultimate-member-disconnect-discord" data-user-id="%s" style="background-color:%s; color:%s;">%s <i class="fab fa-discord"></i></a>',
+			'<a href="#" class="dro-ccbb-disconnect-button" id="ultimate-member-disconnect-discord" data-user-id="%s" style="background-color:%s; color:%s;">%s <i>%s</i></a>',
 			esc_attr( $user_id ),
 			esc_attr( $button_bg_color ),
 			esc_attr( $button_text_color ),
-			esc_html( $button_text )
+			esc_html( $button_text ),
+			wp_kses( Helper::get_discord_icon(), Helper::get_allowed_html() )
 		);
 
 		return $button_html . '<span class="ets-spinner"></span>';

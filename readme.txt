@@ -12,12 +12,22 @@ A Gutenberg block to connect Discord accounts with customizable buttons and supp
 
 == Description ==
 
-**Custom connect button block for Discord** is a powerful Gutenberg block that enables users to connect their Discord accounts directly from any page or post.
-This block provides full customization options, including button text, colors, and styles, while dynamically displaying the user's connection status.
+**Custom Connect Button Block** for Discord is a powerful Gutenberg block that allows users to connect their Discord accounts directly from any page or post.
+The block offers full customization options, including button text, colors, and styles, while dynamically displaying each user’s connection status.
+It also displays the list of Discord roles that the user will be assigned or has already been assigned, depending on their connection status.
 
 Unlike traditional shortcodes, this block supports custom design variations based on the specific post or page it’s used on — giving you full control over layout and context-aware styling.
 
-✨ Behind the scenes, the block uses a server-side rendering mechanism that allows you to toggle between edit mode and live preview directly within the block editor. With *Play/Stop* controls, you can instantly view the real frontend output — exactly as it will appear to users — without needing to save the post or switch to the frontend.
+Behind the scenes, the block uses a server-side rendering mechanism that allows you to toggle between edit mode and live preview directly within the block editor.
+With ***Play/Stop*** controls, you can instantly view the real frontend output — **exactly as it will appear to users** — without needing to save the post or switch to the frontend.
+
+### Features:
+- Real-time live preview in the editor with a Play/Stop toggle to see the exact frontend output instantly.
+- Connect Discord accounts using a fully customizable button.
+- Display the user's Discord role if connected.
+- Show a "Disconnect" button for users who are already linked.
+- Displays the list of Discord roles that the user will be assigned or has already been assigned
+- No coding required – customize everything visually in the block editor.
 
 ### Supported Add-ons:
 This block is compatible with the following plugins:
@@ -26,14 +36,6 @@ This block is compatible with the following plugins:
 - [Connect Ultimate Member to Discord](https://wordpress.org/plugins/ultimate-member-discord-add-on/)
 - [Connect Tutor LMS to Discord](https://wordpress.org/plugins/connect-tutorlms-to-discord/)
 
-
-### Features:
-- Real-time live preview in the editor with a Play/Stop toggle to see the exact frontend output instantly.
-- Connect Discord accounts using a fully customizable button.
-- Display the user's Discord role if connected.
-- Show a "Disconnect" button for users who are already linked.
-- Compatible with multiple membership plugins (PMPro, MemberPress, Ultimate Member, Tutor LMS).
-- No coding required – customize everything visually in the block editor.
 
 This plugin's code is [available on GitHub](https://github.com/younes-dro/custom-connect-button-block-for-discord). Please feel free to fork the repository and send a pull request. If you find a bug in the plugin, open an issue.
 

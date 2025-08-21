@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:       Custom connect button block for Discord
- * Plugin URI:        https://github.com/younes-dro/'custom-connect-button-block-for-discord'
- * Description:       A Gutenberg block that displays a custom Connect to Discord button with flexible style options. Seamlessly integrates with membership plugins like PMPro, MemberPress, Ultimate Member and Tutor LMS.
+ * Plugin URI:        https://github.com/younes-dro/custom-connect-button-block-for-discord
+ * Description:       A Gutenberg block that displays a customizable connection status for Discord with Connect / Disconnect buttons and flexible styling options. Seamlessly integrates with popular membership plugins such as Paid Memberships Pro, MemberPress, Ultimate Member, and Tutor LMS.
  * Version:           1.0.0
  * Requires at least: 6.8
  * Requires PHP:      7.4

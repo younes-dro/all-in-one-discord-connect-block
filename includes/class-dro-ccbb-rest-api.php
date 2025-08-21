@@ -52,7 +52,7 @@ class Dro_CCBB_Rest_Api {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private const API_NAMESPACE = 'aio-discord/v1';
+	private const API_NAMESPACE = 'dro-ccbb/v1';
 
 	/**
 	 * Private constructor to prevent direct instantiation.
@@ -160,7 +160,7 @@ class Dro_CCBB_Rest_Api {
 		if ( ! current_user_can( 'read' ) ) {
 			return new WP_Error(
 				'rest_forbidden',
-				__( 'You must be logged in to access this endpoint.', 'custom-connect-button-block-for-discord' ),
+				esc_html__( 'You must be logged in to access this endpoint.', 'custom-connect-button-block-for-discord' ),
 				array( 'status' => 403 )
 			);
 		}
@@ -174,15 +174,21 @@ class Dro_CCBB_Rest_Api {
 		if ( empty( $nonce ) ) {
 			return new WP_Error(
 				'missing_nonce',
-				__( 'Missing security token. Please refresh the page and try again.', 'custom-connect-button-block-for-discord' ),
+				esc_html__( 'Missing security token. Please refresh the page and try again.', 'custom-connect-button-block-for-discord' ),
 				array( 'status' => 403 )
 			);
 		}
 
-		if ( ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
+		// Try our custom nonce fails, otherwise use the WordPress default REST nonce.
+		$custom_nonce_valid  = wp_verify_nonce( $nonce, 'dro_ccbb_nonce' );
+		$wp_rest_nonce_valid = false;
+		if ( ! $custom_nonce_valid ) {
+			$wp_rest_nonce_valid = wp_verify_nonce( $nonce, 'wp_rest' );
+		}
+		if ( ! $custom_nonce_valid && ! $wp_rest_nonce_valid ) {
 			return new WP_Error(
 				'invalid_nonce',
-				__( 'Invalid security token. Please refresh the page and try again.', 'custom-connect-button-block-for-discord' ),
+				esc_html__( 'Invalid security token. Please refresh the page and try again.', 'custom-connect-button-block-for-discord' ),
 				array( 'status' => 403 )
 			);
 		}
@@ -198,7 +204,7 @@ class Dro_CCBB_Rest_Api {
 
 		return new WP_Error(
 			'insufficient_permissions',
-			__( 'You do not have sufficient permissions to access this endpoint.', 'custom-connect-button-block-for-discord' ),
+			esc_html__( 'You do not have sufficient permissions to access this endpoint.', 'custom-connect-button-block-for-discord' ),
 			array( 'status' => 403 )
 		);
 	}
@@ -207,7 +213,7 @@ class Dro_CCBB_Rest_Api {
 	 * Get Discord service icons.
 	 *
 	 * Returns the official icon URL from the WordPress plugin repository.
-	 * Endpoint: GET /wp-json/aio-discord/v1/icons
+	 * Endpoint: GET /wp-json/dro-ccbb/v1/icons
 	 *
 	 * @since 1.0.0
 	 * @param WP_REST_Request $request The REST request object
@@ -220,7 +226,7 @@ class Dro_CCBB_Rest_Api {
 			if ( ! $active_service instanceof Service_Interface ) {
 				return new WP_Error(
 					'no_active_service',
-					__( 'No active Discord service found.', 'custom-connect-button-block-for-discord' ),
+					esc_html__( 'No active Discord service found.', 'custom-connect-button-block-for-discord' ),
 					array( 'status' => 404 )
 				);
 			}
@@ -229,7 +235,7 @@ class Dro_CCBB_Rest_Api {
 			if ( empty( $service_icon ) ) {
 				return new WP_Error(
 					'no_icon_available',
-					__( 'No icon available for the active service.', 'custom-connect-button-block-for-discord' ),
+					esc_html__( 'No icon available for the active service.', 'custom-connect-button-block-for-discord' ),
 					array( 'status' => 404 )
 				);
 			}
@@ -237,7 +243,7 @@ class Dro_CCBB_Rest_Api {
 			if ( ! filter_var( $service_icon, FILTER_VALIDATE_URL ) ) {
 				return new WP_Error(
 					'invalid_icon_url',
-					__( 'Invalid icon URL returned from service.', 'custom-connect-button-block-for-discord' ),
+					esc_html__( 'Invalid icon URL returned from service.', 'custom-connect-button-block-for-discord' ),
 					array( 'status' => 500 )
 				);
 			}
@@ -263,7 +269,7 @@ class Dro_CCBB_Rest_Api {
 		} catch ( Exception $e ) {
 			return new WP_Error(
 				'internal_error',
-				__( 'An internal error occurred while fetching the icon.', 'custom-connect-button-block-for-discord' ),
+				esc_html__( 'An internal error occurred while fetching the icon.', 'custom-connect-button-block-for-discord' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -272,7 +278,7 @@ class Dro_CCBB_Rest_Api {
 	/**
 	 * Get comprehensive service information.
 	 *
-	 * Endpoint: GET /wp-json/aio-discord/v1/service-info
+	 * Endpoint: GET /wp-json/dro-ccbb/v1/service-info
 	 *
 	 * @since 1.0.0
 	 * @param WP_REST_Request $request The REST request object
@@ -284,7 +290,7 @@ class Dro_CCBB_Rest_Api {
 			if ( ! $active_service instanceof Service_Interface ) {
 				return new WP_Error(
 					'no_active_service',
-					__( 'No active Discord service found.', 'custom-connect-button-block-for-discord' ),
+					esc_html__( 'No active Discord service found.', 'custom-connect-button-block-for-discord' ),
 					array( 'status' => 404 )
 				);
 			}
@@ -318,7 +324,7 @@ class Dro_CCBB_Rest_Api {
 		} catch ( Exception $e ) {
 			return new WP_Error(
 				'internal_error',
-				__( 'An internal error occurred while fetching service information.', 'custom-connect-button-block-for-discord' ),
+				esc_html__( 'An internal error occurred while fetching service information.', 'custom-connect-button-block-for-discord' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -365,11 +371,12 @@ class Dro_CCBB_Rest_Api {
 			'droDiscordApi',
 			array(
 				'apiUrl'    => rest_url( self::API_NAMESPACE ),
-				'nonce'     => wp_create_nonce( 'wp_rest' ),
+				'nonce'     => wp_create_nonce( 'dro_ccbb_nonce' ),
 				'endpoints' => array(
-					'icons'       => rest_url( self::API_NAMESPACE . '/icons' ),
-					'serviceInfo' => rest_url( self::API_NAMESPACE . '/service-info' ),
+					'icons'       => sprintf( '/%s/icons', self::API_NAMESPACE ),
+					'serviceInfo' => sprintf( '/%s/service-info', self::API_NAMESPACE ),
 				),
+
 			)
 		);
 	}

@@ -64,7 +64,7 @@ export default function Edit({ attributes, setAttributes }) {
 				setServiceIconLoading(true);
 				setServiceIconError(null);
 				const response = await apiFetch({
-					path: '/aio-discord/v1/icons',
+					path: droDiscordApi.endpoints.icons
 				});
 
 				if (response.success && response.data.icon_url) {

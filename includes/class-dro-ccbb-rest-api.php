@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Discord REST API Handler
  *
@@ -23,7 +22,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
 
-// Prevent direct access
+// Prevent direct access.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -142,7 +141,7 @@ class Dro_CCBB_Rest_Api {
 	 * @return array
 	 */
 	private function get_icons_args(): array {
-		// No arguments needed for now - returns official icon URL directly
+		// No arguments needed for now - returns official icon URL directly.
 		return array();
 	}
 
@@ -152,8 +151,8 @@ class Dro_CCBB_Rest_Api {
 	 * Verifies nonce for Gutenberg block requests and ensures user has appropriate capabilities.
 	 *
 	 * @since 1.0.0
-	 * @param WP_REST_Request $request The REST request object
-	 * @return bool|WP_Error True if allowed, WP_Error if not
+	 * @param WP_REST_Request $request The REST request object.
+	 * @return bool|WP_Error True if allowed, WP_Error if not.
 	 */
 	public function check_permissions( WP_REST_Request $request ) {
 
@@ -197,7 +196,7 @@ class Dro_CCBB_Rest_Api {
 			return true;
 		}
 
-		// For non-admin users, ensure they can at least read
+		// For non-admin users, ensure they can at least read.
 		if ( current_user_can( 'read' ) ) {
 			return true;
 		}

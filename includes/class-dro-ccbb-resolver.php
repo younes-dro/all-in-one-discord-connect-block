@@ -4,6 +4,8 @@
  * * This class will detect which services sould be used.
  *
  * * In case more than one service is available, it will use the first one.
+ *
+ * @package Custom connect button block for Discord
  */
 
 declare(strict_types=1);
@@ -84,7 +86,7 @@ class Dro_CCBB_Resolver {
 	 */
 	public static function resolve(): ?Service_Interface {
 
-		if ( self::$active_service !== null ) {
+		if ( null !== self::$active_service ) {
 			return self::$active_service;
 		}
 
@@ -96,17 +98,18 @@ class Dro_CCBB_Resolver {
 			if ( is_plugin_active( $plugin_slug ) ) {
 				self::$active_service = self::set_active_service( $service_key );
 				break;
-			} else {
-				// error_log( print_r( 'Not Active : '. $plugin_slug, true));
 			}
 		}
-
-		// $GLOBALS['dro_aio_discord_active_service'] = self::$active_service;
 
 		return self::$active_service;
 	}
 
-
+	/**
+	 * Sets the active service based on the provided service name.
+	 *
+	 * @param string $service_name The name of the service to set as active.
+	 * @return Service_Interface|null
+	 */
 	public static function set_active_service( string $service_name ): ?Service_Interface {
 		$service_class = DRO_CCBB_SERVICE_PREFIX . ucfirst( $service_name );
 
@@ -116,8 +119,13 @@ class Dro_CCBB_Resolver {
 		return null;
 	}
 
+	/**
+	 * Gets the currently active service instance.
+	 *
+	 * @return Service_Interface|null
+	 */
 	public static function get_active_service(): ?Service_Interface {
-		if ( self::$active_service === null ) {
+		if ( null === self::$active_service ) {
 			self::resolve();
 		}
 		return self::$active_service;

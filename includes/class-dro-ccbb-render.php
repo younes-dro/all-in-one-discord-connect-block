@@ -1,5 +1,4 @@
 <?php
-
 /**
  *  Custom connect button block for Discord - Render
  *  This class is responsible for rendering the Discord connect block.
@@ -63,7 +62,7 @@ class Dro_CCBB_Render {
 	/**
 	 * Set the active service.
 	 *
-	 * @param Service_Interface $active_service
+	 * @param Service_Interface $active_service The active service.
 	 * @return void
 	 */
 	public function set_active_service( Service_Interface $active_service ): void {
@@ -113,7 +112,7 @@ class Dro_CCBB_Render {
 	 * Render the Discord connect block.
 	 *
 	 * @param array    $attributes The block attributes.
-	 * @package string $content The content saved from the editor.
+	 * @param string   $content The content saved from the editor.
 	 * @param WP_Block $block The WP_Block object.
 	 *
 	 * @return string The rendered block content.

@@ -14,6 +14,7 @@
  *
  * @package @package CustomConnectButtonBlockForDiscord
  */
+
 declare( strict_types=1 );
 
 namespace Dro\CustomConnectButtonBlock;
@@ -51,16 +52,16 @@ register_activation_hook( DRO_CCBB_FILE, __NAMESPACE__ . '\\dro_ccbb_activation'
  */
 function dro_ccbb_autoload() {
 	spl_autoload_register(
-		function ( $class ) {
-			if ( strncmp( __NAMESPACE__ . '\\', $class, strlen( __NAMESPACE__ ) + 1 ) !== 0 ) {
+		function ( $current_class ) {
+			if ( strncmp( __NAMESPACE__ . '\\', $current_class, strlen( __NAMESPACE__ ) + 1 ) !== 0 ) {
 				return;
 			}
 
-			$class_portions    = explode( '\\', $class );
+			$class_portions    = explode( '\\', $current_class );
 			$class_portions    = array_map( 'strtolower', $class_portions );
 			$class_file_name   = str_replace( '_', '-', strtolower( array_pop( $class_portions ) ) );
 			$class_path        = __DIR__ . '/' . implode( DIRECTORY_SEPARATOR, array_slice( $class_portions, 2 ) );
-			$class_file_prefix = ( stripos( $class, 'abstracts' ) !== false ? 'abstract-' : 'class-' );
+			$class_file_prefix = ( stripos( $current_class, 'abstracts' ) !== false ? 'abstract-' : 'class-' );
 			$class_full_path   = $class_path . DIRECTORY_SEPARATOR . $class_file_prefix . $class_file_name . '.php';
 
 			if ( file_exists( $class_full_path ) ) {

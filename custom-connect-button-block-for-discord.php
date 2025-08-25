@@ -3,7 +3,7 @@
  * Plugin Name:       Custom connect button block for Discord
  * Plugin URI:        https://github.com/younes-dro/custom-connect-button-block-for-discord
  * Description:       A Gutenberg block that provides a customizable "Connect to Discord" button, designed to work with supported Discord integration add-ons: PMPro Discord Add-on, ExpressTech MemberPress Discord Add-on, Connect Ultimate Member to Discord, and Connect Tutor LMS to Discord.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.8
  * Requires PHP:      7.4
  * Author:            Younes DRO
@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'DRO_CCBB_VERSION', get_file_data( __FILE__, array( 'Version' ), 'plugin' )[0] ?? '1.0.0' );
+define( 'DRO_CCBB_VERSION', get_file_data( __FILE__, array( 'Version' ), 'plugin' )[0] ?? '1.0.1' );
 define( 'DRO_CCBB_FILE', __FILE__ );
 define( 'DRO_CCBB_DIR', plugin_dir_path( __FILE__ ) );
 define( 'DRO_CCBB_URL', plugin_dir_url( __FILE__ ) );

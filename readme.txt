@@ -1,9 +1,9 @@
 === Custom connect button block for Discord ===
-Contributors:      vanbom
+Contributors:      vanbom,webbdeveloper
 Donate link:       https://paypal.me/younesdro
 Tags:              block, discord, gutenberg, membership, LMS
 Tested up to:      6.8
-Stable tag:        1.0.0
+Stable tag:        1.0.1
 Requires at least: 6.8
 Requires PHP:      7.4
 License:           GPL-2.0-or-later
@@ -71,7 +71,11 @@ Yes. You can set the button’s text, colors, and text directly in the Gutenberg
 Yes. The block includes a Play/Stop toggle that renders the live frontend output instantly inside the editor.
 
 == Screenshots ==
-
+1. Initial block status - buttons + text
+2. Enable live preview for non-connected user
+3. Live preview for connected user to Discord
+4. The button text placeholder settings
+5. The color settings for buttons: front color and background color
 
 == Changelog ==
 

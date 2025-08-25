@@ -182,6 +182,7 @@ export default function Edit({ attributes, setAttributes }) {
 						icon={isLivePreview ? StopIcon : PlayIcon}
 						label={isLivePreview ? __('Back to Edit', textDomain) : __('Live Preview', textDomain)}
 						isPressed={isLivePreview}
+						className="dro-ccbb-preview-toggle"
 						onClick={() => setAttributes({ isLivePreview: !isLivePreview })}
 					/>
 					<ToolbarButton
